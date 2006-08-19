@@ -16,4 +16,20 @@
 /*																			*/
 /* ************************************************************************ */
 
-int systools_misc_get_key_state( int key );
+#include "clipboard.h"
+#include <Carbon/Carbon.h>
+
+void systools_clipboard_set_data( const char * data, int format ) {	
+}
+
+const char * systools_clipboard_get_data( int format ) {
+	return "Not Implemented Yet";
+}
+
+void systools_clipboard_clear() {
+}
+
+int systools_clipboard_is_format_available( int format ) {
+	return 0;
+}
+

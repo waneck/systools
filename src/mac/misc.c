@@ -16,4 +16,16 @@
 /*																			*/
 /* ************************************************************************ */
 
-int systools_misc_get_key_state( int key );
+#include "misc.h"
+#include <Carbon/Carbon.h> 
+
+int systools_misc_get_key_state( int code ) {
+	KeyMap theKeys;
+	unsigned char *keybytes;
+	if (code >= 0 && code <= 127) {
+		GetKeys(theKeys);
+		keybytes = (unsigned char *) theKeys;
+		return (keybytes[code>>3] & (1 << (code&7)));
+	}
+	return 0;
+}
