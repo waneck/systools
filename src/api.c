@@ -21,26 +21,35 @@
 
 #include "clipboard.h"
 #include "misc.h"
+#include <stdlib.h>
 
 // ---------------- Clipboard methods ----------------------------------------
 
-static value clipboard_set_data( value data, value format ) {
-	val_check(data, string);
-	val_check(format, int);
-	systools_clipboard_set_data( val_string(data), val_int(format) );
-	return val_null;
-}
-DEFINE_PRIM(clipboard_set_data,2);
 
-static value clipboard_get_data( value format ) {
-	const char *v;
-	val_check(format, int);
-	v = systools_clipboard_get_data( val_int(format) );
-	if( v == NULL )
-		return val_null;
-	return alloc_string(v);
+static value clipboard_set_text( value text ) {
+	val_check(text, string);
+	return alloc_int(systools_clipboard_set_text( val_string(text)));	
 }
-DEFINE_PRIM(clipboard_get_data,1);
+DEFINE_PRIM(clipboard_set_text,1);
+
+
+static value clipboard_get_text() {
+	value result = val_null;
+	char *v;
+	// calling with zero length should return required buffer size:
+	size_t len = systools_clipboard_get_text(0,0);
+		
+	if (len) {		
+		v = malloc(len);
+		if (systools_clipboard_get_text(v,len)) {
+			result = alloc_string(v);
+		}
+		free((void*)v);
+	}
+	return result;		
+}
+DEFINE_PRIM(clipboard_get_text,0);
+
 
 static value clipboard_clear( ) {
 	systools_clipboard_clear();
@@ -48,15 +57,9 @@ static value clipboard_clear( ) {
 }
 DEFINE_PRIM(clipboard_clear,0);
 
-static value clipboard_is_format_available( value format ) {
-	int r;
-	val_check(format, int);
-	r = systools_clipboard_is_format_available(val_int(format));
-	return alloc_bool(r);
-}
-DEFINE_PRIM(clipboard_is_format_available,1);
 
 // ---------------- Miscellanious tools --------------------------------------
+
 
 static value misc_get_key_state( value key ) {
 	int r;
@@ -64,5 +67,4 @@ static value misc_get_key_state( value key ) {
 	r = systools_misc_get_key_state(val_int(key));
 	return alloc_int(r);
 }
-
 DEFINE_PRIM(misc_get_key_state,1);

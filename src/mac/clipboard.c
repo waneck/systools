@@ -17,19 +17,43 @@
 /* ************************************************************************ */
 
 #include "clipboard.h"
-#include <Carbon/Carbon.h>
 
-void systools_clipboard_set_data( const char * data, int format ) {	
+#define ST_CLIPBOARD_ID CFSTR( "org.nekovm.pasteboard.clipboard" )
+
+static PasteboardRef getPasteboard( void )
+{
+    static PasteboardRef sPasteboard = NULL;
+
+    if ( sPasteboard == NULL )
+    {
+        PasteboardCreate( ST_CLIPBOARD_ID, &sPasteboard );
+    }
+
+    return sPasteboard;
 }
 
-const char * systools_clipboard_get_data( int format ) {
-	return "Not Implemented Yet";
+int systools_clipboard_set_text( const char * text ) {	
+	CFStringRef type = CFSTR("utf8");
+	CFDataRef data;
+	CFDataCreate(kCFAllocatorDefault,(const UInt8*)text,strlen(text));
+	return PasteboardPutItemFlavor(getPasteboard(),0,type,data,kPasteboardFlavorNoFlags);	
+}
+
+size_t systools_clipboard_get_text( char* text, size_t size) {
+	OSStatus err;
+	CFStringRef type = CFSTR("utf8");
+	CFDataRef data;
+	err = PasteboardCopyItemFlavorData(getPasteboard(),0,type,&data);
+	if (err != noErr) 
+		return err;
+	if (size == 0)
+		return CFDataGetLength(data);
+	if (size < CFDataGetLength(data)) 
+		return 1;
+	CFDataGetBytes(data,CFRangeMake(0,CFDataGetLength(data)),(UInt8*)text);
+	return 0;			
 }
 
 void systools_clipboard_clear() {
+	PasteboardClear(getPasteboard());
 }
-
-int systools_clipboard_is_format_available( int format ) {
-	return 0;
-}
-

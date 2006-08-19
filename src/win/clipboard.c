@@ -19,65 +19,72 @@
 #include "../clipboard.h"
 #include <windows.h>
 
-void systools_clipboard_set_data( const char * data, int format ) {
-	size_t datalength;
-	char * datacopy;
+int systools_clipboard_set_text( const char * text ) {
+	size_t textlength;
+	char * textcopy;
 	HGLOBAL hglbCopy;
 	if (!OpenClipboard(NULL))
-		return;
+		return 1;
 	EmptyClipboard();
 
-	// Allocate global memory for the data
-	datalength = strlen(data);
-	hglbCopy = GlobalAlloc(GMEM_MOVEABLE, datalength + 1);
+	// Allocate global memory for the text
+	textlength = strlen(text);
+	hglbCopy = GlobalAlloc(GMEM_MOVEABLE, textlength + 1);
 	if (hglbCopy == NULL) { 
 		CloseClipboard(); 
-		return;
+		return 1;
 	}
  
-    // Lock the handle and copy the data to the buffer. 
-    datacopy = GlobalLock(hglbCopy); 
-    memcpy(datacopy, data, datalength); 
-    datacopy[datalength] = 0;    // null character 
+    // Lock the handle and copy the text to the buffer. 
+    textcopy = GlobalLock(hglbCopy); 
+    memcpy(textcopy, text, textlength); 
+    textcopy[textlength] = 0;    // null character 
     GlobalUnlock(hglbCopy); 
 
     // Place the handle on the clipboard. 
-
-    SetClipboardData(format, hglbCopy); 
+	// Format is now set fixed to text. Supporting other formats will require
+	// returning an array, for string will not work well with data containing
+	// zeros
+    SetClipboardData(1, hglbCopy); 
 	CloseClipboard();
+	
+	return 0;
 }
 
-const char * systools_clipboard_get_data( int format ) {
-	HGLOBAL   hglb; 
-	char const * data;
-	char const * datacopy;
-	if (!IsClipboardFormatAvailable(format)) {
-		return NULL;
-	}
-	if (!OpenClipboard(NULL)) {
-		return NULL;
-	}
+size_t systools_clipboard_get_text(char *text, size_t len) {
+	// if length is 0, we're expected to return the 
+	// clipboards string' lenght. Other wise a non-zero
+	// return code signals failure:
+	int err = len ? 1 : 0;
+	HGLOBAL   hglb;	
+	
+	if (!OpenClipboard(NULL))
+		return err;
 
-	datacopy = NULL;
-	hglb = GetClipboardData(format); 
+	// Format is now set fixed to text. Supporting other formats will require
+	// returning an array, for string will not work well with data containing
+	// zeros
+	hglb = GetClipboardData(1); 
 	if (hglb != NULL) { 
-		data = GlobalLock(hglb); 
-        if (data != NULL) { 
-			datacopy = strdup(data);
+		const char* globtext = GlobalLock(hglb); 
+        if (globtext != NULL) {
+			if (len == 0) { 
+				err = (int) strlen(globtext+1);
+			} else {	
+				if (strlen(globtext)+1 >= len) {
+					text = strdup(globtext);
+					err = 0;
+				}				
+			}
             GlobalUnlock(hglb);
         } 
     } 
     CloseClipboard();
-
-	return datacopy;
+	return err;
 }
 
 void systools_clipboard_clear() {
 	OpenClipboard(NULL);
 	EmptyClipboard();
 	CloseClipboard();
-}
-
-int systools_clipboard_is_format_available( int format ) {
-	return IsClipboardFormatAvailable(format);
 }
