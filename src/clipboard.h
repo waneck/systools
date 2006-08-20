@@ -16,8 +16,6 @@
 /*																			*/
 /* ************************************************************************ */
 
-#include <Carbon/Carbon.h>
-
 int systools_clipboard_set_text( const char *text );
-size_t systools_clipboard_get_text( char *text, size_t size);
+size_t systools_clipboard_get_text( char **text);
 void systools_clipboard_clear();

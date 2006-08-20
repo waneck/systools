@@ -19,16 +19,19 @@
 #include <neko/neko.h>
 #include <neko/neko_vm.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "clipboard.h"
 #include "misc.h"
-#include <stdlib.h>
+
 
 // ---------------- Clipboard methods ----------------------------------------
 
 
 static value clipboard_set_text( value text ) {
 	val_check(text, string);
-	return alloc_int(systools_clipboard_set_text( val_string(text)));	
+	return alloc_int(systools_clipboard_set_text(val_string(text)));	
 }
 DEFINE_PRIM(clipboard_set_text,1);
 
@@ -36,12 +39,12 @@ DEFINE_PRIM(clipboard_set_text,1);
 static value clipboard_get_text() {
 	value result = val_null;
 	char *v;
-	// calling with zero length should return required buffer size:
-	size_t len = systools_clipboard_get_text(0,0);
+	// calling with zero for rec. text should return required buffer size:
+	size_t len = systools_clipboard_get_text(0);
 		
 	if (len) {		
 		v = malloc(len);
-		if (systools_clipboard_get_text(v,len)) {
+		if (systools_clipboard_get_text(&v) == 0) {			
 			result = alloc_string(v);
 		}
 		free((void*)v);

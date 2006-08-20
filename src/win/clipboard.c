@@ -23,8 +23,10 @@ int systools_clipboard_set_text( const char * text ) {
 	size_t textlength;
 	char * textcopy;
 	HGLOBAL hglbCopy;
-	if (!OpenClipboard(NULL))
+	
+	if (!OpenClipboard(NULL)) {
 		return 1;
+	}
 	EmptyClipboard();
 
 	// Allocate global memory for the text
@@ -39,24 +41,25 @@ int systools_clipboard_set_text( const char * text ) {
     textcopy = GlobalLock(hglbCopy); 
     memcpy(textcopy, text, textlength); 
     textcopy[textlength] = 0;    // null character 
-    GlobalUnlock(hglbCopy); 
-
+    
     // Place the handle on the clipboard. 
 	// Format is now set fixed to text. Supporting other formats will require
 	// returning an array, for string will not work well with data containing
 	// zeros
-    SetClipboardData(1, hglbCopy); 
+    SetClipboardData(CF_TEXT, hglbCopy); 
+	GlobalUnlock(hglbCopy);
+
 	CloseClipboard();
 	
 	return 0;
 }
 
-size_t systools_clipboard_get_text(char *text, size_t len) {
-	// if length is 0, we're expected to return the 
-	// clipboards string' lenght. Other wise a non-zero
-	// return code signals failure:
-	int err = len ? 1 : 0;
-	HGLOBAL   hglb;	
+size_t systools_clipboard_get_text(char **text) {
+	// if text is 0, we're expected to return the 
+	// clipboards string's lenght. Other wise a non-zero
+	// return code signals failure:	
+	int err = text ? 1 : 0;
+	HGLOBAL hglb;	
 	
 	if (!OpenClipboard(NULL))
 		return err;
@@ -64,22 +67,20 @@ size_t systools_clipboard_get_text(char *text, size_t len) {
 	// Format is now set fixed to text. Supporting other formats will require
 	// returning an array, for string will not work well with data containing
 	// zeros
-	hglb = GetClipboardData(1); 
+	hglb = GetClipboardData(CF_TEXT); 
 	if (hglb != NULL) { 
-		const char* globtext = GlobalLock(hglb); 
+		char* globtext = GlobalLock(hglb); 
         if (globtext != NULL) {
-			if (len == 0) { 
-				err = (int) strlen(globtext+1);
+			if (text == 0) { 
+				err = (int) strlen(globtext+1);				
 			} else {	
-				if (strlen(globtext)+1 >= len) {
-					text = strdup(globtext);
-					err = 0;
-				}				
+				*text = strdup(globtext);				
+				err = 0;								
 			}
             GlobalUnlock(hglb);
         } 
     } 
-    CloseClipboard();
+    CloseClipboard();	
 	return err;
 }
 
