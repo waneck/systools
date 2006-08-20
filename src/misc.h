@@ -17,3 +17,4 @@
 /* ************************************************************************ */
 
 int systools_misc_get_key_state( int key );
+void systools_misc_sleep( int msec );

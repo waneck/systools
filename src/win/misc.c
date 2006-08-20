@@ -22,3 +22,7 @@
 int systools_misc_get_key_state(int key) {
 	return (GetAsyncKeyState(key) & 0x8000) > 0;
 }
+
+void systools_misc_sleep( int msec ) {
+	Sleep(msec);
+}

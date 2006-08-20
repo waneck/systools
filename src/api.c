@@ -65,3 +65,10 @@ static value misc_get_key_state( value key ) {
 	return alloc_int(r);
 }
 DEFINE_PRIM(misc_get_key_state,1);
+
+static value misc_sleep( value msec ) {
+	val_check(msec,int);
+	systools_misc_sleep(val_int(msec));
+	return val_null;
+}
+DEFINE_PRIM(misc_sleep,1);
