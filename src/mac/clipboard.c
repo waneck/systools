@@ -17,43 +17,64 @@
 /* ************************************************************************ */
 
 #include "clipboard.h"
+#include <Carbon/Carbon.h>
 
-#define ST_CLIPBOARD_ID CFSTR( "org.nekovm.pasteboard.clipboard" )
-
-static PasteboardRef getPasteboard( void )
+static PasteboardRef getPasteboard()
 {
     static PasteboardRef sPasteboard = NULL;
-
     if ( sPasteboard == NULL )
     {
-        PasteboardCreate( ST_CLIPBOARD_ID, &sPasteboard );
+        PasteboardCreate( kPasteboardClipboard, &sPasteboard );
     }
-
     return sPasteboard;
 }
 
 int systools_clipboard_set_text( const char * text ) {	
-	CFStringRef type = CFSTR("utf8");
-	CFDataRef data;
-	CFDataCreate(kCFAllocatorDefault,(const UInt8*)text,strlen(text));
-	return PasteboardPutItemFlavor(getPasteboard(),0,type,data,kPasteboardFlavorNoFlags);	
+	CFDataRef data = CFDataCreate(kCFAllocatorDefault,(const UInt8*)text,strlen(text));
+	
+	PasteboardClear(getPasteboard());
+	PasteboardSynchronize(getPasteboard());	
+	
+	return PasteboardPutItemFlavor(getPasteboard(),(PasteboardItemID)1,kUTTypeUTF8PlainText,data,kPasteboardFlavorNoFlags);	
 }
 
-size_t systools_clipboard_get_text( char* text, size_t size) {
+char* systools_clipboard_get_text() {
+	
 	OSStatus err;
-	CFStringRef type = CFSTR("utf8");
 	CFDataRef data;
-	err = PasteboardCopyItemFlavorData(getPasteboard(),0,type,&data);
-	if (err != noErr) 
-		return err;
-	if (size == 0)
-		return CFDataGetLength(data);
-	if (size < CFDataGetLength(data)) 
-		return 1;
-	CFDataGetBytes(data,CFRangeMake(0,CFDataGetLength(data)),(UInt8*)text);
-	return 0;			
+	ItemCount itemCount;
+	UInt32 itemIndex = 1;
+	char* result = 0;
+
+    PasteboardSynchronize(getPasteboard());
+	
+	err = PasteboardGetItemCount(getPasteboard(), &itemCount );
+    if (err != noErr || itemCount == 0)
+		return result;
+
+    for(; itemIndex <= itemCount; itemIndex++) {		
+		PasteboardItemID itemID;		
+		err = PasteboardGetItemIdentifier(getPasteboard(),itemIndex,&itemID);		
+		if (err == noErr) {											
+			PasteboardFlavorFlags flavorFlags;
+			err = PasteboardGetItemFlavorFlags(getPasteboard(),itemID,kUTTypeUTF8PlainText,&flavorFlags );
+			if (err == noErr) {
+				err = PasteboardCopyItemFlavorData(getPasteboard(),itemID,kUTTypeUTF8PlainText,&data);
+				if (err == noErr) {	
+					CFIndex length = CFDataGetLength(data);				
+					result = malloc(length+1);
+					memcpy(result,CFDataGetBytePtr(data),length);
+					result[length] = 0;	
+				}				
+				CFRelease(data);
+			}
+			if (result) break;
+		} 				
+	}	
+	return result;
 }
 
 void systools_clipboard_clear() {
+	PasteboardSynchronize(getPasteboard());
 	PasteboardClear(getPasteboard());
 }

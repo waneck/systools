@@ -38,15 +38,9 @@ DEFINE_PRIM(clipboard_set_text,1);
 
 static value clipboard_get_text() {
 	value result = val_null;
-	char *v;
-	// calling with zero for rec. text should return required buffer size:
-	size_t len = systools_clipboard_get_text(0);
-		
-	if (len) {		
-		v = malloc(len);
-		if (systools_clipboard_get_text(&v) == 0) {			
-			result = alloc_string(v);
-		}
+	char* v = systools_clipboard_get_text(); 
+	if (v) {			
+		result = alloc_string(v);			
 		free((void*)v);
 	}
 	return result;		

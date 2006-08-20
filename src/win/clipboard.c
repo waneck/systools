@@ -54,15 +54,12 @@ int systools_clipboard_set_text( const char * text ) {
 	return 0;
 }
 
-size_t systools_clipboard_get_text(char **text) {
-	// if text is 0, we're expected to return the 
-	// clipboards string's lenght. Other wise a non-zero
-	// return code signals failure:	
-	int err = text ? 1 : 0;
+char* systools_clipboard_get_text() {
+	char* result = 0;
 	HGLOBAL hglb;	
 	
 	if (!OpenClipboard(NULL))
-		return err;
+		return 0;
 
 	// Format is now set fixed to text. Supporting other formats will require
 	// returning an array, for string will not work well with data containing
@@ -71,17 +68,12 @@ size_t systools_clipboard_get_text(char **text) {
 	if (hglb != NULL) { 
 		char* globtext = GlobalLock(hglb); 
         if (globtext != NULL) {
-			if (text == 0) { 
-				err = (int) strlen(globtext+1);				
-			} else {	
-				strcpy(*text,globtext);				
-				err = 0;								
-			}
+			result = strdup(globtext);			
             GlobalUnlock(hglb);
         } 
     } 
     CloseClipboard();	
-	return err;
+	return result;
 }
 
 void systools_clipboard_clear() {
