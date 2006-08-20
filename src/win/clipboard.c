@@ -74,7 +74,7 @@ size_t systools_clipboard_get_text(char **text) {
 			if (text == 0) { 
 				err = (int) strlen(globtext+1);				
 			} else {	
-				*text = strdup(globtext);				
+				strcpy(*text,globtext);				
 				err = 0;								
 			}
             GlobalUnlock(hglb);
