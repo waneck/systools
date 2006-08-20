@@ -6,7 +6,7 @@ class Test {
 		trace("Press ALT to end sample");
 		while (!Misc.getKeyState(Key.Alt)) {
 			// sleep for 25 milliseconds
-			Misc.sleep(25); 
+			neko.Sys.sleep(0.0025); 
 		
 			if	(	Misc.getKeyState(Key.LeftCtrl) 
 				|| 	Misc.getKeyState(Key.RightCtrl)

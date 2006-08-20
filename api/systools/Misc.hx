@@ -59,10 +59,5 @@ class Misc {
 		}) != 0;
 	}
 	
-	public static function sleep( msec: Int ) : Void {
-		_misc_sleep( msec );
-	}
-
 	static var _misc_get_key_state = neko.Lib.load("systools","misc_get_key_state",1);
-	static var _misc_sleep = neko.Lib.load("systools","misc_sleep",1);
 }

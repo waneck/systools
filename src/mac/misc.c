@@ -29,7 +29,3 @@ int systools_misc_get_key_state( int code ) {
 	}
 	return 0;
 }
-
-void systools_misc_sleep( int msec ) {
-	usleep(msec * 1000);
-}
