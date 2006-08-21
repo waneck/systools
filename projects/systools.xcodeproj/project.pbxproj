@@ -11,6 +11,8 @@
 		E8862C880A97655C00FADE35 /* clipboard.h in Headers */ = {isa = PBXBuildFile; fileRef = E8862C850A97655C00FADE35 /* clipboard.h */; };
 		E8862C890A97655C00FADE35 /* misc.h in Headers */ = {isa = PBXBuildFile; fileRef = E8862C860A97655C00FADE35 /* misc.h */; };
 		E8862C980A97665B00FADE35 /* libneko.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E8862C970A97665B00FADE35 /* libneko.dylib */; };
+		E8B7ABFC0A99B1A60083A87B /* dialogs.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B7ABFB0A99B1A60083A87B /* dialogs.h */; };
+		E8B7ABFE0A99B1B90083A87B /* dialogs.c in Sources */ = {isa = PBXBuildFile; fileRef = E8B7ABFD0A99B1B90083A87B /* dialogs.c */; };
 		E8F2C5590A97693C00900DCE /* misc.c in Sources */ = {isa = PBXBuildFile; fileRef = E8F2C5580A97693C00900DCE /* misc.c */; };
 		E8F2C55D0A97696400900DCE /* clipboard.c in Sources */ = {isa = PBXBuildFile; fileRef = E8F2C55B0A97696400900DCE /* clipboard.c */; };
 		E8F2C60E0A976A8700900DCE /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F2C60D0A976A8700900DCE /* Carbon.framework */; };
@@ -22,6 +24,8 @@
 		E8862C850A97655C00FADE35 /* clipboard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = clipboard.h; path = ../src/clipboard.h; sourceTree = SOURCE_ROOT; };
 		E8862C860A97655C00FADE35 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = misc.h; path = ../src/misc.h; sourceTree = SOURCE_ROOT; };
 		E8862C970A97665B00FADE35 /* libneko.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libneko.dylib; path = ../../neko/bin/libneko.dylib; sourceTree = SOURCE_ROOT; };
+		E8B7ABFB0A99B1A60083A87B /* dialogs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dialogs.h; path = ../src/dialogs.h; sourceTree = SOURCE_ROOT; };
+		E8B7ABFD0A99B1B90083A87B /* dialogs.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = dialogs.c; path = ../src/mac/dialogs.c; sourceTree = SOURCE_ROOT; };
 		E8F2C5580A97693C00900DCE /* misc.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = misc.c; path = ../src/mac/misc.c; sourceTree = SOURCE_ROOT; };
 		E8F2C55B0A97696400900DCE /* clipboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = clipboard.c; path = ../src/mac/clipboard.c; sourceTree = SOURCE_ROOT; };
 		E8F2C60D0A976A8700900DCE /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -54,6 +58,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				E8B7ABFD0A99B1B90083A87B /* dialogs.c */,
+				E8B7ABFB0A99B1A60083A87B /* dialogs.h */,
 				E8F2C5580A97693C00900DCE /* misc.c */,
 				E8862C840A97655C00FADE35 /* api.c */,
 				E8862C850A97655C00FADE35 /* clipboard.h */,
@@ -80,6 +86,7 @@
 			files = (
 				E8862C880A97655C00FADE35 /* clipboard.h in Headers */,
 				E8862C890A97655C00FADE35 /* misc.h in Headers */,
+				E8B7ABFC0A99B1A60083A87B /* dialogs.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +133,7 @@
 				E8862C870A97655C00FADE35 /* api.c in Sources */,
 				E8F2C5590A97693C00900DCE /* misc.c in Sources */,
 				E8F2C55D0A97696400900DCE /* clipboard.c in Sources */,
+				E8B7ABFE0A99B1B90083A87B /* dialogs.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +194,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "SystemTools library for Neko VM";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SYMROOT = "$(SRCROOT)/../bin/mac";
 			};
 			name = Debug;
 		};
@@ -205,6 +214,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = "SystemTools library for Neko VM";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SYMROOT = "$(SRCROOT)/../bin/mac";
 			};
 			name = Release;
 		};

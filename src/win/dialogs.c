@@ -1,0 +1,27 @@
+/* ************************************************************************ */
+/*																			*/
+/*  Systool - a Neko VM library												*/
+/*  Copyright (c)2006														*/
+/*  Asger Ottar Alstrup, Nicolas Cannasse, Edwin van Rijkom					*/
+/*																			*/
+/* This library is free software; you can redistribute it and/or			*/
+/* modify it under the terms of the GNU Lesser General Public				*/
+/* License as published by the Free Software Foundation; either				*/
+/* version 2.1 of the License, or (at your option) any later version.		*/
+/*																			*/
+/* This library is distributed in the hope that it will be useful,			*/
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of			*/
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU		*/
+/* Lesser General Public License or the LICENSE file for more details.		*/
+/*																			*/
+/* ************************************************************************ */
+
+#include <windows.h>
+
+void systools_dialogs_message_box( const char *title, const char *message, int error ) {		
+	MessageBox(NULL,message,title,MB_OK | (error ? MB_ICONERROR : MB_ICONINFORMATION));
+}
+
+int systools_dialogs_dialog_box( const char *title, const char *message, int error ) {
+	return MessageBox(NULL,message,title,MB_TASKMODAL | MB_OK | MB_YESNO | (error ? MB_ICONERROR : MB_ICONINFORMATION)) == IDYES;		
+}

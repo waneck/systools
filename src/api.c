@@ -26,6 +26,30 @@
 #include "misc.h"
 
 
+// ---------------- Dialog methods -------------------------------------------
+
+
+static value dialogs_message_box( value title, value msg, value error ) {
+	val_check(title,string);
+	val_check(msg,string);
+	val_check(error,bool);
+	systools_dialogs_message_box(val_string(title),val_string(msg),val_bool(error));
+	return val_null;
+}
+DEFINE_PRIM(dialogs_message_box,3);
+
+
+static value dialogs_dialog_box( value title, value msg, value error ) {
+	int r;
+	val_check(title,string);
+	val_check(msg,string);
+	val_check(error,bool);
+	r = systools_dialogs_dialog_box(val_string(title),val_string(msg),val_bool(error));
+	return alloc_bool(r);
+}
+DEFINE_PRIM(dialogs_dialog_box,3);
+
+
 // ---------------- Clipboard methods ----------------------------------------
 
 

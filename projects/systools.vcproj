@@ -124,6 +124,12 @@
 			RelativePath="..\src\clipboard.h">
 		</File>
 		<File
+			RelativePath="..\src\win\dialogs.c">
+		</File>
+		<File
+			RelativePath="..\src\dialogs.h">
+		</File>
+		<File
 			RelativePath="..\src\win\misc.c">
 		</File>
 		<File
