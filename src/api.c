@@ -24,6 +24,7 @@
 
 #include "clipboard.h"
 #include "misc.h"
+#include "registry.h"
 
 
 // ---------------- Dialog methods -------------------------------------------
@@ -89,3 +90,46 @@ static value misc_get_key_state( value key ) {
 	return alloc_int(r);
 }
 DEFINE_PRIM(misc_get_key_state,1);
+
+
+// ---------------- Registry tools --------------------------------------
+
+#ifdef NEKO_WINDOWS
+
+static value registry_set_value( value key, value subkey, value valuename, value v) {
+	val_check(key, int);
+	val_check(subkey, string);
+	val_check(valuename, string);
+	val_check(v, string);
+	systools_registry_set_value(val_int(key), val_string(subkey), val_string(valuename), val_string(v));
+	return val_null;
+}
+
+static value registry_get_value( value key, value subkey, value valuename) {
+	char * v;
+	value result;
+	val_check(key, int);
+	val_check(subkey, string);
+	val_check(valuename, string);
+	result = val_null;
+	v = systools_registry_get_value(val_int(key), val_string(subkey), val_string(valuename)); 
+	if (v) {			
+		result = alloc_string(v);
+		free((void*)v);
+	}
+	return result;		
+}
+
+static value registry_delete_key( value key, value subkey) {
+	val_check(key, int);
+	val_check(subkey, string);
+	systools_registry_delete_key(val_int(key), val_string(subkey)); 
+	return val_null;
+}
+
+DEFINE_PRIM(registry_set_value,4);
+DEFINE_PRIM(registry_get_value,3);
+DEFINE_PRIM(registry_delete_key,2);
+
+#endif
+
