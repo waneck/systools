@@ -135,6 +135,12 @@
 		<File
 			RelativePath="..\src\misc.h">
 		</File>
+		<File
+			RelativePath="..\src\win\registry.c">
+		</File>
+		<File
+			RelativePath="..\src\registry.h">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
