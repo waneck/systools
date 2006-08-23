@@ -24,6 +24,14 @@
  */
 package systools;
 
+/**
+ * Special modifier keys.
+ * To detect the "Alt Gr" key on some keyboards, check whether both Alt and 
+ * a Ctrl key is pressed at the same time. Notice also, that if you only check 
+ * if Ctrl is down and ignore Alt, it might be because "Alt Gr" is down. 
+ * Therefore, you should always check if both Alt  and Ctrl is down at the 
+ * same time to distinguish between Alt, Ctrl and Alt Gr.
+ */
 enum Key {
 	LeftCtrl;
 	RightCtrl;
