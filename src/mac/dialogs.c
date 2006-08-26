@@ -16,9 +16,28 @@
 /*																			*/
 /* ************************************************************************ */
 
+#include <Carbon/Carbon.h>
+
 void systools_dialogs_message_box( const char *title, const char *message, int error ) {
+	CFOptionFlags result;
+	CFUserNotificationDisplayAlert
+		( 0, error? 0 : kCFUserNotificationCautionAlertLevel
+		, 0, 0, 0
+		, CFStringCreateWithCString(0,title,kCFStringEncodingUTF8)
+		, CFStringCreateWithCString(0,message,kCFStringEncodingUTF8)
+		, 0, 0, 0 
+		, &result );			
 }
 
 int systools_dialogs_dialog_box( const char *title, const char *message, int error ) {
-	return 0;
+	CFOptionFlags result;
+	CFUserNotificationDisplayAlert
+		( 0,  error? 0 : kCFUserNotificationCautionAlertLevel
+		, 0, 0, 0
+		, CFStringCreateWithCString(0,title,kCFStringEncodingUTF8)
+		, CFStringCreateWithCString(0,message,kCFStringEncodingUTF8)
+		, CFSTR("Yes"), CFSTR("No"), 0 
+		, &result );
+		
+	return kCFUserNotificationDefaultResponse == result ? 1 : 0;
 }
