@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E80527300AA0CA69008626F8 /* registry.c in Sources */ = {isa = PBXBuildFile; fileRef = E805272F0AA0CA69008626F8 /* registry.c */; };
+		E80527320AA0CA85008626F8 /* registry.h in Headers */ = {isa = PBXBuildFile; fileRef = E80527310AA0CA85008626F8 /* registry.h */; };
 		E8862C870A97655C00FADE35 /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = E8862C840A97655C00FADE35 /* api.c */; };
 		E8862C880A97655C00FADE35 /* clipboard.h in Headers */ = {isa = PBXBuildFile; fileRef = E8862C850A97655C00FADE35 /* clipboard.h */; };
 		E8862C890A97655C00FADE35 /* misc.h in Headers */ = {isa = PBXBuildFile; fileRef = E8862C860A97655C00FADE35 /* misc.h */; };
@@ -20,6 +22,8 @@
 
 /* Begin PBXFileReference section */
 		D2AAC0630554660B00DB518D /* systools.ndll */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = systools.ndll; sourceTree = BUILT_PRODUCTS_DIR; };
+		E805272F0AA0CA69008626F8 /* registry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = registry.c; path = ../src/mac/registry.c; sourceTree = SOURCE_ROOT; };
+		E80527310AA0CA85008626F8 /* registry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = registry.h; path = ../src/registry.h; sourceTree = SOURCE_ROOT; };
 		E8862C840A97655C00FADE35 /* api.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = api.c; path = ../src/api.c; sourceTree = SOURCE_ROOT; };
 		E8862C850A97655C00FADE35 /* clipboard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = clipboard.h; path = ../src/clipboard.h; sourceTree = SOURCE_ROOT; };
 		E8862C860A97655C00FADE35 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = misc.h; path = ../src/misc.h; sourceTree = SOURCE_ROOT; };
@@ -58,6 +62,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				E80527310AA0CA85008626F8 /* registry.h */,
+				E805272F0AA0CA69008626F8 /* registry.c */,
 				E8B7ABFD0A99B1B90083A87B /* dialogs.c */,
 				E8B7ABFB0A99B1A60083A87B /* dialogs.h */,
 				E8F2C5580A97693C00900DCE /* misc.c */,
@@ -87,6 +93,7 @@
 				E8862C880A97655C00FADE35 /* clipboard.h in Headers */,
 				E8862C890A97655C00FADE35 /* misc.h in Headers */,
 				E8B7ABFC0A99B1A60083A87B /* dialogs.h in Headers */,
+				E80527320AA0CA85008626F8 /* registry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +107,7 @@
 				D2AAC0600554660B00DB518D /* Headers */,
 				D2AAC0610554660B00DB518D /* Sources */,
 				D289988505E68E00004EDB86 /* Frameworks */,
+				E80526960AA08C36008626F8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -125,6 +133,23 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		E80526960AA08C36008626F8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../bin/mac/systools.ndll",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sudo cp ../bin/mac/systools.ndll /usr/local/lib";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D2AAC0610554660B00DB518D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -134,6 +159,7 @@
 				E8F2C5590A97693C00900DCE /* misc.c in Sources */,
 				E8F2C55D0A97696400900DCE /* clipboard.c in Sources */,
 				E8B7ABFE0A99B1B90083A87B /* dialogs.c in Sources */,
+				E80527300AA0CA69008626F8 /* registry.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

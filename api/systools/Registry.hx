@@ -24,15 +24,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
-package systools.win;
+package systools;
 
 class Registry {
-	/// This only works on Windows
-	static var check_os = switch( neko.Sys.systemName() ) { 
-		case "Windows":	null; 
-		default: throw "Windows is required to run systools.Win"; 
-	}
-
+	
+	/**
+	 * HKEY_xxx_xxx values ignored on MacOS
+	 */	
 	static public var HKEY_CLASSES_ROOT = 0;
 	static public var HKEY_CURRENT_USER = 1;
 	static public var HKEY_LOCAL_MACHINE = 2;

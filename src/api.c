@@ -94,7 +94,6 @@ DEFINE_PRIM(misc_get_key_state,1);
 
 // ---------------- Registry tools --------------------------------------
 
-#ifdef NEKO_WINDOWS
 
 static value registry_set_value( value key, value subkey, value valuename, value v) {
 	val_check(key, int);
@@ -104,10 +103,11 @@ static value registry_set_value( value key, value subkey, value valuename, value
 	systools_registry_set_value(val_int(key), val_string(subkey), val_string(valuename), val_string(v));
 	return val_null;
 }
+DEFINE_PRIM(registry_set_value,4);
 
 static value registry_get_value( value key, value subkey, value valuename) {
 	char * v;
-	value result;
+	value result = val_null;
 	val_check(key, int);
 	val_check(subkey, string);
 	val_check(valuename, string);
@@ -119,6 +119,7 @@ static value registry_get_value( value key, value subkey, value valuename) {
 	}
 	return result;		
 }
+DEFINE_PRIM(registry_get_value,3);
 
 static value registry_delete_key( value key, value subkey) {
 	val_check(key, int);
@@ -126,10 +127,4 @@ static value registry_delete_key( value key, value subkey) {
 	systools_registry_delete_key(val_int(key), val_string(subkey)); 
 	return val_null;
 }
-
-DEFINE_PRIM(registry_set_value,4);
-DEFINE_PRIM(registry_get_value,3);
 DEFINE_PRIM(registry_delete_key,2);
-
-#endif
-

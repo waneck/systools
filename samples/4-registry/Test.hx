@@ -1,25 +1,37 @@
-import systools.win.Registry;
+/**
+ * For x-plat compatibility, always specify a Windows
+ * root key identifier (Registry.HKEY_xxx_xxx). The 
+ * value is ignored on OSX, but required on Windows.
+ *
+ * Mac registry entries (or 'Preferences') require a
+ * non-empty key name. For example:
+ *
+ *    Registry.setValue(Registry.HKEY_CLASSES_ROOT, "myApp//someData", "", "Hello");
+ *
+ * will fail on OSX.
+ */  
+
+import systools.Registry;
 
 class Test {
 		
 	static function main() {
-		var hxmlCommand : String = systools.win.Registry.getValue(systools.win.Registry.HKEY_CLASSES_ROOT, ".hxml\\shell\\Compile\\command", "");
-		trace("Current .hxml command: "+ hxmlCommand);
-		
-		var sk = ".systools\\shell\\Systool\\command";
-		trace("Setting .systools command");
-		systools.win.Registry.setValue(systools.win.Registry.HKEY_CLASSES_ROOT, sk, "", "c:\\windows\\notepad.exe -prompt \"%1\"");
+		var path: String = "org\\nekovm\\systools";
+		var key: String = "Greeting";
 
-		var systoolCommand : String = systools.win.Registry.getValue(systools.win.Registry.HKEY_CLASSES_ROOT, sk, "");
-		trace("Current .systools command: "+ systoolCommand);
+		// Write a registry entry:			
+		Registry.setValue(Registry.HKEY_CLASSES_ROOT, path, key,"Hello World!");
 		
-		trace("Deleting key " + sk);
-		systools.win.Registry.deleteKey(systools.win.Registry.HKEY_CLASSES_ROOT, ".systools\\shell\\Systool\\command");
-		systools.win.Registry.deleteKey(systools.win.Registry.HKEY_CLASSES_ROOT, ".systools\\shell\\Systool");
-		systools.win.Registry.deleteKey(systools.win.Registry.HKEY_CLASSES_ROOT, ".systools\\shell");
-		systools.win.Registry.deleteKey(systools.win.Registry.HKEY_CLASSES_ROOT, ".systools");
+		// Read back and trace the entry:
+		var value: String = Registry.getValue(Registry.HKEY_CLASSES_ROOT, path, key);
+		trace( "Greeting (from registry) is '"+value+"'"); 	
+		
+		// Remove all values listed at our path:
+		Registry.deleteKey(Registry.HKEY_CLASSES_ROOT, path);
 
-		systoolCommand = systools.win.Registry.getValue(systools.win.Registry.HKEY_CLASSES_ROOT, sk, "");
-		trace("After delete .systools command: "+ systoolCommand);
+		// Try to read once more, sh
+		value = Registry.getValue(Registry.HKEY_CLASSES_ROOT, path, key);
+		trace( "Greeting (after delete) is '"+value+"'"); 
+		
 	}
 }
