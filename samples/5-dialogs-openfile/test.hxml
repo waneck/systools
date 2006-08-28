@@ -1,0 +1,4 @@
+-cp ../../api
+-cp ../../bin/win
+-neko app.n
+-main Test
