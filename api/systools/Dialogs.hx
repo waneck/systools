@@ -37,4 +37,15 @@ class Dialogs {
 		return _dialog_box(untyped title.__s,untyped msg.__s,isError);
 	}	
 	
+	static var _open_file = neko.Lib.load("systools","dialogs_open_file",3);
+	public static function openFile( title : String, msg : String, mask : String ) : Array<String> {
+		var result = _open_file(untyped title.__s,untyped msg.__s,untyped mask.__s);
+		if (result == null) 
+			return null;
+		else {
+			var a : Array<String> = untyped Array.new1(result,__dollar__asize(result));
+			for( i in 0...a.length ) a[i] = new String(a[i]);
+			return a;
+		}	
+	}
 }

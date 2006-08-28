@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "api.h"
 #include "clipboard.h"
 #include "misc.h"
 #include "registry.h"
@@ -49,6 +50,28 @@ static value dialogs_dialog_box( value title, value msg, value error ) {
 	return alloc_bool(r);
 }
 DEFINE_PRIM(dialogs_dialog_box,3);
+
+
+static value dialogs_open_file( value title, value msg, value mask ) {
+	value result = val_null;
+	struct RES_STRINGLIST files;
+	
+	val_check(title,string);
+	val_check(msg,string);
+	val_check(mask,string);	
+	systools_dialogs_open_file(val_string(title),val_string(msg),val_string(mask),&files);
+	if (files.count) {	
+		result = alloc_array(files.count);
+		while(files.count) {
+			val_array_ptr(result)[--files.count] = alloc_string(files.strings[files.count]);
+			free(files.strings[files.count]);
+		}
+		free(files.strings);
+	}
+	
+	return result;
+}
+DEFINE_PRIM(dialogs_open_file,3);
 
 
 // ---------------- Clipboard methods ----------------------------------------
@@ -90,7 +113,6 @@ static value misc_get_key_state( value key ) {
 	return alloc_int(r);
 }
 DEFINE_PRIM(misc_get_key_state,1);
-
 
 // ---------------- Registry tools --------------------------------------
 

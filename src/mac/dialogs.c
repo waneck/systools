@@ -16,6 +16,7 @@
 /*																			*/
 /* ************************************************************************ */
 
+#include "dialogs.h"
 #include <Carbon/Carbon.h>
 
 void systools_dialogs_message_box( const char *title, const char *message, int error ) {
@@ -23,8 +24,8 @@ void systools_dialogs_message_box( const char *title, const char *message, int e
 	CFUserNotificationDisplayAlert
 		( 0, error? 0 : kCFUserNotificationCautionAlertLevel
 		, 0, 0, 0
-		, CFStringCreateWithCString(0,title,kCFStringEncodingUTF8)
-		, CFStringCreateWithCString(0,message,kCFStringEncodingUTF8)
+		, CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8)
+		, CFStringCreateWithCString(NULL,message,kCFStringEncodingUTF8)
 		, 0, 0, 0 
 		, &result );			
 }
@@ -34,10 +35,49 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	CFUserNotificationDisplayAlert
 		( 0,  error? 0 : kCFUserNotificationCautionAlertLevel
 		, 0, 0, 0
-		, CFStringCreateWithCString(0,title,kCFStringEncodingUTF8)
-		, CFStringCreateWithCString(0,message,kCFStringEncodingUTF8)
+		, CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8)
+		, CFStringCreateWithCString(NULL,message,kCFStringEncodingUTF8)
 		, CFSTR("Yes"), CFSTR("No"), 0 
 		, &result );
 		
 	return kCFUserNotificationDefaultResponse == result ? 1 : 0;
+}
+
+void systools_dialogs_open_file( const char *title, const char *msg, const char *mask, struct RES_STRINGLIST *result) {
+	result->count = 0;
+	result->strings = NULL;
+	NavDialogRef ref;
+	NavDialogCreationOptions opt;
+		
+	NavGetDefaultDialogCreationOptions(&opt);		
+	opt.clientName = CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8);
+	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
+	opt.modality = kWindowModalityAppModal;
+
+	if (NavCreateGetFileDialog(&opt,NULL,NULL,NULL,NULL,NULL,&ref) == noErr) {
+		if (NavDialogRun(ref) == noErr) {
+			printf("Dialog running / or done running");
+			if (NavDialogGetUserAction(ref)==kNavUserActionOpen) {
+				NavReplyRecord reply;
+				if (NavDialogGetReply(ref,&reply)) {
+					long count;
+					AEKeyword keyword;
+					DescType type;					
+					Size size;
+					
+					AECountItems(&reply.selection, &count);
+					if (count) {
+						result->count = count;
+						result->strings = malloc(count*sizeof(char*));
+						while(count>0) {
+							AEGetNthPtr(&reply.selection,count+1,typeFileURL,&keyword,&type,0,0,&size);
+							result->strings[count] = malloc(size);
+							AEGetNthPtr(&reply.selection,count+1,typeFileURL,&keyword,&type,result->strings[count],size,&size);
+						}
+					}	
+					NavDisposeReply(&reply);
+				}
+			}
+		}
+	}
 }

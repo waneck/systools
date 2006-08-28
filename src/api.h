@@ -16,8 +16,10 @@
 /*																			*/
 /* ************************************************************************ */
 
-#include "api.h"
+#pragma once
 
-void systools_dialogs_message_box( const char *title, const char *message, int error );
-int systools_dialogs_dialog_box( const char *title, const char *message, int error );
-void systools_dialogs_open_file( const char *title, const char *msg, const char *mask, struct RES_STRINGLIST *result);
+// result types:
+struct RES_STRINGLIST {
+	long count;
+	char** strings;
+};

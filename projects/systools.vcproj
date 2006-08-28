@@ -118,6 +118,9 @@
 			RelativePath="..\src\api.c">
 		</File>
 		<File
+			RelativePath="..\src\api.h">
+		</File>
+		<File
 			RelativePath="..\src\win\clipboard.c">
 		</File>
 		<File
