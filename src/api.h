@@ -21,5 +21,13 @@
 // result types:
 struct RES_STRINGLIST {
 	long count;
-	char** strings;
+	char **strings;
+};
+
+// argument types:
+struct ARG_FILEFILTERS {
+	long count;
+	char **descriptions;
+	char **extensions;
+	char **mactypes;
 };

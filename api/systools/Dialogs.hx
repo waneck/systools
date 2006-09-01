@@ -25,8 +25,15 @@
 
 package systools;
 
-class Dialogs {
+typedef FILEFILTERS = {
+	var count: Int;
+	var descriptions: Array<String>;
+	var extensions: Array<String>;
+	var mactypes: Array<String>;
+}
 
+class Dialogs {
+	
 	static var _message_box = neko.Lib.load("systools","dialogs_message_box",3);
 	public static function message( title : String, msg : String, isError : Bool ) {
 		_message_box(untyped title.__s,untyped msg.__s,isError);
@@ -38,8 +45,8 @@ class Dialogs {
 	}	
 	
 	static var _open_file = neko.Lib.load("systools","dialogs_open_file",3);
-	public static function openFile( title : String, msg : String, mask : String ) : Array<String> {
-		var result = _open_file(untyped title.__s,untyped msg.__s,untyped mask.__s);
+	public static function openFile( title : String, msg : String, mask : FILEFILTERS ) : Array<String> {
+		var result = _open_file(untyped title.__s,untyped msg.__s,untyped __dollar__new(mask));
 		if (result == null) 
 			return null;
 		else {
@@ -47,5 +54,5 @@ class Dialogs {
 			for( i in 0...a.length ) a[i] = new String(a[i]);
 			return a;
 		}	
-	}
+	}	
 }

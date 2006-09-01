@@ -43,20 +43,34 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	return kCFUserNotificationDefaultResponse == result ? 1 : 0;
 }
 
-void systools_dialogs_open_file( const char *title, const char *msg, const char *mask, struct RES_STRINGLIST *result) {
+void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *filters, struct RES_STRINGLIST *result) {
 	result->count = 0;
 	result->strings = NULL;
 	NavDialogRef ref;
 	NavDialogCreationOptions opt;
-		
+	NavTypeListPtr ntl;
+						
 	NavGetDefaultDialogCreationOptions(&opt);		
 	opt.clientName = CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8);
 	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
 	opt.modality = kWindowModalityAppModal;
-
+		
 	if (NavCreateGetFileDialog(&opt,NULL,NULL,NULL,NULL,NULL,&ref) == noErr) {
+	
+		if (filters) {			
+			CFMutableArrayRef array = CFArrayCreateMutable(NULL,0,(CFArrayCallBacks*) kCFTypeArrayCallBacks);
+			long i = filters->count;
+			while(i){
+				//CFStringRef ext = CFStringCreateWithCString(NULL,filters->mactypes[--i], kCFStringEncodingUTF8);
+				//CFStringRef type= CFStringCreateWithCString(NULL,filters->mactypes[i], kCFStringEncodingUTF8);
+				//CFArrayAppendValue(array,ext);
+				//CFArrayAppendValue(array,type);
+				CFArrayAppendValue(array,CFSTR("public.plain-text"));
+			}			
+			NavDialogSetFilterTypeIdentifiers(ref,array);
+		}
+	
 		if (NavDialogRun(ref) == noErr) {
-			printf("Dialog running / or done running");
 			if (NavDialogGetUserAction(ref)==kNavUserActionOpen) {
 				NavReplyRecord reply;
 				if (NavDialogGetReply(ref,&reply)) {
@@ -80,4 +94,6 @@ void systools_dialogs_open_file( const char *title, const char *msg, const char 
 			}
 		}
 	}
+	
+	if (filters) free(ntl);		
 }

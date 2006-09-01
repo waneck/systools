@@ -27,7 +27,7 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	return MessageBox(NULL,message,title,MB_TASKMODAL | MB_OK | MB_YESNO | (error ? MB_ICONERROR : MB_ICONINFORMATION)) == IDYES;		
 }
 
-void systools_dialogs_open_file( const char *title, const char *msg, const char *mask, struct RES_STRINGLIST *r){
+void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *mask, struct RES_STRINGLIST *r){
 	OPENFILENAME ofn;
 	r->count = 0;
 	r->strings = NULL;
@@ -42,7 +42,28 @@ void systools_dialogs_open_file( const char *title, const char *msg, const char 
 								fetch my glass ball...
 								Using 8k for now. */
 	ofn.lpstrFile = malloc(8192);
-	ofn.lpstrFile[0] = 0;
+	ofn.lpstrFile[0] = 0;	
+
+	if (mask && mask->count) {
+		long i = mask->count;
+		size_t s = 0, el = 0, dl = 0;
+		
+		while (i) {			
+			i--;
+			el = +strlen(mask->extensions[i])+1;
+			dl = strlen(mask->descriptions[i])+1;
+			ofn.lpstrFilter = realloc
+					( ofn.lpstrFilter
+					, s + dl + el + (i==0? 1 : 0)
+					);			
+			strcpy(ofn.lpstrFilter+(s),mask->descriptions[i]);
+			strcpy(ofn.lpstrFilter+(s+=dl),mask->extensions[i]);
+			s+=el;
+			// last pass, add term. zero:
+			if (i==0) 
+				memset(ofn.lpstrFilter+s,0,1);
+		}		
+	}
 
 	if (GetOpenFileName(&ofn)) {		
 		char* file = ofn.lpstrFile;
