@@ -29,7 +29,6 @@ typedef FILEFILTERS = {
 	var count: Int;
 	var descriptions: Array<String>;
 	var extensions: Array<String>;
-	var mactypes: Array<String>;
 }
 
 class Dialogs {

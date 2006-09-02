@@ -43,33 +43,89 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	return kCFUserNotificationDefaultResponse == result ? 1 : 0;
 }
 
+
+static OSStatus GetFSRefFromAEDesc( FSRef *fsRef, AEDesc* theItem ) {
+	OSStatus err = noErr;
+	AEDesc coerceDesc= { 0, NULL };	
+	if ( theItem->descriptorType != typeFSRef )	{
+		err = AECoerceDesc( theItem, typeFSRef, &coerceDesc );
+		if ( err == noErr )
+		theItem = &coerceDesc;
+	}	
+	if ( err == noErr )
+	err = AEGetDescData( theItem, fsRef, sizeof(*fsRef) );
+	AEDisposeDesc( &coerceDesc );
+	
+	if ( err != noErr )	{
+		FSSpec fsSpec;
+		AEDesc coerceDesc2 = {0, NULL};
+		if ( theItem->descriptorType != typeFSS ) {
+			err = AECoerceDesc( theItem, typeFSS, &coerceDesc2 );
+			theItem = &coerceDesc2;
+		}	
+		if ( err == noErr )
+		err = AEGetDescData( theItem, &fsSpec, sizeof(fsSpec) );
+		AEDisposeDesc( &coerceDesc2 );
+		if ( err == noErr )
+		err = FSpMakeFSRef( &fsSpec, fsRef );
+	}
+	return(err);
+}
+
+static Boolean filterProc(AEDesc * theItem, void * info, void * callBackUD, NavFilterModes filterMode) {
+	struct ARG_FILEFILTERS *filters = (struct ARG_FILEFILTERS *) callBackUD;
+	NavFileOrFolderInfo *i = (NavFileOrFolderInfo*) info;
+	if (i->isFolder) 
+		return 1;
+	
+	if (theItem->descriptorType==typeFSRef) {
+		FSRef f;
+		UInt8 path[2048];
+		
+		GetFSRefFromAEDesc(&f,theItem);
+		if (FSRefMakePath (&f,path,2048)==noErr) {			
+			char *ext = NULL;
+			char *next = (char*) path;
+			while(next) {
+				next = strstr(next,".");				
+				if (next) 
+					ext = ++next;					
+			}
+			if(ext) {
+				long j = filters->count;
+				while(j) {
+					if (strcasestr(filters->extensions[--j],ext) !=0) 
+						return 1;
+				}
+			}
+		}
+		return 0;		
+	}
+	return 1;	
+}
+
 void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *filters, struct RES_STRINGLIST *result) {
 	result->count = 0;
 	result->strings = NULL;
 	NavDialogRef ref;
 	NavDialogCreationOptions opt;
-	NavTypeListPtr ntl;
-						
+							
 	NavGetDefaultDialogCreationOptions(&opt);		
 	opt.clientName = CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8);
 	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
 	opt.modality = kWindowModalityAppModal;
+	
+	printf("dialogs-open-file");
+	
+	if (filters) {			
+		long i = filters->count;		
+		while(i){
+			i--;			
+		}			
+	}
 		
-	if (NavCreateGetFileDialog(&opt,NULL,NULL,NULL,NULL,NULL,&ref) == noErr) {
-	
-		if (filters) {			
-			CFMutableArrayRef array = CFArrayCreateMutable(NULL,0,(CFArrayCallBacks*) kCFTypeArrayCallBacks);
-			long i = filters->count;
-			while(i){
-				//CFStringRef ext = CFStringCreateWithCString(NULL,filters->mactypes[--i], kCFStringEncodingUTF8);
-				//CFStringRef type= CFStringCreateWithCString(NULL,filters->mactypes[i], kCFStringEncodingUTF8);
-				//CFArrayAppendValue(array,ext);
-				//CFArrayAppendValue(array,type);
-				CFArrayAppendValue(array,CFSTR("public.plain-text"));
-			}			
-			NavDialogSetFilterTypeIdentifiers(ref,array);
-		}
-	
+	if (NavCreateGetFileDialog(&opt,NULL,NULL,NULL,filterProc,filters,&ref) == noErr) {
+				
 		if (NavDialogRun(ref) == noErr) {
 			if (NavDialogGetUserAction(ref)==kNavUserActionOpen) {
 				NavReplyRecord reply;
@@ -93,7 +149,7 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 				}
 			}
 		}
-	}
-	
-	if (filters) free(ntl);		
+	}	
 }
+
+

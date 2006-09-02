@@ -6,8 +6,7 @@ class Test {
 		var filters: FILEFILTERS = 
 			{ count: 2
 			, descriptions: ["Text files", "JPEG files"]
-			, extensions: ["*.txt","*.jpg;*.jpeg"]
-			, mactypes: ["TEXT","JPEG"]
+			, extensions: ["*.txt","*.jpg;*.jpeg"]			
 			};		
 		var result = Dialogs.openFile
 			( "Select a file please!"

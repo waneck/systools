@@ -29,5 +29,4 @@ struct ARG_FILEFILTERS {
 	long count;
 	char **descriptions;
 	char **extensions;
-	char **mactypes;
 };

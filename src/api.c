@@ -54,7 +54,7 @@ DEFINE_PRIM(dialogs_dialog_box,3);
 
 static value dialogs_open_file( value title, value msg, value mask ) {
 	value result = val_null;
-	struct ARG_FILEFILTERS filters = {0,0,0,0};	
+	struct ARG_FILEFILTERS filters = {0,0,0};	
 	struct RES_STRINGLIST files;
 	
 	val_check(title,string);
@@ -64,24 +64,20 @@ static value dialogs_open_file( value title, value msg, value mask ) {
 		value count = val_field(mask,val_id("count"));
 		value descriptions = val_field(val_field(mask,val_id("descriptions")),val_id("__a"));
 		value extensions = val_field(val_field(mask,val_id("extensions")),val_id("__a"));
-		value mactypes = val_field(val_field(mask,val_id("mactypes")),val_id("__a"));
 										
 		val_check(count,int);
 		val_check(descriptions,array);
 		val_check(extensions,array);
-		val_check(mactypes,array);
 				
 		filters.count = val_int(count);
 		if (filters.count) {
 			long i = filters.count;
 			filters.descriptions = malloc(i*sizeof(char*));
 			filters.extensions = malloc(i*sizeof(char*));
-			filters.mactypes = malloc(i*sizeof(char*));
 			while(i) {
 				i--;
 				filters.descriptions[i] = val_string(val_field(val_array_ptr(descriptions)[i],val_id("__s")));
-				filters.extensions[i] = val_string(val_field(val_array_ptr(extensions)[i],val_id("__s")));
-				filters.mactypes[i] = val_string(val_field(val_array_ptr(mactypes)[i],val_id("__s")));
+				filters.extensions[i] = val_string(val_field(val_array_ptr(extensions)[i],val_id("__s")));			
 			}		
 		}			
 	}	
@@ -99,8 +95,7 @@ static value dialogs_open_file( value title, value msg, value mask ) {
 	// clean up allocated mem. for filters:
 	if (val_is_object(mask)) {
 		free(filters.descriptions);
-		free(filters.extensions);
-		free(filters.mactypes);
+		free(filters.extensions);	
 	}
 
 	return result;
