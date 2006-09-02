@@ -51,6 +51,21 @@ static value dialogs_dialog_box( value title, value msg, value error ) {
 }
 DEFINE_PRIM(dialogs_dialog_box,3);
 
+static value dialogs_save_file( value title, value initialdir ) {
+	char * v;
+	value result = val_null;
+	val_check(title, string);
+	val_check(initialdir, string);
+	result = val_null;
+	v = systools_dialogs_save_file(val_string(title),val_string(initialdir)); 
+	if (v) {			
+		result = alloc_string(v);
+		free((void*)v);
+	}
+	return result;
+
+}
+DEFINE_PRIM(dialogs_save_file,2);
 
 static value dialogs_open_file( value title, value msg, value mask ) {
 	value result = val_null;
@@ -142,7 +157,6 @@ static value misc_get_key_state( value key ) {
 	return alloc_int(r);
 }
 DEFINE_PRIM(misc_get_key_state,1);
-
 // ---------------- Registry tools --------------------------------------
 
 

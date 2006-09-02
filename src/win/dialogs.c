@@ -27,6 +27,32 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	return MessageBox(NULL,message,title,MB_TASKMODAL | MB_OK | MB_YESNO | (error ? MB_ICONERROR : MB_ICONINFORMATION)) == IDYES;		
 }
 
+char* systools_dialogs_save_file( const char *title, const char *initialdir ) {
+	char* result = 0;
+	OPENFILENAME ofn;
+
+	memset(&ofn,0,sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrTitle	= (char*) title;
+	ofn.lpstrInitialDir = (char*) initialdir;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER; 
+	ofn.nMaxFile = 8192;	/*	This is madnes: Windows wants us to 
+								predict how many characters the user
+								selected files will be at max. Let me
+								fetch my glass ball...
+								Using 8k for now. */
+	ofn.lpstrFile = malloc(8192);
+	ofn.lpstrFile[0] = 0;
+
+	if( GetSaveFileName(&ofn ) ){
+		result = strdup( ofn.lpstrFile );
+		free(ofn.lpstrFile);
+		return result;
+	}else{
+		return NULL;
+	}
+}
+
 void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *mask, struct RES_STRINGLIST *r){
 	OPENFILENAME ofn;
 	r->count = 0;

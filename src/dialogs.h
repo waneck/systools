@@ -21,3 +21,4 @@
 void systools_dialogs_message_box( const char *title, const char *message, int error );
 int systools_dialogs_dialog_box( const char *title, const char *message, int error );
 void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *filters, struct RES_STRINGLIST *result) ;
+void systools_dialogs_open_file( const char *title, const char *msg, const char *mask, struct RES_STRINGLIST *result);

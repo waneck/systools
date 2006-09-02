@@ -41,7 +41,12 @@ class Dialogs {
 	static var _dialog_box = neko.Lib.load("systools","dialogs_dialog_box",3);
 	public static function confirm( title : String, msg : String, isError : Bool ) : Bool {
 		return _dialog_box(untyped title.__s,untyped msg.__s,isError);
-	}	
+	}
+	
+	static var _dialog_save_file = neko.Lib.load("systools","dialogs_save_file",2);
+	public static function saveFile( title : String, initialDir : String ) : String {
+		return _dialog_save_file(untyped title.__s,untyped initialDir.__s );
+	}
 	
 	static var _open_file = neko.Lib.load("systools","dialogs_open_file",3);
 	public static function openFile( title : String, msg : String, mask : FILEFILTERS ) : Array<String> {
