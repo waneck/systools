@@ -51,13 +51,14 @@ static value dialogs_dialog_box( value title, value msg, value error ) {
 }
 DEFINE_PRIM(dialogs_dialog_box,3);
 
-static value dialogs_save_file( value title, value initialdir ) {
+static value dialogs_save_file( value title, value msg, value initialdir ) {
 	char * v;
 	value result = val_null;
 	val_check(title, string);
+	val_check(msg, string);
 	val_check(initialdir, string);
 	result = val_null;
-	v = systools_dialogs_save_file(val_string(title),val_string(initialdir)); 
+	v = systools_dialogs_save_file(val_string(title),val_string(msg),val_string(initialdir)); 
 	if (v) {			
 		result = alloc_string(v);
 		free((void*)v);
@@ -65,7 +66,7 @@ static value dialogs_save_file( value title, value initialdir ) {
 	return result;
 
 }
-DEFINE_PRIM(dialogs_save_file,2);
+DEFINE_PRIM(dialogs_save_file,3);
 
 static value dialogs_open_file( value title, value msg, value mask ) {
 	value result = val_null;

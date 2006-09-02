@@ -27,7 +27,7 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	return MessageBox(NULL,message,title,MB_TASKMODAL | MB_OK | MB_YESNO | (error ? MB_ICONERROR : MB_ICONINFORMATION)) == IDYES;		
 }
 
-char* systools_dialogs_save_file( const char *title, const char *initialdir ) {
+char* systools_dialogs_save_file( const char *title, const char *_, const char *initialdir ) {
 	char* result = 0;
 	OPENFILENAME ofn;
 
