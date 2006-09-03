@@ -117,6 +117,10 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 							result->strings[count] = malloc(size);
 							AEGetNthPtr(&reply.selection,count+1,typeFileURL,&keyword,&type,result->strings[count],size,&size);
 							result->strings[count][size]=0;
+							if(strncmp(result->strings[count], "file://localhost", 16) == 0) {
+								memmove(result->strings[count],result->strings[count]+16,size-16);
+								result->strings[count][size-16]=0;
+							}
 						}
 					}	
 					NavDisposeReply(&reply);
