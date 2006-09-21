@@ -33,7 +33,7 @@ class Clipboard {
 	}
 
 	static public function getText() : String {
-		return _get_clipboard_data();
+		return new String(_get_clipboard_data());
 	}
 
 	static public function clear() : Void {
