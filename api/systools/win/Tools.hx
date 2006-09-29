@@ -22,6 +22,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+
 package systools.win;
 
 class Tools {
@@ -32,7 +33,7 @@ class Tools {
 		default: throw "Windows is required to run systools.win.Tools"; 
 	}
 
-	private static function replaceExeIcon(exe, icon: String) : Bool
+	public static function replaceExeIcon(exe: String, icon: String) : Bool {
 		return _win_replace_exe_icon(untyped exe.__s, untyped icon.__s) == 1;
 	}
 

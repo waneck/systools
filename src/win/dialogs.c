@@ -61,7 +61,7 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 	
 	memset(&ofn,0,sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
-	ofn.lpstrFileTitle = (char*) title;
+	ofn.lpstrTitle = (char*) title;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER; 
 	ofn.nMaxFile = 8192;	/*	This is madnes: Windows wants us to 
 								predict how many characters the user

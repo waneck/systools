@@ -220,11 +220,13 @@ DEFINE_PRIM(registry_delete_key,2);
 
 #include "win/win.h"
 
-static value win_replaceExeIcon( value exe, value icon ) {	
+static value win_replace_exe_icon( value exe, value icon ) {	
+	int r = 0;
 	value result = val_null;
 	val_check(exe, string);
 	val_check(icon, string);		
-	return val_bool(systools_win_replaceExeIcon(val_string(exe),val_string(icon)));
+	r = systools_win_replaceExeIcon(val_string(exe),val_string(icon));
+	return alloc_bool(r==1);
 }
 DEFINE_PRIM(win_replace_exe_icon,2);
 

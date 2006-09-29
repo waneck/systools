@@ -33,7 +33,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="../include/neko/neko.lib shell32.lib"
-				OutputFile="$(OutDir)/systools.ndll"
+				OutputFile="C:\dev\haxe\lib\systools\0,0,6\ndll\Windows\systools.ndll"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/systools.pdb"
