@@ -29,7 +29,7 @@ class Tools {
 	/// This only works on Windows
 	static var check_os = switch( neko.Sys.systemName() ) { 
 		case "Windows":	null; 
-		default: throw "Windows is required to run systools.win"; 
+		default: throw "Windows is required to run systools.win.Tools"; 
 	}
 
 	private static function replaceExeIcon(exe, icon: String) : Bool

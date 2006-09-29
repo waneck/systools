@@ -226,6 +226,6 @@ static value win_replaceExeIcon( value exe, value icon ) {
 	val_check(icon, string);		
 	return val_bool(systools_win_replaceExeIcon(val_string(exe),val_string(icon)));
 }
-DEFINE_PRIM(win_replaceExeIcon,2);
+DEFINE_PRIM(win_replace_exe_icon,2);
 
 #endif
