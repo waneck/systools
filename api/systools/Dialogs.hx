@@ -48,9 +48,9 @@ class Dialogs {
 		return new String(_dialog_save_file(untyped title.__s,untyped msg.__s,untyped initialDir.__s ));
 	}
 	
-	static var _open_file = neko.Lib.load("systools","dialogs_open_file",3);
+	static var _dialog_open_file = neko.Lib.load("systools","dialogs_open_file",3);
 	public static function openFile( title : String, msg : String, mask : FILEFILTERS ) : Array<String> {
-		var result = _open_file(untyped title.__s,untyped msg.__s,untyped __dollar__new(mask));
+		var result = _dialog_open_file(untyped title.__s,untyped msg.__s,untyped __dollar__new(mask));
 		if (result == null) 
 			return null;
 		else {
@@ -58,5 +58,10 @@ class Dialogs {
 			for( i in 0...a.length ) a[i] = new String(a[i]);
 			return a;
 		}	
-	}	
+	}
+
+	static var _dialog_folder = neko.Lib.load("systools","dialogs_folder",2);
+	public static function folder( title : String, msg: String ) : String {
+		return new String(_dialog_folder(untyped title.__s,untyped msg.__s));
+	}
 }

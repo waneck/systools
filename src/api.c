@@ -118,6 +118,22 @@ static value dialogs_open_file( value title, value msg, value mask ) {
 }
 DEFINE_PRIM(dialogs_open_file,3);
 
+static value dialogs_folder( value title, value msg ) {
+	char * v;
+	value result = val_null;
+	val_check(title, string);
+	val_check(msg, string);	
+	result = val_null;
+	v = systools_dialogs_folder(val_string(title),val_string(msg)); 
+	if (v) {			
+		result = alloc_string(v);
+		free(v);
+	}
+	return result;
+
+}
+DEFINE_PRIM(dialogs_folder,2);
+
 
 // ---------------- Clipboard methods ----------------------------------------
 

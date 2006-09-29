@@ -22,3 +22,4 @@ void systools_dialogs_message_box( const char *title, const char *message, int e
 int systools_dialogs_dialog_box( const char *title, const char *message, int error );
 void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *filters, struct RES_STRINGLIST *result) ;
 char* systools_dialogs_save_file( const char *title, const char *msg, const char *initialdir );
+char* systools_dialogs_folder( const char *title, const char *msg );

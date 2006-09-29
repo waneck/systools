@@ -32,7 +32,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../include/neko/neko.lib"
+				AdditionalDependencies="../include/neko/neko.lib shell32.lib"
 				OutputFile="$(OutDir)/systools.ndll"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
@@ -80,7 +80,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../include/neko/neko.lib"
+				AdditionalDependencies="../include/neko/neko.lib shell32.lib"
 				OutputFile="$(OutDir)/systools.ndll"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"

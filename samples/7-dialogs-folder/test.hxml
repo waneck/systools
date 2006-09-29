@@ -1,0 +1,3 @@
+-cp ../../api
+-neko app.n
+-main Test

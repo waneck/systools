@@ -61,7 +61,7 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
 	opt.modality = kWindowModalityAppModal;
 			
-	if (NavCreatePutFileDialog(&opt,0x000000,kNavGenericSignature,NULL,NULL,&ref) == noErr) {
+	if (NavCreatePutFileDialog(&opt,0,kNavGenericSignature,NULL,NULL,&ref) == noErr) {
 				
 		if (NavDialogRun(ref) == noErr) {
 			if (NavDialogGetUserAction(ref) == kNavUserActionSaveAs) {
@@ -73,14 +73,16 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 					GetFSRefFromAEDesc(&fsref,&reply.selection);					
 					if (FSRefMakePath (&fsref,(UInt8*)result,PATH_SIZE)==noErr) {
 						strcat(result,"/");
-						CFStringGetCString(reply.saveFileName,result+strlen(result),PATH_SIZE-strlen(result),kCFStringEncodingUTF8);
-						return result;
+						CFStringGetCString(reply.saveFileName,result+strlen(result),PATH_SIZE-strlen(result),kCFStringEncodingUTF8);					
+					} else {
+						free(result);
+						result = NULL;
 					}
-					free(result);
-					result = NULL;
+					NavDisposeReply(&reply);
 				}
 			}
 		}
+		NavDialogDispose(ref);
 	}	
 	return result;
 }
@@ -127,7 +129,47 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 				}
 			}
 		}
+		NavDialogDispose(ref);
 	}	
+}
+
+char* systools_dialogs_folder( const char *title, const char *msg ) {
+	char *result = NULL;
+	NavDialogRef ref;
+	NavDialogCreationOptions opt;
+							
+	NavGetDefaultDialogCreationOptions(&opt);		
+	opt.clientName = CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8);
+	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
+	opt.modality = kWindowModalityAppModal;
+			
+	if (NavCreateChooseFolderDialog(&opt,NULL,NULL,NULL,&ref) == noErr) {
+				
+		if (NavDialogRun(ref) == noErr) {
+			NavUserAction action = NavDialogGetUserAction(ref);
+			if ( action != kNavUserActionCancel && action != kNavUserActionNone) {
+				NavReplyRecord reply;
+				if (NavDialogGetReply(ref,&reply)  == kNavNormalState) {
+					AEKeyword keyword;
+					AEDesc desc;
+					FSRef fsref;
+					
+					AEGetNthDesc(&reply.selection, 1, typeFSRef, &keyword, &desc);
+										
+					result = malloc(PATH_SIZE);	
+					memset(result,0,PATH_SIZE);				
+					GetFSRefFromAEDesc(&fsref,&reply.selection);					
+					if (FSRefMakePath (&fsref,(UInt8*)result,PATH_SIZE)!=noErr) {
+						free(result);
+						result = NULL;
+					}				
+					NavDisposeReply(&reply);
+				}
+			}
+		}
+		NavDialogDispose(ref);
+	}	
+	return result;
 }
 
 // helpers:

@@ -18,6 +18,7 @@
 
 #include "../dialogs.h"
 #include <windows.h>
+#include "shlobj.h"
 
 void systools_dialogs_message_box( const char *title, const char *message, int error ) {		
 	MessageBox(NULL,message,title,MB_OK | (error ? MB_ICONERROR : MB_ICONINFORMATION));
@@ -120,4 +121,30 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 		}		
 	}	
 	free(ofn.lpstrFile);	
+}
+
+char* systools_dialogs_folder( const char *title, const char *msg ) {
+	BROWSEINFO bi;
+	LPCITEMIDLIST folderID;
+	TCHAR	szFolderDisplay[MAX_PATH];
+	TCHAR	szFolderPath[MAX_PATH];
+
+	memset( szFolderDisplay, 0, MAX_PATH);
+	memset( szFolderPath, 0, MAX_PATH);	
+	
+	bi.hwndOwner		= NULL;					// handle of parent window
+	bi.pidlRoot			= NULL;					// Starting directory..NULL for "My Computer"
+	bi.pszDisplayName	= szFolderDisplay;		// buffer which recieves the path of chosen	directory.
+	bi.lpszTitle		= title;				// text displayed in dialog's static	control.
+	bi.ulFlags	 		= BIF_RETURNONLYFSDIRS;	// flag saying only directory's can be returned.
+	bi.lpfn				= NULL;					// NULL meaning no hook proc.
+
+	folderID= SHBrowseForFolder(&bi);	
+	
+	if(folderID)
+	{
+		SHGetPathFromIDList(folderID,szFolderPath);
+		return strdup(szFolderPath);
+	}
+	return NULL;
 }

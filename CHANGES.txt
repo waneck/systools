@@ -1,0 +1,9 @@
+Wish List:	
+	Threading support
+	Application icon Update
+	
+2006-09-x: Beta 0.0.6
+	Implemented browse for folder
+
+2006-09-28: Beta 0.0.5
+	APIs now returning haXe strings
