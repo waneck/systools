@@ -27,7 +27,6 @@
 #include "misc.h"
 #include "registry.h"
 
-
 // ---------------- Dialog methods -------------------------------------------
 
 
@@ -174,6 +173,8 @@ static value misc_get_key_state( value key ) {
 	return alloc_int(r);
 }
 DEFINE_PRIM(misc_get_key_state,1);
+
+
 // ---------------- Registry tools --------------------------------------
 
 
@@ -210,3 +211,21 @@ static value registry_delete_key( value key, value subkey) {
 	return val_null;
 }
 DEFINE_PRIM(registry_delete_key,2);
+
+
+// -- Windows specific
+
+
+#ifdef NEKO_WINDOWS
+
+#include "win/win.h"
+
+static value win_replaceExeIcon( value exe, value icon ) {	
+	value result = val_null;
+	val_check(exe, string);
+	val_check(icon, string);		
+	return val_bool(systools_win_replaceExeIcon(val_string(exe),val_string(icon)));
+}
+DEFINE_PRIM(win_replaceExeIcon,2);
+
+#endif

@@ -144,6 +144,12 @@
 		<File
 			RelativePath="..\src\registry.h">
 		</File>
+		<File
+			RelativePath="..\src\win\win.c">
+		</File>
+		<File
+			RelativePath="..\src\win\win.h">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
