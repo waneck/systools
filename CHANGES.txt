@@ -1,8 +1,10 @@
 Wish List:	
-	Threading support
-	Application icon Update
+	Threading support (although this would prob. require
+	message loop control, and would therefore better be
+	part of SWHX)
 	
-2006-09-x: Beta 0.0.6
+2006-09-29: Beta 0.0.6
+	Implemented exe icon replacement for Windows
 	Implemented browse for folder
 
 2006-09-28: Beta 0.0.5

@@ -34,7 +34,7 @@ class Tools {
 	}
 
 	public static function replaceExeIcon(exe: String, icon: String) : Bool {
-		return _win_replace_exe_icon(untyped exe.__s, untyped icon.__s) == 1;
+		return new Bool(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s));		
 	}
 
 	static var _win_replace_exe_icon = neko.Lib.load("systools","win_replace_exe_icon",2);
