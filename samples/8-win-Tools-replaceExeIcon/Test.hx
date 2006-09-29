@@ -1,11 +1,12 @@
 import systools.Dialogs;
+import systools.win.Tools;
 
 class Test {
 		
 	static function main() {		
 		var exefilter: FILEFILTERS = 
 			{ count: 1
-			, descriptions: ["executables)"]
+			, descriptions: ["executables"]
 			, extensions: ["*.exe"]			
 			};			
 		var icofilter: FILEFILTERS = 
