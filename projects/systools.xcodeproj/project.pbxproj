@@ -220,7 +220,8 @@
 				HEADER_SEARCH_PATHS = ../include;
 				PREBINDING = NO;
 				PRODUCT_NAME = "SystemTools library for Neko VM";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SYMROOT = "$(SRCROOT)/../bin/mac";
 			};
 			name = Debug;
@@ -240,7 +241,8 @@
 				HEADER_SEARCH_PATHS = ../include;
 				PREBINDING = NO;
 				PRODUCT_NAME = "SystemTools library for Neko VM";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
 				SYMROOT = "$(SRCROOT)/../bin/mac";
 			};
 			name = Release;

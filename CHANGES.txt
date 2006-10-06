@@ -2,6 +2,11 @@ Wish List:
 	Threading support (although this would prob. require
 	message loop control, and would therefore better be
 	part of SWHX)
+
+2006-10-06: Beta 0.0.7
+	Fixed 'openDialog' returning faulty first entry on 
+	multiple files selection.
+	Fixed .ndll not loading correctly with OSX 10.3.9
 	
 2006-09-29: Beta 0.0.6
 	Implemented exe icon replacement for Windows

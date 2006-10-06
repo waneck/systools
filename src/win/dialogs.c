@@ -106,8 +106,8 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 				r->count++;
 			} else if (pass==2) {
 				r->strings[0] = realloc(r->strings[0],strlen(r->strings[0])+strlen(file)+2);
-				strcat(r->strings[0], file);
-				strcat(r->strings[0], "\\");				
+				strcat(r->strings[0], "\\");
+				strcat(r->strings[0], file);								
 			} else {
 				r->strings = realloc(r->strings,sizeof(char*)*(r->count+1));
 				r->strings[r->count] = malloc(strlen(folder)+strlen(file)+2);

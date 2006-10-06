@@ -35,7 +35,7 @@ int systools_clipboard_set_text( const char * text ) {
 	PasteboardClear(getPasteboard());
 	PasteboardSynchronize(getPasteboard());	
 	
-	return PasteboardPutItemFlavor(getPasteboard(),(PasteboardItemID)1,kUTTypeUTF8PlainText,data,kPasteboardFlavorNoFlags);	
+	return PasteboardPutItemFlavor(getPasteboard(),(PasteboardItemID)1,CFSTR("utf8"),data,kPasteboardFlavorNoFlags);	
 }
 
 char* systools_clipboard_get_text() {
@@ -57,9 +57,9 @@ char* systools_clipboard_get_text() {
 		err = PasteboardGetItemIdentifier(getPasteboard(),itemIndex,&itemID);		
 		if (err == noErr) {											
 			PasteboardFlavorFlags flavorFlags;
-			err = PasteboardGetItemFlavorFlags(getPasteboard(),itemID,kUTTypeUTF8PlainText,&flavorFlags );
+			err = PasteboardGetItemFlavorFlags(getPasteboard(),itemID,CFSTR("utf8"),&flavorFlags );
 			if (err == noErr) {
-				err = PasteboardCopyItemFlavorData(getPasteboard(),itemID,kUTTypeUTF8PlainText,&data);
+				err = PasteboardCopyItemFlavorData(getPasteboard(),itemID,CFSTR("utf8"),&data);
 				if (err == noErr) {	
 					CFIndex length = CFDataGetLength(data);				
 					result = malloc(length+1);
