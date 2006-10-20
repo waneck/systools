@@ -230,4 +230,30 @@ static value win_replace_exe_icon( value exe, value icon ) {
 }
 DEFINE_PRIM(win_replace_exe_icon,2);
 
+static value win_create_process( value app, value args, value wd, value hide, value wait) {
+	int r;
+	char *_args = 0;
+	char *_wd = 0;
+	val_check(app,string);
+	val_check(hide,int);
+	val_check(wait,int);
+	if (args != val_null) {
+		val_check(args,string);
+		_args = val_string(args);
+	}
+	if (wd != val_null) {
+		val_check(wd,string);
+		_wd = val_string(wd);
+	}
+	r = systools_win_create_process
+		( val_string(app)
+		, _args
+		, _wd
+		, val_int(hide)
+		, val_int(wait)
+		);
+	return alloc_int(r);
+}
+DEFINE_PRIM(win_create_process,5);
+
 #endif

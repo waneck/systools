@@ -58,6 +58,7 @@ class Misc {
 			default: throw "Not supported "+sysname;
 		}) != 0;
 	}
-	
 	static var _misc_get_key_state = neko.Lib.load("systools","misc_get_key_state",1);
+	
 }
+	

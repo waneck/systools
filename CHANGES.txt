@@ -1,7 +1,5 @@
-Wish List:	
-	Threading support (although this would prob. require
-	message loop control, and would therefore better be
-	part of SWHX)
+2006-10-20: Beta 0.0.8
+	Implemented create process for Windows
 
 2006-10-06: Beta 0.0.7
 	Fixed 'openDialog' returning faulty first entry on 

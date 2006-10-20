@@ -1,5 +1,5 @@
 <project name="systools" url="http://code.google.com/p/neko-systools" license="LGPL">
     <user name="systools"/>
     <description>A cross-platform extension to the Neko VM for accessing system APIs</description>
-    <version name="0.0.7">Beta release</version>	
+    <version name="0.0.8">Beta release</version>	
 </project>

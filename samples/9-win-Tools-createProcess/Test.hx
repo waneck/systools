@@ -1,5 +1,5 @@
 /**
- * systools.Win.Tools.createProcess
+ * systools.win.Tools.createProcess
  *
  */  
 
@@ -16,7 +16,7 @@ class Test {
 		trace("Launching "+app+", args: "+args+", working dir: "+workingdir);
 		
 		// Launch application:			
-		var result = systools.Win.Tools.createProcess
+		var result = systools.win.Tools.createProcess
 			( app			// app. path
 			, args			// app. args
 			, workingdir	// app. working directory

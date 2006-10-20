@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../bin/win"
-			IntermediateDirectory="Debug"
+			OutputDirectory="..\..\bin\win"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2">
 			<Tool
@@ -33,7 +33,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="../include/neko/neko.lib shell32.lib"
-				OutputFile="C:\dev\haxe\lib\systools\0,0,6\ndll\Windows\systools.ndll"
+				OutputFile="C:\dev\haxe\lib\systools\0,0,7\ndll\Windows\systools.ndll"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/systools.pdb"

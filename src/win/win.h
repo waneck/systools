@@ -19,3 +19,4 @@
 #include "../api.h"
 
 int systools_win_replaceExeIcon( const char *exe, const char *ico );
+int systools_win_create_process( const char *app, const char *args, const char *wd, int hide, int wait );

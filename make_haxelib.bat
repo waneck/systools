@@ -1,5 +1,5 @@
 REM -- main folder
-del systools
+rmdir /S /Q systools
 mkdir systools
 copy haxelib.xml systools
 

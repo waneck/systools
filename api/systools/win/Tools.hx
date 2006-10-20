@@ -34,8 +34,20 @@ class Tools {
 	}
 
 	public static function replaceExeIcon(exe: String, icon: String) : Bool {
-		return new Bool(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s));		
+		return if(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s)) true else false;		
 	}
 
 	static var _win_replace_exe_icon = neko.Lib.load("systools","win_replace_exe_icon",2);
+	
+	public static function createProcess( app: String, cmds: String, workingdir: String, hide: Bool, wait: Bool): Int {
+		return _win_create_process
+			( untyped app.__s
+			, untyped cmds.__s
+			, untyped workingdir.__s
+			, if (hide) 1 else 0
+			, if (wait) 1 else 0
+			);
+	}
+	static var _win_create_process = neko.Lib.load("systools","win_create_process",5);
+
 }
