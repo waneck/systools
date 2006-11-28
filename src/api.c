@@ -26,6 +26,7 @@
 #include "clipboard.h"
 #include "misc.h"
 #include "registry.h"
+#include "dialogs.h"
 
 // ---------------- Dialog methods -------------------------------------------
 
