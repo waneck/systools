@@ -3,7 +3,6 @@
 /*  Systool - a Neko VM library												*/
 /*  Copyright (c)2006														*/
 /*  Asger Ottar Alstrup, Nicolas Cannasse, Edwin van Rijkom,				*/
-/*  Daniel Fischer															*/
 /*																			*/
 /* This library is free software; you can redistribute it and/or			*/
 /* modify it under the terms of the GNU Lesser General Public				*/

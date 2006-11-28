@@ -15,6 +15,12 @@ class Test {
 		
 		cbtext = systools.Clipboard.getText();
 		trace("Current text on clipboard: "+ cbtext);
+		
+		systools.Clipboard.clear();
+		trace("Cleared clipboard (again)");
+		
+		cbtext = systools.Clipboard.getText();
+		trace("Current text on clipboard: "+ cbtext);
 	}
 
 }
