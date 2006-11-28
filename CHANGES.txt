@@ -1,3 +1,8 @@
+2006-11-28 
+	Initial Linux port: 
+	Clipboard and Dialogs using GTK
+	Registry using gconf
+
 2006-10-20: Beta 0.0.8
 	Implemented create process for Windows
 

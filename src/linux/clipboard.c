@@ -20,20 +20,26 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
+static GtkClipboard *getClipboard()
+{
+    static GtkClipboard *sClipboard = NULL;
+    if ( sClipboard == NULL )
+    {
+		sClipboard = gtk_clipboard_get( GDK_SELECTION_CLIPBOARD );
+    }
+    return sClipboard;
+}
+
 int systools_clipboard_set_text( const char * text ) {	
-	GtkClipboard* clipboard = gtk_clipboard_get( GDK_SELECTION_CLIPBOARD );
-	gtk_clipboard_set_text( clipboard, text, strlen(text) );
+	gtk_clipboard_set_text( getClipboard(), text, strlen(text) );
 	return 0;	
 }
 
 char* systools_clipboard_get_text() {
-	GtkClipboard* clipboard = gtk_clipboard_get( GDK_SELECTION_CLIPBOARD );
-	char* result = gtk_clipboard_wait_for_text( clipboard );
-
+	char* result = gtk_clipboard_wait_for_text( getClipboard() );
 	return result;
 }
 
 void systools_clipboard_clear() {
-	GtkClipboard* clipboard = gtk_clipboard_get( GDK_SELECTION_CLIPBOARD );
-	gtk_clipboard_clear( clipboard );
+	gtk_clipboard_clear( getClipboard() );
 }
