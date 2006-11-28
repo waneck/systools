@@ -102,7 +102,8 @@ static value dialogs_open_file( value title, value msg, value mask ) {
 	if (files.count) {	
 		result = alloc_array(files.count);
 		while(files.count) {
-			val_array_ptr(result)[--files.count] = alloc_string(files.strings[files.count]);
+			files.count--;
+			val_array_ptr(result)[files.count] = alloc_string(files.strings[files.count]);
 			free(files.strings[files.count]);
 		}
 		free(files.strings);

@@ -16,7 +16,8 @@
 /*																			*/
 /* ************************************************************************ */
 
-#pragma once
+#ifndef _SYSTOOLS_API_H
+#define _SYSTOOLS_API_H
 
 // result types:
 struct RES_STRINGLIST {
@@ -30,3 +31,5 @@ struct ARG_FILEFILTERS {
 	char **descriptions;
 	char **extensions;
 };
+
+#endif // _SYSTOOLS_API_H
