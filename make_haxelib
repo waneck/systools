@@ -1,0 +1,78 @@
+#!/bin/sh
+
+#check for error:
+function cfo() {
+    if [ $? != 0 ]; then
+        echo "-- Error on $1"
+        exit $?
+    else
+        echo "++ Success on $1"    
+    fi    
+}
+
+ID=systools
+
+if [ -f $ID.zip ]; then 
+	rm $ID.zip
+	cfo "removing previous zip package"
+fi
+
+if [ -d $ID ]; then	
+	rm -R $ID
+	cfo "removing previous package source tree"
+fi
+
+#root
+mkdir $ID
+cfo "creating source tree folder"
+cp haxelib.xml $ID
+cfo "copying haxelib xml config"
+cp CHANGES.txt $ID
+cfo "copying CHANGES.txt"
+cp LICENSE.txt $ID
+cfo "copying LICENSE.txt"
+
+#haxe api
+cd api/$ID
+svn export . ../../$ID/$ID
+cfo "exporting haXe API from SVN"
+cd ../..
+
+# ndlls
+mkdir -p $ID/ndll/Windows
+cfo "creating NDLL Windows folder"
+cp bin/win/$ID.ndll $ID/ndll/Windows/$ID.ndll
+cfo "copying $ID.ndll for Windows"
+mkdir $ID/ndll/Mac
+cfo "creating NDLL Mac folder"
+cp bin/mac/$ID.ndll $ID/ndll/Mac/$ID.ndll
+cfo "copying $ID.ndll for Mac"
+mkdir $ID/ndll/Linux
+cfo "creating NDLL Linux folder"
+cp bin/mac/$ID.ndll $ID/ndll/Linux/$ID.ndll
+cfo "copying $ID.ndll for Linux"
+
+# samples
+cfo "creating Samples folder"
+cd samples
+svn export . ../$ID/samples
+cfo "exporting samples"
+cd ..
+
+#source
+mkdir $ID/src
+cfo "creating source folder"
+cd src
+svn export . ../$ID/src/src
+cfo "exporting source files from SVN"
+cd ../projects
+svn export . ../$ID/src/projects
+cfo "exporting project source files from SVN"
+cd ../include
+svn export . ../$ID/src/include
+cfo "exporting include files from SVN"
+cd ..
+
+#zip it!
+zip -r $ID.zip $ID
+cfo "zipping package $ID.zip"
