@@ -49,7 +49,7 @@ cp bin/mac/$ID.ndll $ID/ndll/Mac/$ID.ndll
 cfo "copying $ID.ndll for Mac"
 mkdir $ID/ndll/Linux
 cfo "creating NDLL Linux folder"
-cp bin/mac/$ID.ndll $ID/ndll/Linux/$ID.ndll
+cp bin/linux/$ID.ndll $ID/ndll/Linux/$ID.ndll
 cfo "copying $ID.ndll for Linux"
 
 # samples
