@@ -26,6 +26,7 @@ typedef struct _tray_icon {
 	_tray_menu_cb	msg_callback;
 } tray_icon;
 
+DEFINE_KIND(k_void_pointer);
 DEFINE_KIND(k_tray_icon);
 DEFINE_KIND(k_window_msg_cb);
 

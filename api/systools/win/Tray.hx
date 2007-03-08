@@ -29,23 +29,22 @@ import systools.win.Events;
 
 class Tray {
 	
-	var t : Void;
-	
-	public var hook : swhx.MessageHook;
+	var t 		: Void;	
+	var hook 	: swhx.MessageHook;
 	
 	static var _systray_create_icon = neko.Lib.load("systools","systray_create_icon",3);
-	static var _systray_get_callback = neko.Lib.load("systool","systray_get_callback",1);
-	public function new( w : swhx.Window, iconPath : String, tooltip : String ) {
+	static var _systray_menu_callback = neko.Lib.load("systools","systray_menu_callback",0);
+	public function new( w : swhx.Window, iconPath : String, tooltip : String )
 	{
-		t = _systray_create_icon(untyped wnd.handle,untyped iconPath.__s,untyped tooltip.__s);
-		hook = wnd.addMessageHook
-			( 0x200		// message ID part one 
-			, null		// message ID part two (future prov. for OS-X)
+		t = _systray_create_icon(untyped w.handle,untyped iconPath.__s,untyped tooltip.__s);
+		hook = w.addMessageHook
+			( untyped 0x200		// message ID part one 
+			, null				// message ID part two (future prov. for OS-X)
 			);
-		hook.setCallbackData(t);	
-		hook.setCCallback(_systray_get_callback);
+		hook.callbackData = t;	
+		hook.setCCallback(_systray_menu_callback());
 	}
-		
+	
 	static var _systray_destroy_icon = neko.Lib.load("systools","systray_destroy_icon",1);
 	public function dispose() {
 		return _systray_destroy_icon(t);

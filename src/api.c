@@ -264,7 +264,10 @@ static value win_create_process( value app, value args, value wd, value hide, va
 }
 DEFINE_PRIM(win_create_process,5);
 
+
 // Tray Icon specific code
+
+
 static value systray_create_icon( value w, value iconpath, value tooltip )
 {
 	val_check(tooltip,string);

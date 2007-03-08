@@ -52,7 +52,7 @@ tray_icon *systools_win_create_tray_icon(HWND *wnd,char *ico,char *tooltip){
 		tray->msg_callback = tray_menu_cb;	
 				
 		structNid.cbSize			= nid_size;
-		structNid.hWnd				= *wnd;								// handle to window:
+		structNid.hWnd				= wnd;								// handle to window:
 		structNid.uID				= 0;								// unique id, for support of more than 1 tray icon at the same, not using this.
 		structNid.uFlags			= NIF_ICON | NIF_MESSAGE | NIF_TIP;	// flags
 		structNid.uCallbackMessage	= 9001;								// WMU_TRAYICON_HOVER  callback
