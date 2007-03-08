@@ -300,22 +300,6 @@ static value win_menu_create()
 }
 DEFINE_PRIM(win_menu_create,0);
 
-/*
-static value win_set_tray_menu( value w, value menu )
-{
-	private_data *p = system_window_get_private(val_window(w));
-	val_check_kind(menu,k_menu);
-	p->traymenu = val_menu(menu);
-}
-
-static value win_set_right_click_menu( value w, value menu )
-{
-	private_data *p = system_window_get_private(val_window(w));
-	val_check_kind(menu,k_menu);
-	p->rightclickmenu = val_menu(menu);
-}
-*/
-
 static void win_destroy_menu( value menu )
 {
 	val_check_kind(menu,k_menu);
