@@ -28,6 +28,11 @@
 #include "registry.h"
 #include "dialogs.h"
 
+// ---------------- Type Conversion -----------------------
+
+DEFINE_KIND(k_icondata);
+DEFINE_KIND(k_menu);
+
 // ---------------- Dialog methods -------------------------------------------
 
 
@@ -221,6 +226,7 @@ DEFINE_PRIM(registry_delete_key,2);
 #ifdef NEKO_WINDOWS
 
 #include "win/win.h"
+#include "win/menus.h"
 
 static value win_replace_exe_icon( value exe, value icon ) {	
 	int r = 0;
@@ -257,5 +263,36 @@ static value win_create_process( value app, value args, value wd, value hide, va
 	return alloc_int(r);
 }
 DEFINE_PRIM(win_create_process,5);
+
+// Tray Icon specific code
+static value systray_create_icon( value w, value iconpath, value tooltip )
+{
+	val_check(tooltip,string);
+	if ( !(val_is_string(iconpath) || val_is_null(iconpath)) )
+	{
+		printf( "The icon path is invalid" );
+		iconpath = alloc_string("");
+		return val_null;
+	}
+	return alloc_abstract(k_icondata,systools_win_set_tray_icon(val_hwnd(w),val_string(iconpath),val_string(tooltip)));
+}
+DEFINE_PRIM(systray_create_icon,3);
+
+static value systray_destroy_icon( value ico )
+{
+	val_check_kind(ico,k_icondata);
+	systools_win_destroy_tray_icon(val_trayicon(ico));
+	return val_null;
+}
+DEFINE_PRIM(systray_destroy_icon,1);
+
+static value systray_menu_callback()
+{
+	return alloc_abstract(k_window_msg_cb,&tray_menu_cb);
+}
+DEFINE_PRIM(systray_menu_callback,0);
+
+// Menu specific code
+
 
 #endif
