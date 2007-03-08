@@ -51,15 +51,15 @@ tray_icon *systools_win_create_tray_icon(HWND *wnd,char *ico,char *tooltip){
 		tray->icon_handle = hIcon;
 		tray->msg_callback = tray_menu_cb;	
 				
-		structNid.cbSize			= nid_size;
-		structNid.hWnd				= *wnd;								// handle to window:
-		structNid.uID				= 0;								// unique id, for support of more than 1 tray icon at the same, not using this.
-		structNid.uFlags			= NIF_ICON | NIF_MESSAGE | NIF_TIP;	// flags
-		structNid.uCallbackMessage	= 9001;								// WMU_TRAYICON_HOVER  callback
-		structNid.hIcon				= hIcon;										// the icon
-		strcpy( structNid.szTip, tooltip );								// tooltip:
+		tray->icon_data->cbSize				= nid_size;
+		tray->icon_data->hWnd				= *wnd;								// handle to window:
+		tray->icon_data->uID				= 0;								// unique id, for support of more than 1 tray icon at the same, not using this.
+		tray->icon_data->uFlags				= NIF_ICON | NIF_MESSAGE | NIF_TIP;	// flags
+		tray->icon_data->uCallbackMessage	= 9001;								// WMU_TRAYICON_HOVER  callback
+		tray->icon_data->hIcon				= hIcon;										// the icon
+		strcpy( tray->icon_data->szTip, tooltip );								// tooltip:
 
-		if( !Shell_NotifyIcon( dwSetType, &structNid) ) {
+		if( !Shell_NotifyIcon( dwSetType, tray->icon_data ) ) {
 			free(tray->icon_data);
 			free(tray);
 			set_tray_error("SetTrayIcon Failed");
