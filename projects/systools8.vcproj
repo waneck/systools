@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="systools"
 	ProjectGUID="{6FB83FF5-BD6F-4D25-BA8B-B6F1FECD4E63}"
 	RootNamespace="systools"
@@ -200,6 +200,26 @@
 			>
 		</File>
 		<File
+			RelativePath="..\src\win\display.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\win\display.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\win\icons.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\win\menus.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\win\menus.h"
+			>
+		</File>
+		<File
 			RelativePath="..\src\win\misc.c"
 			>
 		</File>
@@ -213,6 +233,14 @@
 		</File>
 		<File
 			RelativePath="..\src\registry.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\win\win.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\win\win.h"
 			>
 		</File>
 	</Files>

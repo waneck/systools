@@ -2,7 +2,7 @@
 /*																			*/
 /*  Systool - a Neko VM library												*/
 /*  Copyright (c)2006														*/
-/*  Asger Ottar Alstrup, Nicolas Cannasse, Edwin van Rijkom					*/
+/*  Asger Ottar Alstrup, Nicolas Cannasse, Edwin van Rijkom, Ian Thomas		*/
 /*																			*/
 /* This library is free software; you can redistribute it and/or			*/
 /* modify it under the terms of the GNU Lesser General Public				*/
@@ -227,6 +227,7 @@ DEFINE_PRIM(registry_delete_key,2);
 
 #include "win/win.h"
 #include "win/menus.h"
+#include "win/display.h"
 
 static value win_replace_exe_icon( value exe, value icon ) {	
 	int r = 0;
@@ -299,5 +300,34 @@ DEFINE_PRIM(systray_menu_callback,0);
 
 // Menu specific code
 
+// Display specific code
+static value display_set_mode( value width, value height, value depth )
+{
+	int r;
+	val_check(width,int);
+	val_check(height,int);
+	val_check(depth,int);
+	r=systools_win_display_set_mode(val_int(width),val_int(height),val_int(depth));
+	return alloc_bool(r);
+}
+DEFINE_PRIM(display_set_mode,3);
+
+static value display_set_default_mode()
+{
+	systools_win_display_set_default_mode();
+	return val_null;
+}
+DEFINE_PRIM(display_set_default_mode,0);
+
+static value display_is_mode_supported( value width, value height, value depth )
+{
+	int r;
+	val_check(width,int);
+	val_check(height,int);
+	val_check(depth,int);
+	r=systools_win_display_is_mode_supported(val_int(width),val_int(height),val_int(depth));
+	return alloc_bool(r);
+}
+DEFINE_PRIM(display_is_mode_supported,3);
 
 #endif

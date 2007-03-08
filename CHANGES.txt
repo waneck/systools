@@ -1,3 +1,6 @@
+2007-03-08
+	Added systools.win.Display and supporting code for changing screen mode on Windows.
+	
 2006-11-28 
 	Initial Linux port: 
 	Clipboard and Dialogs using GTK
