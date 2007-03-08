@@ -28,11 +28,6 @@
 #include "registry.h"
 #include "dialogs.h"
 
-// ---------------- Type Conversion -----------------------
-
-DEFINE_KIND(k_icondata);
-DEFINE_KIND(k_menu);
-
 // ---------------- Dialog methods -------------------------------------------
 
 
@@ -353,7 +348,15 @@ static win_add_menu_divider( value menu, value callbackid )
 }
 DEFINE_PRIM(win_add_menu_divider,2);
 
+static win_show_menu( value w, value m )
+{
+	val_check_kind(m,k_menu);
+	return alloc_int(systools_menu_show( val_hwnd(w), val_menu(m) ));
+}
+DEFINE_PRIM(win_show_menu,2);
+
 // Display specific code
+/*
 static value display_set_mode( value width, value height, value depth )
 {
 	int r;
@@ -382,5 +385,6 @@ static value display_is_mode_supported( value width, value height, value depth )
 	return alloc_bool(r);
 }
 DEFINE_PRIM(display_is_mode_supported,3);
+*/
 
 #endif

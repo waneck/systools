@@ -26,6 +26,7 @@ typedef struct _tray_icon {
 	_tray_menu_cb	msg_callback;
 } tray_icon;
 
+
 // ---------------- Type Conversion -----------------------
 
 DEFINE_KIND(k_icondata);
@@ -47,4 +48,4 @@ void* tray_menu_cb(void* custom, void* id1, void *id2, void* p1, void* p2);
 HMENU *systools_menu_create();
 void systools_menu_destroy( HMENU *hmenu );
 int systools_menu_add_item( HMENU* hmenu, char* caption, DWORD callbackID );
-int systools_menu_show( HWND *hwnd, HMENU *hmenu, int we );
+int systools_menu_show( HWND *hwnd, HMENU *hmenu );

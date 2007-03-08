@@ -48,8 +48,14 @@ class Menus {
 		_win_add_menu_divider( m, msgid );
 	}
 	
+	public function show( hwnd : Void )
+	{
+		return _win_show_menu( hwnd, m );
+	}
+	
 	static var _win_menu_create = neko.Lib.load("systools","win_menu_create",0);
 	static var _win_destroy_menu = neko.Lib.load("systools","win_destroy_menu",1);
 	static var _win_add_menu_item = neko.Lib.load("systools","win_add_menu_item",3);
 	static var _win_add_menu_divider = neko.Lib.load("systools","win_add_menu_divider",2);
+	static var _win_show_menu = neko.Lib.load("systools","win_show_menu",2);
 }

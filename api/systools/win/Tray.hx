@@ -37,12 +37,12 @@ class Tray {
 	public function new( w : swhx.Window, iconPath : String, tooltip : String )
 	{
 		t = _systray_create_icon(untyped w.handle,untyped iconPath.__s,untyped tooltip.__s);
-		hook = w.addMessageHook
-			( untyped Events.TRAYEVENT		// message ID part one 
-			, null							// message ID part two (future prov. for OS-X)
-			);
-		hook.callbackData = t;	
-		hook.setCCallback(_systray_menu_callback());
+		//hook = w.addMessageHook
+		//	( untyped Events.TRAYEVENT		// message ID part one 
+		//	, null							// message ID part two (future prov. for OS-X)
+		//	);
+		//hook.callbackData = t;	
+		//hook.setCCallback(_systray_menu_callback());
 	}
 	
 	static var _systray_destroy_icon = neko.Lib.load("systools","systray_destroy_icon",1);

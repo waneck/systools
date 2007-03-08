@@ -129,7 +129,7 @@ int systools_menu_add_item( HMENU *hmenu, char *caption, DWORD callbackID )
 	return bResult;
 }
 
-int systools_menu_show( HWND *hwnd, HMENU *hmenu, int we )
+int systools_menu_show( HWND *hwnd, HMENU *hmenu )
 {
 	int t;
 	POINT pt;
