@@ -52,7 +52,7 @@ tray_icon *systools_win_create_tray_icon(HWND *wnd,char *ico,char *tooltip){
 		tray->msg_callback = tray_menu_cb;	
 				
 		structNid.cbSize			= nid_size;
-		structNid.hWnd				= wnd;								// handle to window:
+		structNid.hWnd				= *wnd;								// handle to window:
 		structNid.uID				= 0;								// unique id, for support of more than 1 tray icon at the same, not using this.
 		structNid.uFlags			= NIF_ICON | NIF_MESSAGE | NIF_TIP;	// flags
 		structNid.uCallbackMessage	= 9001;								// WMU_TRAYICON_HOVER  callback
@@ -78,8 +78,68 @@ void systools_win_destroy_tray_icon( tray_icon *icon )
 	free(icon);
 }
 
-void* tray_menu_cb( void* data, void* msgid, void* p1, void* p2 )
+void* tray_menu_cb( void* data, void* msgid, void* msgid2, void* p1, void* p2 )
 {
 	tray_icon *tray = (tray_icon*) data;
-	printf( "%i - %i - %i\n", msgid, p1, p2 );
+	printf( "%i - %i - %i - %i\n", msgid, msgid2, p1, p2 );
+}
+
+
+
+// Menus code
+HMENU *systools_menu_create()
+{
+	HMENU *hmenu = malloc(sizeof(HMENU));
+	*hmenu = CreatePopupMenu();
+	return hmenu;
+}
+
+void systools_menu_destroy( HMENU *hmenu )
+{
+	DestroyMenu( *hmenu );
+}
+
+int systools_menu_add_item( HMENU *hmenu, char *caption, DWORD callbackID )
+{
+	int bResult = 0;
+
+	if (caption)
+	{
+		MENUITEMINFO mii;
+		memset(&mii, 0, sizeof(MENUITEMINFO));
+		mii.cbSize		= sizeof( MENUITEMINFO );
+		mii.fMask		= MIIM_TYPE | MIIM_ID;
+		if (strcmp(caption,"--"))
+			mii.fType		= MFT_STRING;
+		else
+			mii.fType		= MFT_SEPARATOR;
+		mii.dwTypeData	= caption;
+		mii.wID			= callbackID;
+		mii.hSubMenu	= *hmenu;
+
+		InsertMenuItem(
+			*hmenu,
+			callbackID,
+			TRUE,
+			&mii );
+		
+		bResult = 1;
+	}
+
+	return bResult;
+}
+
+int systools_menu_show( HWND *hwnd, HMENU *hmenu, int we )
+{
+	int t;
+	POINT pt;
+	GetCursorPos(&pt);
+	t = TrackPopupMenu(*hmenu, 
+		TPM_RIGHTBUTTON | TPM_RETURNCMD, 
+		pt.x, 
+		pt.y, 
+		0, 
+		hwnd, 
+		NULL);
+	return t;
 }

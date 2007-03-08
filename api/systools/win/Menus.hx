@@ -26,5 +26,30 @@
 package systools.win;
 
 class Menus {
+	var m : Void;
 	
+	public function new()
+	{
+		m = win_menu_create();
+	}
+	
+	public function dispose()
+	{
+		_win_destroy_menu( m );
+	}
+	
+	public function addItem( caption : String, msgid : Int ) : Void
+	{
+		_win_add_menu_item( m, untyped caption.__s, msgid );
+	}
+	
+	public function addDivider( msgid : Int ) : Void
+	{
+		_win_add_menu_divider( m, msgid );
+	}
+	
+	static var _win_menu_create = neko.Lib.load("systools","win_menu_create",0);
+	static var _win_destroy_menu = neko.Lib.load("systools","win_destroy_menu",1);
+	static var _win_add_menu_item = neko.Lib.load("systools","win_add_menu_item",3);
+	static var _win_add_menu_divider = neko.Lib.load("systools","win_add_menu_divider",2);
 }
