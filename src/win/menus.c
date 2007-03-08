@@ -20,49 +20,66 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-NOTIFYICONDATA* systools_win_set_tray_icon(HWND *wnd,char *ico,char *tooltip)
-{
+const char tray_icon_error[255];
+#define set_tray_error(x) strcpy((char*)&tray_icon_error,x)
+
+tray_icon *systools_win_create_tray_icon(HWND *wnd,char *ico,char *tooltip){
+	
 	HICON hIcon = 0;
 	NOTIFYICONDATA structNid;
 	
-	if (!ico && !tooltip)
-	{
-		printf( "SetTrayIcon; invalid arguments" );
-	}
-	
-	if (strlen (ico) != 0)
-	{
-		hIcon = (HICON) LoadImage( 0, ico, IMAGE_ICON, 0, 0, LR_LOADFROMFILE ); 
+	if (!ico && !tooltip) {
+		set_tray_error("SetTrayIcon; invalid arguments");
+		return NULL;
 	}
 
-	if (hIcon)
-	{	
-		DWORD dwSetType;
-		dwSetType = NIM_ADD;
-		memset(&structNid, 0 , sizeof(structNid));
-		
-		structNid.cbSize			= sizeof(structNid);
-		structNid.hWnd				= wnd;								// handle to window:
+	if (strlen (ico) == 0) {
+		set_tray_error("SetTrayIcon; invalid icon path");
+		return NULL;
+	}
+
+	hIcon = (HICON) LoadImage( 0, ico, IMAGE_ICON, 0, 0, LR_LOADFROMFILE );
+	
+	if (hIcon==NULL) {
+		set_tray_error("SetTrayIcon; failed loading icon");
+		return NULL; 
+	} else {	
+		long nid_size = sizeof(NOTIFYICONDATA);
+		tray_icon *tray = malloc(sizeof(tray_icon));
+		DWORD dwSetType = NIM_ADD;
+		tray->icon_data = malloc(nid_size);
+		tray->icon_handle = hIcon;
+		tray->msg_callback = tray_menu_cb;	
+				
+		structNid.cbSize			= nid_size;
+		structNid.hWnd				= *wnd;								// handle to window:
 		structNid.uID				= 0;								// unique id, for support of more than 1 tray icon at the same, not using this.
 		structNid.uFlags			= NIF_ICON | NIF_MESSAGE | NIF_TIP;	// flags
 		structNid.uCallbackMessage	= 9001;								// WMU_TRAYICON_HOVER  callback
-		structNid.hIcon	= hIcon;										// the icon
+		structNid.hIcon				= hIcon;										// the icon
 		strcpy( structNid.szTip, tooltip );								// tooltip:
 
-
-		if( !Shell_NotifyIcon( dwSetType, &structNid) )
-			printf( "SetTrayIcon Failed" );
-	}
-	else printf( "Unable to get icon %s", ico );
-	return &structNid;
+		if( !Shell_NotifyIcon( dwSetType, &structNid) ) {
+			free(tray->icon_data);
+			free(tray);
+			set_tray_error("SetTrayIcon Failed");
+			return NULL;
+		}
+		return tray;
+	}	
+	return 0; 
 }
 
-void systools_win_destroy_tray_icon(NOTIFYICONDATA *ico)
+void systools_win_destroy_tray_icon( tray_icon *icon )
 {
-	Shell_NotifyIcon( NIM_DELETE, ico );
+	Shell_NotifyIcon( NIM_DELETE, icon->icon_data );
+	DestroyIcon(icon->icon_handle);
+	free(icon->icon_data);
+	free(icon);
 }
 
-void* tray_menu_cb( void* hook, void* msgid, void* p1, void* p2 )
+void* tray_menu_cb( void* data, void* msgid, void* p1, void* p2 )
 {
+	tray_icon *tray = (tray_icon*) data;
 	printf( "%i - %i - %i\n", msgid, p1, p2 );
 }

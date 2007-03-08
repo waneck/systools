@@ -269,19 +269,21 @@ static value systray_create_icon( value w, value iconpath, value tooltip )
 {
 	val_check(tooltip,string);
 	if ( !(val_is_string(iconpath) || val_is_null(iconpath)) )
-	{
-		printf( "The icon path is invalid" );
-		iconpath = alloc_string("");
-		return val_null;
+		val_throw(val_string(tray_error));
+	else {
+		tray_icon *tray = systools_win_create_tray_icon(val_hwnd(w),val_string(iconpath),val_string(tooltip));
+		if (!tray)
+			val_throw(val_string(tray_error));
+
+		return alloc_abstract(k_tray_icon,tray);
 	}
-	return alloc_abstract(k_icondata,systools_win_set_tray_icon(val_hwnd(w),val_string(iconpath),val_string(tooltip)));
 }
 DEFINE_PRIM(systray_create_icon,3);
 
-static value systray_destroy_icon( value ico )
+static value systray_destroy_icon( value tray )
 {
-	val_check_kind(ico,k_icondata);
-	systools_win_destroy_tray_icon(val_trayicon(ico));
+	val_check_kind(tray,k_tray_icon);
+	systools_win_destroy_tray_icon(val_tray_icon(tray));
 	return val_null;
 }
 DEFINE_PRIM(systray_destroy_icon,1);

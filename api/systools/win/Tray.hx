@@ -30,41 +30,24 @@ import systools.win.Events;
 class Tray {
 	
 	var t : Void;
-	var window : swhx.Window;
+	
 	public var hook : swhx.MessageHook;
-	public var param1(getParam1,null) : Dynamic;
-	public var param2(getParam2,null) : Dynamic;
 	
-	public function new( ico : Void, hw : swhx.Window )
+	static var _systray_create_icon = neko.Lib.load("systools","systray_create_icon",3);
+	static var _systray_get_callback = neko.Lib.load("systool","systray_get_callback",1);
+	public function new( w : swhx.Window, iconPath : String, tooltip : String ) {
 	{
-		untyped t = ico;
-		window = hw;
+		t = _systray_create_icon(untyped wnd.handle,untyped iconPath.__s,untyped tooltip.__s);
+		hook = wnd.addMessageHook
+			( 0x200		// message ID part one 
+			, null		// message ID part two (future prov. for OS-X)
+			);
+		hook.setCallbackData(t);	
+		hook.setCCallback(_systray_get_callback);
 	}
-	
-	public function getParam1() : Dynamic
-	{
-		return hook.p1;
-	}
-	
-	public function getParam2() : Dynamic
-	{
-		return hook.p2;
-	}
-
-	public function setTrayEvent( evtHandler : Void->Int )
-	{
-		hook = window.addMessageHook( untyped 0x200 );  // untyped Events.TRAYEVENT
-    	//hook.setNekoCallback(evtHandler);
-	}
-	
+		
 	static var _systray_destroy_icon = neko.Lib.load("systools","systray_destroy_icon",1);
 	public function dispose() {
 		return _systray_destroy_icon(t);
-	}
-	
-	static var _systray_create_icon = neko.Lib.load("systools","systray_create_icon",3);
-	public static function createTrayIcon( wnd : swhx.Window, iconPath : String, tooltip : String ) {
-		var t = _systray_create_icon(untyped wnd.handle,untyped iconPath.__s,untyped tooltip.__s);
-		return new Tray(t,wnd);
-	}
+	}	
 }

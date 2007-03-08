@@ -18,12 +18,24 @@
 
 #include <windows.h>
 
-NOTIFYICONDATA* systools_win_set_tray_icon(HWND* wnd,const char* ico,const char* tooltip);
-void systools_win_destroy_tray_icon(NOTIFYICONDATA* ico);
-void* tray_menu_cb(void* hook, void* msgid, void* p1, void* p2);
+typedef void* (*_tray_menu_cb)(void* custom, void* id1, void *id2, void* p1, void* p2);
 
+typedef struct _tray_icon {	
+	NOTIFYICONDATA* icon_data;
+	HICON			icon_handle;	
+	_tray_menu_cb	msg_callback;
+} tray_icon;
+
+DEFINE_KIND(k_tray_icon);
 DEFINE_KIND(k_window_msg_cb);
 
+const char tray_error[255];
+
+#define val_tray_icon(x) ((tray_icon*)val_data(x))
 #define val_hwnd(x) ((HWND*)val_data(x))
-#define val_trayicon(x) ((NOTIFYICONDATA*)val_data(x))
 #define val_menu(x) ((HMENU*)val_data(x))
+
+tray_icon *systools_create_set_tray_icon(HWND* wnd,const char* ico,const char* tooltip);
+void systools_win_destroy_tray_icon(tray_icon *tray);
+void* tray_menu_cb(void* custom, void* id1, void *id2, void* p1, void* p2);
+
