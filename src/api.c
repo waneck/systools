@@ -299,6 +299,59 @@ static value systray_menu_callback()
 DEFINE_PRIM(systray_menu_callback,0);
 
 // Menu specific code
+static value win_menu_create()
+{
+	return alloc_abstract(k_menu,systools_menu_create());
+}
+DEFINE_PRIM(win_menu_create,0);
+
+/*
+static value win_set_tray_menu( value w, value menu )
+{
+	private_data *p = system_window_get_private(val_window(w));
+	val_check_kind(menu,k_menu);
+	p->traymenu = val_menu(menu);
+}
+
+static value win_set_right_click_menu( value w, value menu )
+{
+	private_data *p = system_window_get_private(val_window(w));
+	val_check_kind(menu,k_menu);
+	p->rightclickmenu = val_menu(menu);
+}
+*/
+
+static void win_destroy_menu( value menu )
+{
+	val_check_kind(menu,k_menu);
+	systools_menu_destroy(*val_menu(menu));
+}
+DEFINE_PRIM(win_destroy_menu,1);
+
+static value win_destroy_tray_icon( value ico )
+{
+	val_check_kind(ico,k_icondata);
+	systools_win_destroy_tray_icon(val_tray_icon(ico));
+	return val_null;
+}
+DEFINE_PRIM(win_destroy_tray_icon,1);
+
+static win_add_menu_item( value menu, value caption, value callbackid )
+{
+	val_check_kind(menu,k_menu);
+	val_check(caption,string);
+	val_check(callbackid,int);
+	systools_menu_add_item(val_menu(menu), val_string(caption), val_int(callbackid));
+}
+DEFINE_PRIM(win_add_menu_item,3);
+
+static win_add_menu_divider( value menu, value callbackid )
+{
+	val_check_kind(menu,k_menu);
+	val_check(callbackid,int);
+	systools_menu_add_item(val_menu(menu), (char*)"--", val_int(callbackid));
+}
+DEFINE_PRIM(win_add_menu_divider,2);
 
 // Display specific code
 static value display_set_mode( value width, value height, value depth )
