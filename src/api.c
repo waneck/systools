@@ -340,6 +340,17 @@ static win_show_menu( value w, value m )
 DEFINE_PRIM(win_show_menu,2);
 
 // Display specific code
+static value get_screen_size()
+{
+	value w = alloc_int( system_get_screen_width() );
+	value h = alloc_int( system_get_screen_height() );
+	value o = alloc_object(NULL);
+	alloc_field( o, val_id("w"), w );
+	alloc_field( o, val_id("h"), h );
+	return o;
+}
+DEFINE_PRIM(get_screen_size,0);
+
 /*
 static value display_set_mode( value width, value height, value depth )
 {

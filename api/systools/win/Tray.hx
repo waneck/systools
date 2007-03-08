@@ -30,19 +30,12 @@ import systools.win.Events;
 class Tray {
 	
 	var t 		: Void;
-	var hook 	: swhx.MessageHook;
 	
 	static var _systray_create_icon = neko.Lib.load("systools","systray_create_icon",3);
 	static var _systray_menu_callback = neko.Lib.load("systools","systray_menu_callback",0);
 	public function new( w : swhx.Window, iconPath : String, tooltip : String )
 	{
 		t = _systray_create_icon(untyped w.handle,untyped iconPath.__s,untyped tooltip.__s);
-		//hook = w.addMessageHook
-		//	( untyped Events.TRAYEVENT		// message ID part one 
-		//	, null							// message ID part two (future prov. for OS-X)
-		//	);
-		//hook.callbackData = t;	
-		//hook.setCCallback(_systray_menu_callback());
 	}
 	
 	static var _systray_destroy_icon = neko.Lib.load("systools","systray_destroy_icon",1);

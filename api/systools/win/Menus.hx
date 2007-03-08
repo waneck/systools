@@ -30,7 +30,7 @@ class Menus {
 	
 	public function new()
 	{
-		m = win_menu_create();
+		m = _win_menu_create();
 	}
 	
 	public function dispose()

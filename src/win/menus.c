@@ -26,7 +26,6 @@ const char tray_icon_error[255];
 tray_icon *systools_win_create_tray_icon(HWND *wnd,char *ico,char *tooltip){
 	
 	HICON hIcon = 0;
-	NOTIFYICONDATA structNid;
 	
 	if (!ico && !tooltip) {
 		set_tray_error("SetTrayIcon; invalid arguments");
@@ -52,7 +51,7 @@ tray_icon *systools_win_create_tray_icon(HWND *wnd,char *ico,char *tooltip){
 		tray->msg_callback = tray_menu_cb;	
 				
 		tray->icon_data->cbSize				= nid_size;
-		tray->icon_data->hWnd				= *wnd;								// handle to window:
+		tray->icon_data->hWnd				= wnd;								// handle to window:
 		tray->icon_data->uID				= 0;								// unique id, for support of more than 1 tray icon at the same, not using this.
 		tray->icon_data->uFlags				= NIF_ICON | NIF_MESSAGE | NIF_TIP;	// flags
 		tray->icon_data->uCallbackMessage	= 9001;								// WMU_TRAYICON_HOVER  callback
