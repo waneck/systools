@@ -33,12 +33,14 @@ class Display {
 		@param depth Bit-depth (usual is 16 or 32)
 		@return true if successful
 	*/
-	public static function setMode(width:Int,height:Int,depth:Int){
+	public static function setMode(width:Int,height:Int,depth:Int):Bool
+	{
 		return _display_set_mode(width,height,depth);
 	}
 	
 	/** Sets the display back to the default resolution. */
-	public static function setDefaultMode(){
+	public static function setDefaultMode():Void
+	{
 		_display_set_default_mode();
 	}
 	
@@ -48,7 +50,8 @@ class Display {
 		@param depth Bit-depth (usual is 16 or 32)
 		@return true if the mode is supported, false otherwise
 	*/
-	public static function isModeSupported(width:Int,height:Int,depth:Int){
+	public static function isModeSupported(width:Int,height:Int,depth:Int):Bool
+	{
 		return _display_is_mode_supported(width,height,depth);
 	}
 	
