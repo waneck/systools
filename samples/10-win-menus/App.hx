@@ -132,7 +132,7 @@ class App {
 		
 	static function cleanUp() {
 		/*
-		All release methods fire exceptions! We need to look into that...
+		All release methods fire exceptions!Needs looking into ...
 		*/
 		
 		//ms11.dispose();
@@ -141,9 +141,9 @@ class App {
 		//ms3.dispose();
 		//mm.dispose();
 		//m.dispose();
-		//window.removeMessageHook(hook);
-		//window.removeMessageHook(mhook);
-		//window.removeMessageHook(thook);
+		window.removeMessageHook(hook);
+		window.removeMessageHook(mhook);
+		window.removeMessageHook(thook);
 		//tray.dispose();
 		// allow window to close:
 		return true;		
