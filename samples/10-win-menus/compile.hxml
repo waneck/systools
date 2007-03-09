@@ -1,0 +1,10 @@
+-main App
+-neko app.n
+-lib swhx
+-lib systools
+
+--next
+-main Flash
+-swf ui.swf
+-swf-header 400:300:20:EEEEFF
+-lib swhx

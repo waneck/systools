@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sample title="Window Message Hooks" description="README.html">
+	<Build>
+		<Haxe>compile.hxml</Haxe>
+	</Build>
+	<Run>
+		<Boot/>
+	</Run>
+</Sample>
