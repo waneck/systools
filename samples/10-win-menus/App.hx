@@ -64,7 +64,7 @@ class App {
 		* The numeric value passed to addItem, addDivider and addSubmenu dictate where 
 		* the item will be placed as well as what value is returned to the window hook
 		* handler.  Make sure these are unique throughout the entire menu hierarchy
-		* /
+		*/
 		
 		mm = new systools.win.Menus( false );
 		
@@ -101,7 +101,7 @@ class App {
 		m.addItem( "option 2", 2 );
 		m.addItem( "option 3", 3 );
 		
-    	hook = window.addMessageHook(untyped Events.RBUTTONUP /*WM_RBUTTONUP on Windows*/);
+    	hook = window.addMessageHook(untyped Events.RBUTTONUP);
 		hook.setNekoCallback(mouseMoveHook);
     	mhook = window.addMessageHook(untyped Events.MENUEVENT);
 		mhook.setNekoCallback(menuClickHook);
