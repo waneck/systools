@@ -28,6 +28,9 @@ class App {
 		window.onRightClick = function() {
 			return false;
 		}
+		
+		// clean up after ourselves:
+		window.onClose = cleanUp;
 
 		// create an incoming communication Server
 		var server = new neko.net.RemotingServer();
@@ -125,5 +128,24 @@ class App {
 		if ( Std.string(thook.p2) == Std.string(Events.RBUTTONUP) )
 			trace( "Option " + m.showPopup( window.handle ) + " was selected!" );
 		return 0;
+	}
+		
+	static function cleanUp() {
+		/*
+		All release methods fire exceptions! We need to look into that...
+		*/
+		
+		//ms11.dispose();
+		//ms1.dispose();
+		//ms2.dispose();
+		//ms3.dispose();
+		//mm.dispose();
+		//m.dispose();
+		//window.removeMessageHook(hook);
+		//window.removeMessageHook(mhook);
+		//window.removeMessageHook(thook);
+		//tray.dispose();
+		// allow window to close:
+		return true;		
 	}
 }
