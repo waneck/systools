@@ -55,6 +55,16 @@ class Display {
 		return _display_is_mode_supported(width,height,depth);
 	}
 	
+	/**
+	Retrieves the screen dimensions of the primary device and returns as an object with the
+	fields h and w for height and width respectively
+	**/
+	public static function getScreenSize()
+	{
+		return _get_screen_size();
+	}
+
+	static var _get_screen_size = neko.Lib.load("systools","get_screen_size",0);
 	static var _display_set_mode = neko.Lib.load("systools","display_set_mode",3);
 	static var _display_set_default_mode = neko.Lib.load("systools","display_set_default_mode",0);
 	static var _display_is_mode_supported = neko.Lib.load("systools","display_is_mode_supported",3);

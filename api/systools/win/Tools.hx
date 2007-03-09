@@ -49,15 +49,4 @@ class Tools {
 			);
 	}
 	static var _win_create_process = neko.Lib.load("systools","win_create_process",5);
-	
-	/**
-	Retrieves the screen dimensions of the primary device and returns as an object with the
-	fields h and w for height and width respectively
-	**/
-	public static function getScreenSize()
-	{
-		return _get_screen_size();
-	}
-	static var _get_screen_size = neko.Lib.load("systools","get_screen_size",0);
-
 }

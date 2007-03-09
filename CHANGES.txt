@@ -1,5 +1,8 @@
+2007-03-09
+	Moved systools.win.Tools.getScreenSize() to systools.win.Display. [IT]
+
 2007-03-08
-	Added systools.win.Display and supporting code for changing screen mode on Windows.
+	Added systools.win.Display and supporting code for changing screen mode on Windows. [IT]
 	
 2006-11-28 
 	Initial Linux port: 
