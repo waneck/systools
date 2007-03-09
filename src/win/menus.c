@@ -89,6 +89,13 @@ void* tray_menu_cb( void* data, void* msgid, void* msgid2, void* p1, void* p2 )
 HMENU *systools_menu_create()
 {
 	HMENU *hmenu = malloc(sizeof(HMENU));
+	*hmenu = CreateMenu();
+	return hmenu;
+}
+
+HMENU *systools_popup_menu_create()
+{
+	HMENU *hmenu = malloc(sizeof(HMENU));
 	*hmenu = CreatePopupMenu();
 	return hmenu;
 }
@@ -128,7 +135,20 @@ int systools_menu_add_item( HMENU *hmenu, char *caption, DWORD callbackID )
 	return bResult;
 }
 
-int systools_menu_show( HWND *hwnd, HMENU *hmenu )
+int systools_menu_add_submenu( HMENU *hmenu, HMENU *submenu, char *caption, DWORD callbackID )
+{
+	int bResult = 0;
+
+	if (caption)
+	{
+		InsertMenu(*hmenu, callbackID, MF_STRING | MF_POPUP, (UINT)*submenu, caption);
+		bResult = 1;
+	}
+
+	return bResult;
+}
+
+int systools_popup_menu_show( HWND *hwnd, HMENU *hmenu )
 {
 	int t;
 	POINT pt;
@@ -140,5 +160,14 @@ int systools_menu_show( HWND *hwnd, HMENU *hmenu )
 		0, 
 		hwnd, 
 		NULL);
+	return t;
+}
+
+int systools_menu_show( HWND *hwnd, HMENU *hmenu )
+{
+	int t;
+	POINT pt;
+	GetCursorPos(&pt);
+	t = SetMenu(hwnd, *hmenu);
 	return t;
 }

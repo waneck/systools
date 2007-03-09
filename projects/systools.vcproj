@@ -133,6 +133,12 @@
 			RelativePath="..\src\dialogs.h">
 		</File>
 		<File
+			RelativePath="..\src\win\display.c">
+		</File>
+		<File
+			RelativePath="..\src\win\display.h">
+		</File>
+		<File
 			RelativePath="..\src\win\menus.c">
 		</File>
 		<File

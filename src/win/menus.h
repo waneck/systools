@@ -46,6 +46,9 @@ void systools_win_destroy_tray_icon(tray_icon *tray);
 void* tray_menu_cb(void* custom, void* id1, void *id2, void* p1, void* p2);
 
 HMENU *systools_menu_create();
+HMENU *systools_popup_menu_create();
 void systools_menu_destroy( HMENU *hmenu );
 int systools_menu_add_item( HMENU* hmenu, char* caption, DWORD callbackID );
+int systools_menu_add_submenu( HMENU *hmenu, HMENU *submenu, char *caption, DWORD callbackID );
+int systools_popup_menu_show( HWND *hwnd, HMENU *hmenu );
 int systools_menu_show( HWND *hwnd, HMENU *hmenu );

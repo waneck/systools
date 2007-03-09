@@ -300,6 +300,12 @@ static value win_menu_create()
 }
 DEFINE_PRIM(win_menu_create,0);
 
+static value win_popup_menu_create()
+{
+	return alloc_abstract(k_menu,systools_popup_menu_create());
+}
+DEFINE_PRIM(win_popup_menu_create,0);
+
 static void win_destroy_menu( value menu )
 {
 	val_check_kind(menu,k_menu);
@@ -324,6 +330,16 @@ static win_add_menu_item( value menu, value caption, value callbackid )
 }
 DEFINE_PRIM(win_add_menu_item,3);
 
+static win_add_menu_submenu( value menu, value submenu, value caption, value callbackid )
+{
+	val_check_kind(menu,k_menu);
+	val_check_kind(submenu,k_menu);
+	val_check(caption,string);
+	val_check(callbackid,int);
+	systools_menu_add_submenu(val_menu(menu), val_menu(submenu), val_string(caption), val_int(callbackid));
+}
+DEFINE_PRIM(win_add_menu_submenu,4);
+
 static win_add_menu_divider( value menu, value callbackid )
 {
 	val_check_kind(menu,k_menu);
@@ -339,6 +355,13 @@ static win_show_menu( value w, value m )
 }
 DEFINE_PRIM(win_show_menu,2);
 
+static win_show_popup_menu( value w, value m )
+{
+	val_check_kind(m,k_menu);
+	return alloc_int(systools_popup_menu_show( val_hwnd(w), val_menu(m) ));
+}
+DEFINE_PRIM(win_show_popup_menu,2);
+
 // Display specific code
 static value get_screen_size()
 {
@@ -351,7 +374,6 @@ static value get_screen_size()
 }
 DEFINE_PRIM(get_screen_size,0);
 
-/*
 static value display_set_mode( value width, value height, value depth )
 {
 	int r;
@@ -380,6 +402,5 @@ static value display_is_mode_supported( value width, value height, value depth )
 	return alloc_bool(r);
 }
 DEFINE_PRIM(display_is_mode_supported,3);
-*/
 
 #endif
