@@ -22,8 +22,11 @@
 void systools_registry_set_value( int key, const char * subkey, const char * valuename, const char * value) {
 	HKEY k;
 	HKEY hkey = (HKEY) (key | 0x80000000);
-	RegCreateKey(hkey, subkey, &k);
-	RegSetValueEx(k, valuename, 0, REG_SZ, value, (DWORD)(strlen(value)+1));
+	if (RegCreateKeyEx(hkey, subkey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &k, NULL) == ERROR_SUCCESS)
+	{
+		RegSetValueEx(k, valuename, 0, REG_SZ, value, (DWORD)(strlen(value)+1));
+		RegCloseKey(k);
+	}
 }
 
 char * systools_registry_get_value( int key, const char * subkey, const char * valuename ) {
@@ -32,11 +35,17 @@ char * systools_registry_get_value( int key, const char * subkey, const char * v
 	DWORD ksize = 16000;
 	char kdata[16000];
 	HKEY hkey = (HKEY) (key | 0x80000000);
-	RegOpenKey(hkey, subkey, &k);
-	if (RegQueryValueEx(k, valuename, NULL, &ktype,(LPBYTE)kdata,&ksize) ==  ERROR_SUCCESS) {
-		return strdup(kdata);
-	} else 
-		return NULL;
+	char *out = NULL;
+
+	if (RegOpenKeyEx(hkey, subkey, 0, KEY_READ, &k) == ERROR_SUCCESS)
+	{
+		if (RegQueryValueEx(k, valuename, NULL, &ktype,(LPBYTE)kdata,&ksize) ==  ERROR_SUCCESS) 
+		{
+			out = _strdup(kdata);
+		}
+		RegCloseKey(k);
+	}
+	return out;
 }
 
 void systools_registry_delete_key( int key, const char * subkey ) {

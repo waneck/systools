@@ -50,7 +50,7 @@ class Registry {
 	 * Get the value of a key in registry.
 	 */
 	static public function getValue( key : Int, subKey : String, valuename : String ) : String {
-		return new String(_get_value( key, untyped subKey.__s, untyped valuename.__s ));
+		return _get_value( key, untyped subKey.__s, untyped valuename.__s );
 	}
 	
 	static public function deleteKey( key : Int, subKey : String) : Void {
