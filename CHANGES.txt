@@ -1,6 +1,6 @@
 2007-03-14
     Migrated win/registry.c to use non-deprecated Win32 functions (for closer Vista compatability).
-    Corrected Registry.hx to return a null rather than the string 'null' when the key doesn't
+    Corrected Registry.getValue() to return a null rather than the string 'null' when the key doesn't
     exist. [IT]
     
 2007-03-09
