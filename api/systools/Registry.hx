@@ -50,7 +50,11 @@ class Registry {
 	 * Get the value of a key in registry.
 	 */
 	static public function getValue( key : Int, subKey : String, valuename : String ) : String {
-		return _get_value( key, untyped subKey.__s, untyped valuename.__s );
+		var out:String=_get_value( key, untyped subKey.__s, untyped valuename.__s );
+		if (out==null)
+			return null;
+		// Need to convert neko Strings to haXe, according to Asger [IT]
+		return new String(out);
 	}
 	
 	static public function deleteKey( key : Int, subKey : String) : Void {
