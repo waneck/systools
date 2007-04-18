@@ -1,3 +1,6 @@
+2007-04-18
+    Added Browser.launchURL() for Windows, Mac [IT]
+
 2007-03-14
     Migrated win/registry.c to use non-deprecated Win32 functions (for closer Vista compatability).
     Corrected Registry.getValue() to return a null rather than the string 'null' when the key doesn't
