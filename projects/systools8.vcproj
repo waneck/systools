@@ -173,6 +173,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description=""
+				CommandLine="$(InputDir)\deploy.bat"
 			/>
 		</Configuration>
 	</Configurations>
@@ -181,6 +183,14 @@
 	<Files>
 		<File
 			RelativePath="..\src\api.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\win\browser.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\browser.h"
 			>
 		</File>
 		<File

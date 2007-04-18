@@ -176,6 +176,15 @@ static value misc_get_key_state( value key ) {
 }
 DEFINE_PRIM(misc_get_key_state,1);
 
+// ---------------- Browser tools ---------------------------------------
+static value browser_launch( value url )
+{
+	int r;
+	val_check(url, string);
+	r=systools_browser_launch(val_string(url));
+	return alloc_bool(r);
+}
+DEFINE_PRIM(browser_launch,1);
 
 // ---------------- Registry tools --------------------------------------
 
