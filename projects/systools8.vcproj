@@ -173,8 +173,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
-				CommandLine="$(InputDir)\deploy.bat"
 			/>
 		</Configuration>
 	</Configurations>
