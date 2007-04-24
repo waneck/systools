@@ -27,6 +27,8 @@
 #include "misc.h"
 #include "registry.h"
 #include "dialogs.h"
+#include "browser.h"
+#include "fileutils.h"
 
 // ---------------- Dialog methods -------------------------------------------
 
