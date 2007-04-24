@@ -216,6 +216,14 @@
 			>
 		</File>
 		<File
+			RelativePath="..\src\win\fileutils.c"
+			>
+		</File>
+		<File
+			RelativePath="..\src\fileutils.h"
+			>
+		</File>
+		<File
 			RelativePath="..\src\win\icons.h"
 			>
 		</File>
