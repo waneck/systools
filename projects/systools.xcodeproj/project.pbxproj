@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C10CEE90BDE4F5D009546D7 /* browser.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C10CEE80BDE4F5D009546D7 /* browser.c */; };
+		3C10CEEF0BDE4FB1009546D7 /* fileutils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C10CEEE0BDE4FB1009546D7 /* fileutils.c */; };
 		E80527300AA0CA69008626F8 /* registry.c in Sources */ = {isa = PBXBuildFile; fileRef = E805272F0AA0CA69008626F8 /* registry.c */; };
 		E80527320AA0CA85008626F8 /* registry.h in Headers */ = {isa = PBXBuildFile; fileRef = E80527310AA0CA85008626F8 /* registry.h */; };
 		E82DCD080AA2D7DE00ACDBBE /* systools.ndll in CopyFiles */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* systools.ndll */; };
@@ -36,6 +38,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3C10CEE80BDE4F5D009546D7 /* browser.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = browser.c; path = ../src/mac/browser.c; sourceTree = SOURCE_ROOT; };
+		3C10CEEE0BDE4FB1009546D7 /* fileutils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = fileutils.c; path = ../src/mac/fileutils.c; sourceTree = SOURCE_ROOT; };
 		D2AAC0630554660B00DB518D /* systools.ndll */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = systools.ndll; sourceTree = BUILT_PRODUCTS_DIR; };
 		E805272F0AA0CA69008626F8 /* registry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = registry.c; path = ../src/mac/registry.c; sourceTree = SOURCE_ROOT; };
 		E80527310AA0CA85008626F8 /* registry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = registry.h; path = ../src/registry.h; sourceTree = SOURCE_ROOT; };
@@ -78,6 +82,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				3C10CEEE0BDE4FB1009546D7 /* fileutils.c */,
+				3C10CEE80BDE4F5D009546D7 /* browser.c */,
 				E80527310AA0CA85008626F8 /* registry.h */,
 				E805272F0AA0CA69008626F8 /* registry.c */,
 				E8B7ABFD0A99B1B90083A87B /* dialogs.c */,
@@ -161,6 +167,8 @@
 				E8F2C55D0A97696400900DCE /* clipboard.c in Sources */,
 				E8B7ABFE0A99B1B90083A87B /* dialogs.c in Sources */,
 				E80527300AA0CA69008626F8 /* registry.c in Sources */,
+				3C10CEE90BDE4F5D009546D7 /* browser.c in Sources */,
+				3C10CEEF0BDE4FB1009546D7 /* fileutils.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
