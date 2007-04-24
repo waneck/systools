@@ -1,3 +1,6 @@
+2007-04-24
+    Added FileUtils.getTempFolder() for Windows, Mac, Linux [IT]
+
 2007-04-18
     Added Browser.launchURL() for Windows, Mac [IT]
 

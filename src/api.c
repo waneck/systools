@@ -186,6 +186,20 @@ static value browser_launch( value url )
 }
 DEFINE_PRIM(browser_launch,1);
 
+// ---------------- File Utils ---------------------------------------
+static value fileutils_get_temp_folder()
+{
+	char * v;
+	value result = val_null;
+	v = systools_fileutils_get_temp_folder(); 
+	if (v) {			
+		result = alloc_string(v);
+		free((void*)v);
+	}
+	return result;	
+}
+DEFINE_PRIM(fileutils_get_temp_folder,0);
+
 // ---------------- Registry tools --------------------------------------
 
 
