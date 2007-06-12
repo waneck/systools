@@ -24,3 +24,5 @@ mkdir systools\ndll\Windows
 copy bin\win\systools.ndll systools\ndll\Windows
 mkdir systools\ndll\Mac
 copy bin\mac\systools.ndll systools\ndll\Mac
+mkdir systools\ndll\Linux
+copy bin\mac\systools.ndll systools\ndll\Linux
