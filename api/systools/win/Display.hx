@@ -27,6 +27,13 @@ package systools.win;
 
 class Display {
 	
+	/// This only works on Windows
+	static var check_os = switch( neko.Sys.systemName() ) 
+	{ 
+		case "Windows":	null; 
+		default: throw "Windows is required to run systools.win.Display"; 
+	}
+	
 	/** Set the screen resolution (set temporarily - when the neko app quits the screen mode will be restored.)
 		@param width Width in pixels
 		@param height Height in pixels
