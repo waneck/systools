@@ -29,6 +29,7 @@
 #include "dialogs.h"
 #include "browser.h"
 #include "fileutils.h"
+#include "display.h"
 
 // ---------------- Dialog methods -------------------------------------------
 
@@ -204,17 +205,16 @@ DEFINE_PRIM(fileutils_get_temp_folder,0);
 
 // ---------------- Display tools --------------------
 
-#include "display.h"
-
 // Display specific code
 static value display_get_screen_size()
 {
     dimensions dim;
-	systools_display_get_screen_size(&dim);
-	
-	value w = alloc_int(dim.width);
-	value h = alloc_int(dim.height);
+	value w;
+	value h;
 	value o = alloc_object(NULL);
+	systools_display_get_screen_size(&dim);
+	w=alloc_int(dim.width);
+	h=alloc_int(dim.height);
 	alloc_field( o, val_id("w"), w );
 	alloc_field( o, val_id("h"), h );
 	return o;
@@ -405,18 +405,6 @@ static win_show_popup_menu( value w, value m )
 	return alloc_int(systools_popup_menu_show( val_hwnd(w), val_menu(m) ));
 }
 DEFINE_PRIM(win_show_popup_menu,2);
-
-// Display specific code
-static value get_screen_size()
-{
-	value w = alloc_int( system_get_screen_width() );
-	value h = alloc_int( system_get_screen_height() );
-	value o = alloc_object(NULL);
-	alloc_field( o, val_id("w"), w );
-	alloc_field( o, val_id("h"), h );
-	return o;
-}
-DEFINE_PRIM(get_screen_size,0);
 
 static value display_set_mode( value width, value height, value depth )
 {

@@ -18,6 +18,7 @@
 /* ******************************************************************************** */
 
 #include <windows.h>
+#include "../display.h"
 #include "display.h"
 
 /** Set the screen resolution (set temporarily - when the app quits the
@@ -58,4 +59,10 @@ int systools_win_display_is_mode_supported(int width, int height, int depth) {
 	error=ChangeDisplaySettingsEx(NULL,&devMode,NULL,CDS_FULLSCREEN|CDS_TEST,NULL);
 
 	return (error==DISP_CHANGE_SUCCESSFUL);
+}
+
+void systools_display_get_screen_size(dimensions *pDim)
+{
+	pDim->width=GetSystemMetrics(SM_CXSCREEN);
+	pDim->height=GetSystemMetrics(SM_CYSCREEN);
 }
