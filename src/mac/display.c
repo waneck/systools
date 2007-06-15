@@ -22,7 +22,6 @@
 	
 void systools_display_get_screen_size(dimensions *pDim)
 {
-	CGSize cgDim=CGDisplayScreenSize(CGMainDisplayID());
-	pDim->width=(int)(cgDim.width+0.5);
-	pDim->height=(int)(cgDim.height+0.5);
+	pDim->width=CGDisplayPixelsWide(CGMainDisplayID());
+	pDim->height=CGDisplayPixelsHigh(CGMainDisplayID());
 }

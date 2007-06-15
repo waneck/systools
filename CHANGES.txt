@@ -1,3 +1,6 @@
+2007-06-15
+	Added systools.Display.getScreenSize() for Mac and Windows [IT]
+
 2007-06-12 Beta 0.0.11 [IT]
 
 2007-06-12
