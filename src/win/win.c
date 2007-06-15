@@ -126,8 +126,6 @@ int systools_win_create_process( const char *app, const char *args, const char *
 	return GetLastError();
 }
 
-
-
 int system_get_screen_width()
 {
 	return GetSystemMetrics( SM_CXSCREEN );

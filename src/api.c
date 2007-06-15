@@ -202,6 +202,25 @@ static value fileutils_get_temp_folder()
 }
 DEFINE_PRIM(fileutils_get_temp_folder,0);
 
+// ---------------- Display tools --------------------
+
+#include "display.h"
+
+// Display specific code
+static value display_get_screen_size()
+{
+    dimensions dim;
+	systools_display_get_screen_size(&dim);
+	
+	value w = alloc_int(dim.width);
+	value h = alloc_int(dim.height);
+	value o = alloc_object(NULL);
+	alloc_field( o, val_id("w"), w );
+	alloc_field( o, val_id("h"), h );
+	return o;
+}
+DEFINE_PRIM(display_get_screen_size,0);
+
 // ---------------- Registry tools --------------------------------------
 
 
