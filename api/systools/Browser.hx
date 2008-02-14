@@ -37,7 +37,11 @@ class Browser {
 	    var sys:String=neko.Sys.systemName();
 	    if ((sys!="Mac")&&(sys!="Windows"))
 			throw "systools.Browser.launch() only works on Mac or Windows"; 
-	
+		
+		/* Windows needs the string to be in quotes - deals with spaces etc. */
+		if (sys == "Windows")
+			targetURL = '"' + targetURL + '"';
+			
 		return _browser_launch(untyped targetURL.__s);
 	}
 	

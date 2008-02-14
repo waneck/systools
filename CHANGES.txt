@@ -1,3 +1,6 @@
+2008-02-14
+    Added quotes round browser URL in Browser.launchURL() to deal with spaces in Windows urls. [IT]
+	
 2007-06-15
 	Added systools.Display.getScreenSize() for Mac and Windows [IT]
 
