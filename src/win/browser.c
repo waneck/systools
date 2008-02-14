@@ -28,5 +28,17 @@
 
 int systools_browser_launch( const char *url) {
 
- return (((int)ShellExecute(NULL, "open", url,NULL, NULL, SW_SHOWNORMAL))>32);
+ int result;
+ char *escapedURL=malloc(8192);
+
+ escapedURL[0]=0;
+ strcat(escapedURL,"\"");
+ strcat(escapedURL,url);
+ strcat(escapedURL,"\"");
+
+ result = (int)ShellExecute(NULL, "open", escapedURL ,NULL, NULL, SW_SHOWNORMAL);
+ 
+ free(escapedURL);
+
+ return (result>32);
 }
