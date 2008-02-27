@@ -85,10 +85,8 @@ class Events {
 	public static var MOUSEFIRST					= 0x0200;
 	public static var MOUSEMOVE						= 0x0200;
 	public static var LBUTTONDOWN					= 0x0201;
-	public static var LBUTTONUP						= 0x0202;
 	public static var LBUTTONDBLCLK					= 0x0203;
 	public static var RBUTTONDOWN					= 0x0204;
-	public static var RBUTTONUP						= 0x0205;
 	public static var RBUTTONDBLCLK					= 0x0206;
 	public static var MBUTTONDOWN					= 0x0207;
 	public static var MBUTTONUP						= 0x0208;

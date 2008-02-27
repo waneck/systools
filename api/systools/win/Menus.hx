@@ -28,9 +28,12 @@ package systools.win;
 class Menus {
 	var m : Void;
 	
-	public function new()
+	public function new( isPopup : Bool )
 	{
-		m = _win_menu_create();
+		if ( isPopup )
+			m = _win_popup_menu_create();
+		else
+			m = _win_menu_create();
 	}
 	
 	public function dispose()
@@ -48,14 +51,27 @@ class Menus {
 		_win_add_menu_divider( m, msgid );
 	}
 	
+	public function addSubmenu( menu : Menus, caption : String, msgid : Int ) : Void
+	{
+		_win_add_menu_submenu( m, untyped menu.m, caption, msgid );
+	}
+	
 	public function show( hwnd : Void )
 	{
 		return _win_show_menu( hwnd, m );
 	}
 	
-	static var _win_menu_create = neko.Lib.load("systools","win_menu_create",0);
+	public function showPopup( hwnd : Void )
+	{
+		return _win_show_popup_menu( hwnd, m );
+	}
+	
+	static var _win_menu_create = neko.Lib.load("systools", "win_menu_create", 0);
+	static var _win_popup_menu_create = neko.Lib.load("systools", "win_popup_menu_create", 0);
 	static var _win_destroy_menu = neko.Lib.load("systools","win_destroy_menu",1);
 	static var _win_add_menu_item = neko.Lib.load("systools","win_add_menu_item",3);
+	static var _win_add_menu_submenu = neko.Lib.load("systools", "win_add_menu_submenu", 4);
 	static var _win_add_menu_divider = neko.Lib.load("systools","win_add_menu_divider",2);
 	static var _win_show_menu = neko.Lib.load("systools","win_show_menu",2);
+	static var _win_show_popup_menu = neko.Lib.load("systools","win_show_popup_menu",2);
 }
