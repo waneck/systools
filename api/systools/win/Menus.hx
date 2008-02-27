@@ -53,7 +53,7 @@ class Menus {
 	
 	public function addSubmenu( menu : Menus, caption : String, msgid : Int ) : Void
 	{
-		_win_add_menu_submenu( m, untyped menu.m, caption, msgid );
+		_win_add_menu_submenu( m, menu.getHandle(), neko.Lib.haxeToNeko( caption ), msgid );
 	}
 	
 	public function show( hwnd : Void )
@@ -64,6 +64,11 @@ class Menus {
 	public function showPopup( hwnd : Void )
 	{
 		return _win_show_popup_menu( hwnd, m );
+	}
+	
+	public function getHandle() : Dynamic
+	{
+		return m;
 	}
 	
 	static var _win_menu_create = neko.Lib.load("systools", "win_menu_create", 0);
