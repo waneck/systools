@@ -97,8 +97,7 @@ class App {
 		mm.addSubmenu( ms2, "option 2", 2 );
 		mm.addSubmenu( ms3, "option 3", 3 );
 		
-		trace( mm.show( window.handle ) );
-		
+		mm.show( window.handle );
 		m = new systools.win.Menus( true );
 		m.addItem( "option 1", 1 );
 		m.addItem( "option 2", 2 );
