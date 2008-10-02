@@ -1,3 +1,7 @@
+2008-10-02
+	0.15 Rebuilt Windows .ndll - some odd build compatability crept in 
+	last time around making it so the DLL didn't load on Win98. Now fixed. [IT]
+	
 2008-02-14
     Added quotes round browser URL in Browser.launchURL() to deal with spaces in Windows urls. [IT]
 	
