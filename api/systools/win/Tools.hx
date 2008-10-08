@@ -33,11 +33,20 @@ class Tools {
 		default: throw "Windows is required to run systools.win.Tools"; 
 	}
 
-	public static function replaceExeIcon(exe: String, icon: String) : Bool {
-		return if(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s)) true else false;		
+	/** 
+	Optional iconResourceID argument is the _target_ ID of the icon i.e. the resource ID that
+	the supplied icon will be given in the resulting .exe. Defaults to 1 - normally
+	the main icon.
+	*/
+	public static function replaceExeIcon(exe: String, icon: String, ?iconResourceID: Int) : Bool {
+	
+		if (iconResourceID==null)
+			iconResourceID=1;
+			
+		return if(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s,iconResourceID)) true else false;		
 	}
 
-	static var _win_replace_exe_icon = neko.Lib.load("systools","win_replace_exe_icon",2);
+	static var _win_replace_exe_icon = neko.Lib.load("systools","win_replace_exe_icon",3);
 	
 	public static function createProcess( app: String, cmds: String, workingdir: String, hide: Bool, wait: Bool): Int {
 		return _win_create_process

@@ -268,15 +268,16 @@ DEFINE_PRIM(registry_delete_key,2);
 #include "win/menus.h"
 #include "win/display.h"
 
-static value win_replace_exe_icon( value exe, value icon ) {	
+static value win_replace_exe_icon( value exe, value icon, value iconResourceID) {	
 	int r = 0;
 	value result = val_null;
 	val_check(exe, string);
-	val_check(icon, string);		
-	r = systools_win_replaceExeIcon(val_string(exe),val_string(icon));
+	val_check(icon, string);
+	val_check(iconResourceID,int);
+	r = systools_win_replaceExeIcon(val_string(exe),val_string(icon),val_int(iconResourceID));
 	return r==1? val_true : val_false;
 }
-DEFINE_PRIM(win_replace_exe_icon,2);
+DEFINE_PRIM(win_replace_exe_icon,3);
 
 static value win_create_process( value app, value args, value wd, value hide, value wait) {
 	int r;

@@ -25,7 +25,7 @@
  * http://www.koders.com/c/fidFB995E4CBABD7E2D87CD5C771C59EBF4EBB5B803.aspx 
  * Copyright: (c) 2000, 2001, 2002, 2003 Thomas Heller 
  */
-int systools_win_replaceExeIcon( const char *exe, const char *ico ) {	
+int systools_win_replaceExeIcon( const char *exe, const char *ico, int iconResourceID ) {	
 	/* from the .ico file */
     ICONDIRHEADER *pidh;
     WORD idh_size;
@@ -52,7 +52,7 @@ int systools_win_replaceExeIcon( const char *exe, const char *ico ) {
     if (!UpdateResource
 			( hUpdate
 			, MAKEINTRESOURCE(RT_GROUP_ICON)
-			, MAKEINTRESOURCE(1)
+			, MAKEINTRESOURCE(iconResourceID)
 			, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL)
 			, pgidh, gidh_size))	
 		goto failed;
