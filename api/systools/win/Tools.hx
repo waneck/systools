@@ -27,35 +27,48 @@ package systools.win;
 
 class Tools {
 
-	/// This only works on Windows
-	static var check_os = switch( neko.Sys.systemName() ) { 
-		case "Windows":	null; 
-		default: throw "Windows is required to run systools.win.Tools"; 
-	}
-
 	/** 
 	Optional iconResourceID argument is the _target_ ID of the icon i.e. the resource ID that
 	the supplied icon will be given in the resulting .exe. Defaults to 1 - normally
 	the main icon.
+	Peculiarly, the current SWHX.exe icon is at 104.
 	*/
 	public static function replaceExeIcon(exe: String, icon: String, ?iconResourceID: Int) : Bool {
 	
 		if (iconResourceID==null)
 			iconResourceID=1;
 			
+		// Only tries to load this if called.
+		if (_win_replace_exe_icon==null)
+		{
+			if (neko.Sys.systemName()!="Windows")
+				throw "Windows is required to run systools.win.Tools.replaceExeIcon";
+				
+			_win_replace_exe_icon=neko.Lib.load("systools","win_replace_exe_icon",3);
+		}
+			
 		return if(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s,iconResourceID)) true else false;		
 	}
-
-	static var _win_replace_exe_icon = neko.Lib.load("systools","win_replace_exe_icon",3);
+	static var _win_replace_exe_icon;
+	
 	
 	public static function createProcess( app: String, cmds: String, workingdir: String, hide: Bool, wait: Bool): Int {
+		
+		if (_win_create_process==null)
+		{
+			if (neko.Sys.systemName()!="Windows")
+				throw "Windows is required to run systools.win.Tools.createProcess";
+				
+			_win_create_process=neko.Lib.load("systools","win_create_process",5);
+		}
+			
 		return _win_create_process
-			( untyped app.__s
-			, untyped cmds.__s
-			, untyped workingdir.__s
-			, if (hide) 1 else 0
-			, if (wait) 1 else 0
-			);
+				( untyped app.__s
+				, untyped cmds.__s
+				, untyped workingdir.__s
+				, if (hide) 1 else 0
+				, if (wait) 1 else 0
+				);
 	}
-	static var _win_create_process = neko.Lib.load("systools","win_create_process",5);
+	static var _win_create_process;
 }

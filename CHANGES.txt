@@ -1,3 +1,8 @@
+2009-03-10
+	Changed systools.win.Tools to not crash on non-Windows unless methods are
+	actually called. [IT]
+    0.17 Recompiled and uploaded to haxeLib to include replaceExeIcon() changes. [IT]
+    
 2008-10-08
 	Added optional iconResourceID to systools.win.Tools.replaceExeIcon(). [IT]
 	
