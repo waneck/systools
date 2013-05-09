@@ -1,3 +1,9 @@
 -neko app.n
 -main Test
 -lib systools
+--next
+-cpp bin
+-main Test
+-lib systools
+-D HXCPP_M64
+--remap neko:cpp

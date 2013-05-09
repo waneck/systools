@@ -1,0 +1,2 @@
+ -DHXCPP_M64="1" -Dhaxe3="1" -Dhaxe_svn="1" -Dhaxe_ver="3." -Dsystools="1"
+/var/dev/build/hxcpp/

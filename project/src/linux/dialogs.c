@@ -25,9 +25,9 @@
 
 void systools_dialogs_message_box( const char *title, const char *message, int error ) {
 	GtkWidget *dialog = gtk_message_dialog_new( NULL,
-		0, 
+		(GtkDialogFlags) 0, 
 		error > 0 ? GTK_MESSAGE_ERROR : GTK_MESSAGE_INFO, 
-		GTK_BUTTONS_OK, message );
+		GTK_BUTTONS_OK, "%s", message );
 
 	gtk_dialog_run( GTK_DIALOG(dialog) );
 	gtk_widget_destroy( dialog );
@@ -35,9 +35,9 @@ void systools_dialogs_message_box( const char *title, const char *message, int e
 
 int systools_dialogs_dialog_box( const char *title, const char *message, int error ) {
 	GtkWidget *dialog = gtk_message_dialog_new( NULL,
-		0, 
+		(GtkDialogFlags) 0, 
 		error > 0 ? GTK_MESSAGE_WARNING : GTK_MESSAGE_QUESTION, 
-		GTK_BUTTONS_OK_CANCEL, message );
+		GTK_BUTTONS_OK_CANCEL, "%s", message );
 
 	gint response = gtk_dialog_run( GTK_DIALOG(dialog) );
 	gtk_widget_destroy( dialog );

@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2006, 
+ * Copyright (c) 2006,
  * Asger Ottar Alstrup, Edwin van Rijkom, Nicolas Cannasse
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
@@ -24,12 +24,12 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
- 
+
 package systools;
 
 class Clipboard {
 	static public function setText( text : String ) : Void {
-		_set_clipboard_data(untyped text.__s);		
+		_set_clipboard_data(untyped text);
 	}
 
 	static public function getText() : String {
@@ -38,9 +38,9 @@ class Clipboard {
 
 	static public function clear() : Void {
 		_clear_clipboard();
-	}	
+	}
 
 	static var _set_clipboard_data = neko.Lib.load("systools","clipboard_set_text",1);
 	static var _get_clipboard_data = neko.Lib.load("systools","clipboard_get_text",0);
-	static var _clear_clipboard = neko.Lib.load("systools","clipboard_clear",0);	
+	static var _clear_clipboard = neko.Lib.load("systools","clipboard_clear",0);
 }

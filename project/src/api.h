@@ -28,8 +28,8 @@ struct RES_STRINGLIST {
 // argument types:
 struct ARG_FILEFILTERS {
 	long count;
-	char **descriptions;
-	char **extensions;
+	const char **descriptions;
+	const char **extensions;
 };
 
 #endif // _SYSTOOLS_API_H

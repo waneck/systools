@@ -1,0 +1,31 @@
+<xml>
+<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+<set name="platform_dir" value="./mac/" if="macos"/>
+<set name="platform_dir" value="./win/" if="windows"/>
+<set name="platform_dir" value="./linux/" if="linux"/>
+<set name="tool" value="exe" unless="iphone"/>
+<set name="tool" value="static" if="iphone"/>
+
+<files id="systools" dir="./src">
+	<compilerflag value="-I./src"/>
+	<compilerflag value="$(pkg-config --libs --cflags gtk+-2.0)" if="linux"/>
+	<compilerflag value="$(pkg-config --libs --cflags gconf-2.0)" if="linux"/>
+	<file name="api.cpp" />
+	<file name="${platform_dir}clipboard.c" />
+	<file name="${platform_dir}dialogs.c" />
+	<file name="${platform_dir}fileutils.c" />
+	<file name="${platform_dir}misc.c" />
+	<file name="${platform_dir}registry.c" />
+</files>
+
+<target id="systools" output="${LIBPREFIX}systools${DBG}${LIBEXTRA}" tool="linker" toolid="${STD_MODULE_LINK}">
+  <ext value=".ndll" unless="mobile"/>
+  <files id="systools"/>
+	<!--<lib name="wsock32.lib" if="windows"/>-->
+  <lib name="-lgtk+2" if="linux"/>
+  <lib name="-lgconf-2.0" if="linux"/>
+  <outdir name="../ndll/${BINDIR}"/>
+</target>
+
+<target id="default"> <target id="systools" /> </target>
+</xml>
