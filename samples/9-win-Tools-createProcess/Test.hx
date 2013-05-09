@@ -1,21 +1,21 @@
 /**
  * systools.win.Tools.createProcess
  *
- */  
+ */
 
 import systools.Registry;
 
 class Test {
-		
+
 	static function main() {
-		var os = neko.Sys.systemName();
+		var os = Sys.systemName();
 		var args = "Test.hx";
 		var app = "C:\\Windows\\Notepad.exe";
-		var workingdir = neko.Sys.getCwd();
-		
+		var workingdir = Sys.getCwd();
+
 		trace("Launching "+app+", args: "+args+", working dir: "+workingdir);
-		
-		// Launch application:			
+
+		// Launch application:
 		var result = systools.win.Tools.createProcess
 			( app			// app. path
 			, args			// app. args
@@ -27,6 +27,6 @@ class Test {
 		trace
 			( 	if (result==0)	"Successfuly launched application"
 				else			"Failed launching application. Error code: "+result
-			);		
+			);
 	}
 }

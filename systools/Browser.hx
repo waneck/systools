@@ -22,7 +22,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
- 
+
 package systools;
 
 class Browser {
@@ -34,12 +34,12 @@ class Browser {
 	*/
 	public static function launch(targetURL:String):Bool
 	{
-	    var sys:String=neko.Sys.systemName();
+	    var sys:String=Sys.systemName();
 	    if ((sys!="Mac")&&(sys!="Windows"))
 			throw "systools.Browser.launch() only works on Mac or Windows";
-			
+
 		return _browser_launch(untyped targetURL.__s);
 	}
-	
+
 	static var _browser_launch = systools.Loader.load("systools","browser_launch",1);
 }

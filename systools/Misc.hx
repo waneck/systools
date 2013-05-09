@@ -51,7 +51,7 @@ class Misc {
 
 
 	public static function getKeyState( key: Key ) : Bool {
-		var sysname = neko.Sys.systemName();
+		var sysname = Sys.systemName();
 		return _misc_get_key_state(switch( sysname ) {
 			case "Mac": keymapMac(key);
 			case "Windows": keymapWin(key);
@@ -59,6 +59,6 @@ class Misc {
 		}) != 0;
 	}
 	static var _misc_get_key_state = systools.Loader.load("systools","misc_get_key_state",1);
-	
+
 }
-	
+
