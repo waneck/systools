@@ -1,10 +1,10 @@
 #include <hxcpp.h>
 
-#ifndef INCLUDED_cpp_Lib
-#include <cpp/Lib.h>
-#endif
 #ifndef INCLUDED_systools_Clipboard
 #include <systools/Clipboard.h>
+#endif
+#ifndef INCLUDED_systools_Loader
+#include <systools/Loader.h>
 #endif
 namespace systools{
 
@@ -156,9 +156,9 @@ void Clipboard_obj::__register()
 
 void Clipboard_obj::__boot()
 {
-	_set_clipboard_data= ::cpp::Lib_obj::load(HX_CSTRING("systools"),HX_CSTRING("clipboard_set_text"),(int)1);
-	_get_clipboard_data= ::cpp::Lib_obj::load(HX_CSTRING("systools"),HX_CSTRING("clipboard_get_text"),(int)0);
-	_clear_clipboard= ::cpp::Lib_obj::load(HX_CSTRING("systools"),HX_CSTRING("clipboard_clear"),(int)0);
+	_set_clipboard_data= ::systools::Loader_obj::load(HX_CSTRING("systools"),HX_CSTRING("clipboard_set_text"),(int)1);
+	_get_clipboard_data= ::systools::Loader_obj::load(HX_CSTRING("systools"),HX_CSTRING("clipboard_get_text"),(int)0);
+	_clear_clipboard= ::systools::Loader_obj::load(HX_CSTRING("systools"),HX_CSTRING("clipboard_clear"),(int)0);
 }
 
 } // end namespace systools

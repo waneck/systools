@@ -2,8 +2,12 @@
 <files id="haxe">
 <compilerflag value="-Iinclude"/>
   <file name="src/systools/Clipboard.cpp">
-   <depend name="include/cpp/Lib.h"/>
    <depend name="include/systools/Clipboard.h"/>
+   <depend name="include/systools/Loader.h"/>
+  </file>
+  <file name="src/systools/Loader.cpp">
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/systools/Loader.h"/>
   </file>
   <file name="src/haxe/Log.cpp">
    <depend name="include/Std.h"/>

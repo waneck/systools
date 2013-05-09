@@ -33,22 +33,22 @@ typedef FILEFILTERS = {
 
 class Dialogs {
 	
-	static var _message_box = neko.Lib.load("systools","dialogs_message_box",3);
+	static var _message_box = systools.Loader.load("systools","dialogs_message_box",3);
 	public static function message( title : String, msg : String, isError : Bool ) {
 		_message_box(untyped title.__s,untyped msg.__s,isError);
 	}
 	
-	static var _dialog_box = neko.Lib.load("systools","dialogs_dialog_box",3);
+	static var _dialog_box = systools.Loader.load("systools","dialogs_dialog_box",3);
 	public static function confirm( title : String, msg : String, isError : Bool ) : Bool {
 		return _dialog_box(untyped title.__s,untyped msg.__s,isError);
 	}
 	
-	static var _dialog_save_file = neko.Lib.load("systools","dialogs_save_file",3);
+	static var _dialog_save_file = systools.Loader.load("systools","dialogs_save_file",3);
 	public static function saveFile( title : String, msg: String, initialDir : String ) : String {
 		return new String(_dialog_save_file(untyped title.__s,untyped msg.__s,untyped initialDir.__s ));
 	}
 	
-	static var _dialog_open_file = neko.Lib.load("systools","dialogs_open_file",3);
+	static var _dialog_open_file = systools.Loader.load("systools","dialogs_open_file",3);
 	public static function openFile( title : String, msg : String, mask : FILEFILTERS ) : Array<String> {
 		var result = _dialog_open_file(untyped title.__s,untyped msg.__s,untyped __dollar__new(mask));
 		if (result == null) 
@@ -60,7 +60,7 @@ class Dialogs {
 		}	
 	}
 
-	static var _dialog_folder = neko.Lib.load("systools","dialogs_folder",2);
+	static var _dialog_folder = systools.Loader.load("systools","dialogs_folder",2);
 	public static function folder( title : String, msg: String ) : String {
 		return new String(_dialog_folder(untyped title.__s,untyped msg.__s));
 	}

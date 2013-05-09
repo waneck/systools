@@ -38,5 +38,5 @@ class FileUtils {
 		return new String(out);
 	}
 	
-	static var _fileutils_get_temp_folder = neko.Lib.load("systools","fileutils_get_temp_folder", 0);
+	static var _fileutils_get_temp_folder = systools.Loader.load("systools","fileutils_get_temp_folder", 0);
 }

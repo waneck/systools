@@ -63,8 +63,8 @@ class Display {
 		return _get_screen_size();
 	}
 
-	static var _get_screen_size = neko.Lib.load("systools","display_get_screen_size",0);
-	static var _display_set_mode = neko.Lib.load("systools","display_set_mode",3);
-	static var _display_set_default_mode = neko.Lib.load("systools","display_set_default_mode",0);
-	static var _display_is_mode_supported = neko.Lib.load("systools","display_is_mode_supported",3);
+	static var _get_screen_size = systools.Loader.load("systools","display_get_screen_size",0);
+	static var _display_set_mode = systools.Loader.load("systools","display_set_mode",3);
+	static var _display_set_default_mode = systools.Loader.load("systools","display_set_default_mode",0);
+	static var _display_is_mode_supported = systools.Loader.load("systools","display_is_mode_supported",3);
 }

@@ -8,6 +8,7 @@ const char *__hxcpp_all_files[] = {
 	"/usr/lib/haxe/std/haxe/Log.hx",
 	"Test.hx",
 	"systools/Clipboard.hx",
+	"systools/Loader.hx",
 #endif
  0 };
 const char *__hxcpp_class_path[] = {

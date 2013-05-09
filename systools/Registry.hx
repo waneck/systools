@@ -61,7 +61,7 @@ class Registry {
 		_delete_key( key, untyped subKey.__s );
 	}
 
-	static var _set_value = neko.Lib.load("systools","registry_set_value", 4);
-	static var _get_value = neko.Lib.load("systools","registry_get_value", 3);
-	static var _delete_key = neko.Lib.load("systools","registry_delete_key", 2);
+	static var _set_value = systools.Loader.load("systools","registry_set_value", 4);
+	static var _get_value = systools.Loader.load("systools","registry_get_value", 3);
+	static var _delete_key = systools.Loader.load("systools","registry_delete_key", 2);
 }

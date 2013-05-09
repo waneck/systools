@@ -41,5 +41,5 @@ class Browser {
 		return _browser_launch(untyped targetURL.__s);
 	}
 	
-	static var _browser_launch = neko.Lib.load("systools","browser_launch",1);
+	static var _browser_launch = systools.Loader.load("systools","browser_launch",1);
 }

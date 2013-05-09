@@ -31,14 +31,14 @@ class Tray {
 	
 	var t 		: Void;
 	
-	static var _systray_create_icon = neko.Lib.load("systools","systray_create_icon",3);
-	static var _systray_menu_callback = neko.Lib.load("systools","systray_menu_callback",0);
+	static var _systray_create_icon = systools.Loader.load("systools","systray_create_icon",3);
+	static var _systray_menu_callback = systools.Loader.load("systools","systray_menu_callback",0);
 	public function new( w : swhx.Window, iconPath : String, tooltip : String )
 	{
 		t = _systray_create_icon(untyped w.handle,untyped iconPath.__s,untyped tooltip.__s);
 	}
 	
-	static var _systray_destroy_icon = neko.Lib.load("systools","systray_destroy_icon",1);
+	static var _systray_destroy_icon = systools.Loader.load("systools","systray_destroy_icon",1);
 	public function dispose()
 	{
 		return _systray_destroy_icon(t);

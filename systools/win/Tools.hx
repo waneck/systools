@@ -44,7 +44,7 @@ class Tools {
 			if (neko.Sys.systemName()!="Windows")
 				throw "Windows is required to run systools.win.Tools.replaceExeIcon";
 				
-			_win_replace_exe_icon=neko.Lib.load("systools","win_replace_exe_icon",3);
+			_win_replace_exe_icon=systools.Loader.load("systools","win_replace_exe_icon",3);
 		}
 			
 		return if(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s,iconResourceID)) true else false;		
@@ -59,7 +59,7 @@ class Tools {
 			if (neko.Sys.systemName()!="Windows")
 				throw "Windows is required to run systools.win.Tools.createProcess";
 				
-			_win_create_process=neko.Lib.load("systools","win_create_process",5);
+			_win_create_process=systools.Loader.load("systools","win_create_process",5);
 		}
 			
 		return _win_create_process

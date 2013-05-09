@@ -71,12 +71,12 @@ class Menus {
 		return m;
 	}
 	
-	static var _win_menu_create = neko.Lib.load("systools", "win_menu_create", 0);
-	static var _win_popup_menu_create = neko.Lib.load("systools", "win_popup_menu_create", 0);
-	static var _win_destroy_menu = neko.Lib.load("systools","win_destroy_menu",1);
-	static var _win_add_menu_item = neko.Lib.load("systools","win_add_menu_item",3);
-	static var _win_add_menu_submenu = neko.Lib.load("systools", "win_add_menu_submenu", 4);
-	static var _win_add_menu_divider = neko.Lib.load("systools","win_add_menu_divider",2);
-	static var _win_show_menu = neko.Lib.load("systools","win_show_menu",2);
-	static var _win_show_popup_menu = neko.Lib.load("systools","win_show_popup_menu",2);
+	static var _win_menu_create = systools.Loader.load("systools", "win_menu_create", 0);
+	static var _win_popup_menu_create = systools.Loader.load("systools", "win_popup_menu_create", 0);
+	static var _win_destroy_menu = systools.Loader.load("systools","win_destroy_menu",1);
+	static var _win_add_menu_item = systools.Loader.load("systools","win_add_menu_item",3);
+	static var _win_add_menu_submenu = systools.Loader.load("systools", "win_add_menu_submenu", 4);
+	static var _win_add_menu_divider = systools.Loader.load("systools","win_add_menu_divider",2);
+	static var _win_show_menu = systools.Loader.load("systools","win_show_menu",2);
+	static var _win_show_popup_menu = systools.Loader.load("systools","win_show_popup_menu",2);
 }

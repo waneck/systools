@@ -45,6 +45,7 @@ static value systools_init()
 	systools_misc_initialize();
 	return val_null;
 }
+DEFINE_PRIM(systools_init,0);
 
 // ---------------- Dialog methods -------------------------------------------
 

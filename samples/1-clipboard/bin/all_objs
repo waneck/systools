@@ -1,4 +1,5 @@
 obj/linux64//src/systools/Clipboard.o
+obj/linux64//src/systools/Loader.o
 obj/linux64//src/haxe/Log.o
 obj/linux64//src/cpp/Lib.o
 obj/linux64//src/Test.o

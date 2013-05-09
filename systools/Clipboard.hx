@@ -40,7 +40,7 @@ class Clipboard {
 		_clear_clipboard();
 	}
 
-	static var _set_clipboard_data = neko.Lib.load("systools","clipboard_set_text",1);
-	static var _get_clipboard_data = neko.Lib.load("systools","clipboard_get_text",0);
-	static var _clear_clipboard = neko.Lib.load("systools","clipboard_clear",0);
+	static var _set_clipboard_data = systools.Loader.load("systools","clipboard_set_text",1);
+	static var _get_clipboard_data = systools.Loader.load("systools","clipboard_get_text",0);
+	static var _clear_clipboard = systools.Loader.load("systools","clipboard_clear",0);
 }

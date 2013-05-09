@@ -36,5 +36,5 @@ class Display {
 		return _get_screen_size();
 	}
 
-	static var _get_screen_size = neko.Lib.load("systools","display_get_screen_size",0);
+	static var _get_screen_size = systools.Loader.load("systools","display_get_screen_size",0);
 }
