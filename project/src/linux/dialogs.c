@@ -16,12 +16,16 @@
 /*																			*/
 /* ************************************************************************ */
 
-#include "dialogs.h"
 #include <gtk/gtk.h>
 
 #include <string.h>
 #include <memory.h>
 #include <stdlib.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "dialogs.h"
 
 void systools_dialogs_message_box( const char *title, const char *message, int error ) {
 	GtkWidget *dialog = gtk_message_dialog_new( NULL,
@@ -131,3 +135,6 @@ char* systools_dialogs_folder( const char *title, const char *msg ) {
 	
 	return result;
 }
+#ifdef __cplusplus
+}
+#endif

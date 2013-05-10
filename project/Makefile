@@ -21,11 +21,11 @@ HXCPP=$(shell haxelib path hxcpp | head -1)
 CC:=g++ -Isrc
 GTK_FLAGS:=$(shell pkg-config --libs --cflags gtk+-2.0)
 GCONF_FLAGS:=$(shell pkg-config --libs --cflags gconf-2.0)
-NEKO_FLAGS:=-fpic -fPIC -DHX_LINUX -DHXCPP_VISIT_ALLOCS -I$(HXCPP)/include -ldl -m64 -DHXCPP_M64 -fvisibility=hidden -O2 
+NEKO_FLAGS:=-fpic -fPIC -DHX_LINUX -DHXCPP_VISIT_ALLOCS -I$(HXCPP)/include -ldl -fvisibility=hidden -O2 
 
 CPPFLAGS += $(GTK_FLAGS) $(GCONF_FLAGS) $(NEKO_FLAGS)
 CFLAGS += $(GTK_FLAGS) $(GCONF_FLAGS) $(NEKO_FLAGS)
-LDFLAGS +=-fPIC -shared -L/usr/lib -lz -ldl -rdynamic -g3 -m64 -Xlinker --no-undefined $(GTK_FLAGS) $(GCONF_FLAGS)
+LDFLAGS +=-fPIC -shared -L/usr/lib -lz -ldl -rdynamic -g3 -Xlinker --no-undefined $(GTK_FLAGS) $(GCONF_FLAGS)
 
 all: $(NDLL)
 

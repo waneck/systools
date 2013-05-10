@@ -16,9 +16,13 @@
 /*																			*/
 /* ************************************************************************ */
 
-#include "misc.h"
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "misc.h"
 
 void systools_misc_initialize() {
 	gtk_init(NULL,NULL);
@@ -30,3 +34,6 @@ int systools_misc_get_key_state( int code ) {
 	printf("SYSTOOLS: systools_misc_get_key_state NYI\n");
 	return 0;
 }
+#ifdef __cplusplus
+}
+#endif

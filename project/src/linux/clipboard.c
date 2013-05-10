@@ -16,9 +16,12 @@
 /*																			*/
 /* ************************************************************************ */
 
-#include "clipboard.h"
 #include <gtk/gtk.h>
 #include <string.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "clipboard.h"
 
 static GtkClipboard *getClipboard()
 {
@@ -43,3 +46,7 @@ char* systools_clipboard_get_text() {
 void systools_clipboard_clear() {
 	gtk_clipboard_clear( getClipboard() );
 }
+
+#ifdef __cplusplus
+}
+#endif

@@ -18,6 +18,10 @@
 
 #include <gconf/gconf-client.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 static GConfClient *getRegistry()
 {
     static GConfClient *sRegistry = NULL;
@@ -83,3 +87,6 @@ void systools_registry_delete_key( int _, const char * subkey ) {
 	gconf_client_unset_recursive( getRegistry(), key );
 	g_free( key );
 }
+#ifdef __cplusplus
+}
+#endif

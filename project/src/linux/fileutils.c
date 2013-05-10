@@ -23,12 +23,19 @@
  * DAMAGE.
  */
 
-#include "../fileutils.h"
 #include <stdio.h>
 #include <string.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "../fileutils.h"
 
 char * systools_fileutils_get_temp_folder() {
 	char *result = strdup(P_tmpdir);
 	return result;
 }
 
+#ifdef __cplusplus
+}
+#endif
