@@ -19,6 +19,10 @@
 #include "misc.h"
 #include <Carbon/Carbon.h> 
 
+void systools_misc_initialize()
+{
+}
+
 int systools_misc_get_key_state( int code ) {
 	KeyMap theKeys;
 	unsigned char *keybytes;
