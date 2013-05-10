@@ -18,7 +18,7 @@
 	<file name="${platform_dir}registry.c" />
 	<file name="${platform_dir}browser.c" unless="linux" />
 	<file name="${platform_dir}display.c" unless="linux" />
-	<file name="${platform_dir}menus.c" unless="linux" />
+	<file name="${platform_dir}menus.c" if="windows" />
 	<file name="${platform_dir}win.c" if="windows" />
 </files>
 
@@ -32,6 +32,9 @@
   <lib name="shell32.lib" if="windows"/>
   <lib name="-lgtk+2" if="linux"/>
   <lib name="-lgconf-2.0" if="linux"/>
+  <vflag name="-framework" value="IOKit" if="macos"/>
+  <vflag name="-framework" value="Foundation" if="macos"/>
+  <vflag name="-framework" value="Carbon" if="macos"/>
   <outdir name="../ndll/${BINDIR}"/>
 </target>
 
