@@ -27,16 +27,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "api.h"
-#include "clipboard.h"
-#include "misc.h"
-#include "registry.h"
-#include "dialogs.h"
-#include "fileutils.h"
-#ifndef HX_LINUX
-#include "browser.h"
-#include "display.h"
-#endif
+extern "C" 
+{
+	#include "api.h"
+	#include "clipboard.h"
+	#include "misc.h"
+	#include "registry.h"
+	#include "dialogs.h"
+	#include "fileutils.h"
+	#ifndef HX_LINUX
+	#include "browser.h"
+	#include "display.h"
+	#endif
+}
 
 // init
 
@@ -290,9 +293,12 @@ DEFINE_PRIM(registry_delete_key,2);
 
 #ifdef NEKO_WINDOWS
 
-#include "win/win.h"
-#include "win/menus.h"
-#include "win/display.h"
+extern "C"
+{
+	#include "win/win.h"
+	#include "win/menus.h"
+	#include "win/display.h"
+}
 
 static value win_replace_exe_icon( value exe, value icon, value iconResourceID) {	
 	int r = 0;
@@ -307,8 +313,8 @@ DEFINE_PRIM(win_replace_exe_icon,3);
 
 static value win_create_process( value app, value args, value wd, value hide, value wait) {
 	int r;
-	char *_args = 0;
-	char *_wd = 0;
+	const char *_args = 0;
+	const char *_wd = 0;
 	val_check(app,string);
 	val_check(hide,int);
 	val_check(wait,int);
@@ -339,14 +345,15 @@ static value systray_create_icon( value w, value iconpath, value tooltip )
 {
 	val_check(tooltip,string);
 	if ( !(val_is_string(iconpath) || val_is_null(iconpath)) )
-		val_throw(val_string(tray_error));
+		val_throw(alloc_string(tray_icon_error));
 	else {
 		tray_icon *tray = systools_win_create_tray_icon(val_hwnd(w),val_string(iconpath),val_string(tooltip));
 		if (!tray)
-			val_throw(val_string(tray_error));
+			val_throw(alloc_string(tray_icon_error));
 
 		return alloc_abstract(k_tray_icon,tray);
 	}
+	return val_null;
 }
 DEFINE_PRIM(systray_create_icon,3);
 
@@ -380,7 +387,7 @@ DEFINE_PRIM(win_popup_menu_create,0);
 static void win_destroy_menu( value menu )
 {
 	val_check_kind(menu,k_menu);
-	systools_menu_destroy(*val_menu(menu));
+	systools_menu_destroy(val_menu(menu));
 }
 DEFINE_PRIM(win_destroy_menu,1);
 
@@ -392,41 +399,44 @@ static value win_destroy_tray_icon( value ico )
 }
 DEFINE_PRIM(win_destroy_tray_icon,1);
 
-static win_add_menu_item( value menu, value caption, value callbackid )
+static value win_add_menu_item( value menu, value caption, value callbackid )
 {
 	val_check_kind(menu,k_menu);
 	val_check(caption,string);
 	val_check(callbackid,int);
 	systools_menu_add_item(val_menu(menu), val_string(caption), val_int(callbackid));
+	return val_null;
 }
 DEFINE_PRIM(win_add_menu_item,3);
 
-static win_add_menu_submenu( value menu, value submenu, value caption, value callbackid )
+static value win_add_menu_submenu( value menu, value submenu, value caption, value callbackid )
 {
 	val_check_kind(menu,k_menu);
 	val_check_kind(submenu,k_menu);
 	val_check(caption,string);
 	val_check(callbackid,int);
 	systools_menu_add_submenu(val_menu(menu), val_menu(submenu), val_string(caption), val_int(callbackid));
+	return val_null;
 }
 DEFINE_PRIM(win_add_menu_submenu,4);
 
-static win_add_menu_divider( value menu, value callbackid )
+static value win_add_menu_divider( value menu, value callbackid )
 {
 	val_check_kind(menu,k_menu);
 	val_check(callbackid,int);
 	systools_menu_add_item(val_menu(menu), (char*)"--", val_int(callbackid));
+	return val_null;
 }
 DEFINE_PRIM(win_add_menu_divider,2);
 
-static win_show_menu( value w, value m )
+static value win_show_menu( value w, value m )
 {
 	val_check_kind(m,k_menu);
 	return alloc_int(systools_menu_show( val_hwnd(w), val_menu(m) ));
 }
 DEFINE_PRIM(win_show_menu,2);
 
-static win_show_popup_menu( value w, value m )
+static value win_show_popup_menu( value w, value m )
 {
 	val_check_kind(m,k_menu);
 	return alloc_int(systools_popup_menu_show( val_hwnd(w), val_menu(m) ));

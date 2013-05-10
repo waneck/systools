@@ -23,7 +23,7 @@
 const char tray_icon_error[255];
 #define set_tray_error(x) strcpy((char*)&tray_icon_error,x)
 
-tray_icon *systools_win_create_tray_icon(HWND *wnd,char *ico,char *tooltip){
+tray_icon *systools_win_create_tray_icon(HWND *wnd,const char *ico,const char *tooltip){
 	
 	HICON hIcon = 0;
 	
@@ -105,7 +105,7 @@ void systools_menu_destroy( HMENU *hmenu )
 	DestroyMenu( *hmenu );
 }
 
-int systools_menu_add_item( HMENU *hmenu, char *caption, DWORD callbackID )
+int systools_menu_add_item( HMENU *hmenu, const char *caption, DWORD callbackID )
 {
 	int bResult = 0;
 
@@ -135,7 +135,7 @@ int systools_menu_add_item( HMENU *hmenu, char *caption, DWORD callbackID )
 	return bResult;
 }
 
-int systools_menu_add_submenu( HMENU *hmenu, HMENU *submenu, char *caption, DWORD callbackID )
+int systools_menu_add_submenu( HMENU *hmenu, HMENU *submenu, const char *caption, DWORD callbackID )
 {
 	int bResult = 0;
 

@@ -16,12 +16,20 @@
 	<file name="${platform_dir}fileutils.c" />
 	<file name="${platform_dir}misc.c" />
 	<file name="${platform_dir}registry.c" />
+	<file name="${platform_dir}browser.c" unless="linux" />
+	<file name="${platform_dir}display.c" unless="linux" />
+	<file name="${platform_dir}menus.c" unless="linux" />
+	<file name="${platform_dir}win.c" if="windows" />
 </files>
 
 <target id="systools" output="${LIBPREFIX}systools${DBG}${LIBEXTRA}" tool="linker" toolid="${STD_MODULE_LINK}">
   <ext value=".ndll" unless="mobile"/>
   <files id="systools"/>
-	<!--<lib name="wsock32.lib" if="windows"/>-->
+  <lib name="kernel32.lib" if="windows"/>
+  <lib name="user32.lib" if="windows"/>
+  <lib name="comdlg32.lib" if="windows"/>
+  <lib name="advapi32.lib" if="windows"/>
+  <lib name="shell32.lib" if="windows"/>
   <lib name="-lgtk+2" if="linux"/>
   <lib name="-lgconf-2.0" if="linux"/>
   <outdir name="../ndll/${BINDIR}"/>
