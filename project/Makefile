@@ -1,6 +1,7 @@
 
 PROJECT:=systools
 
+LBITS := $(shell getconf LONG_BIT)
 ifeq ($(LBITS),64)
 	NDLL:=../ndll/Linux64/$(PROJECT).ndll
 else
@@ -21,7 +22,7 @@ HXCPP=$(shell haxelib path hxcpp | head -1)
 CC:=g++ -Isrc
 GTK_FLAGS:=$(shell pkg-config --libs --cflags gtk+-2.0)
 GCONF_FLAGS:=$(shell pkg-config --libs --cflags gconf-2.0)
-NEKO_FLAGS:=-fpic -fPIC -DHX_LINUX -DHXCPP_VISIT_ALLOCS -I$(HXCPP)/include -ldl -fvisibility=hidden -O2 
+NEKO_FLAGS:=-fpic -fPIC -DHX_LINUX -DHXCPP_VISIT_ALLOCS -I$(HXCPP)/include -ldl -fvisibility=hidden -O2
 
 CPPFLAGS += $(GTK_FLAGS) $(GCONF_FLAGS) $(NEKO_FLAGS)
 CFLAGS += $(GTK_FLAGS) $(GCONF_FLAGS) $(NEKO_FLAGS)
@@ -34,4 +35,4 @@ clean:
 	@- $(RM) $(OBJS)
 
 $(NDLL): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NDLL) $(LDFLAGS) 
+	$(CC) $(CFLAGS) $(OBJS) -o $(NDLL) $(LDFLAGS)
