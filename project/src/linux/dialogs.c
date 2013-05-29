@@ -29,28 +29,30 @@ extern "C" {
 
 void systools_dialogs_message_box( const char *title, const char *message, int error ) {
 	GtkWidget *dialog = gtk_message_dialog_new( NULL,
-		(GtkDialogFlags) 0, 
-		error > 0 ? GTK_MESSAGE_ERROR : GTK_MESSAGE_INFO, 
+		(GtkDialogFlags) 0,
+		error > 0 ? GTK_MESSAGE_ERROR : GTK_MESSAGE_INFO,
 		GTK_BUTTONS_OK, "%s", message );
 
 	gtk_dialog_run( GTK_DIALOG(dialog) );
 	gtk_widget_destroy( dialog );
+	while (gtk_events_pending()) gtk_main_iteration();
 }
 
 int systools_dialogs_dialog_box( const char *title, const char *message, int error ) {
 	GtkWidget *dialog = gtk_message_dialog_new( NULL,
-		(GtkDialogFlags) 0, 
-		error > 0 ? GTK_MESSAGE_WARNING : GTK_MESSAGE_QUESTION, 
+		(GtkDialogFlags) 0,
+		error > 0 ? GTK_MESSAGE_WARNING : GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_OK_CANCEL, "%s", message );
 
 	gint response = gtk_dialog_run( GTK_DIALOG(dialog) );
 	gtk_widget_destroy( dialog );
+	while (gtk_events_pending()) gtk_main_iteration();
 	return (response==GTK_RESPONSE_OK)?1:0;
 }
 
 char* systools_dialogs_save_file( const char *title, const char* msg, const char *initialdir ) {
 	char *result = NULL;
-	
+
 	GtkWidget *dialog;
 
 	dialog = gtk_file_chooser_dialog_new (title,
@@ -65,7 +67,8 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 	}
 
 	gtk_widget_destroy (dialog);
-	
+	while (gtk_events_pending()) gtk_main_iteration();
+
 	return result;
 }
 
@@ -88,8 +91,8 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 		}
 		g_strfreev( globs );
 	}
-	
-	
+
+
 	GtkWidget *dialog;
 
 	dialog = gtk_file_chooser_dialog_new (title,
@@ -113,11 +116,12 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 	}
 
 	gtk_widget_destroy (dialog);
+	while (gtk_events_pending()) gtk_main_iteration();
 }
 
 char* systools_dialogs_folder( const char *title, const char *msg ) {
 	char *result = NULL;
-	
+
 	GtkWidget *dialog;
 
 	dialog = gtk_file_chooser_dialog_new (title,
@@ -132,7 +136,8 @@ char* systools_dialogs_folder( const char *title, const char *msg ) {
 	}
 
 	gtk_widget_destroy (dialog);
-	
+	while (gtk_events_pending()) gtk_main_iteration();
+
 	return result;
 }
 #ifdef __cplusplus
