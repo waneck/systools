@@ -4,8 +4,8 @@
   "license": "LGPL",
   "tags": ["neko","cpp","system"],
   "description": "A cross-platform extension to the Neko VM for accessing system APIs",
-  "version": "1.0.0-alpha",
-  "releasenote": "Haxe 3 support. Alpha",
+  "version": "1.0.0-beta",
+  "releasenote": "Haxe 3.0 support; Samples working on hxcpp/neko",
   "contributors": ["waneck"],
   "dependencies": {
 
