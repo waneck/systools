@@ -22,7 +22,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
- 
+
 package systools;
 
 class FileUtils {
@@ -31,12 +31,8 @@ class FileUtils {
 	 * Get the value of the system's temporary path.
 	 */
 	static public function getTempFolder() : String {
-		var out:String=_fileutils_get_temp_folder();
-		if (out==null)
-			return null;
-		// Need to convert neko Strings to haXe
-		return new String(out);
+		return _fileutils_get_temp_folder();
 	}
-	
+
 	static var _fileutils_get_temp_folder = systools.Loader.load("systools","fileutils_get_temp_folder", 0);
 }

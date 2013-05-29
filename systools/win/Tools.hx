@@ -47,7 +47,7 @@ class Tools {
 			_win_replace_exe_icon=systools.Loader.load("systools","win_replace_exe_icon",3);
 		}
 
-		return if(_win_replace_exe_icon(untyped exe.__s, untyped icon.__s,iconResourceID)) true else false;
+		return if(_win_replace_exe_icon(exe, icon,iconResourceID)) true else false;
 	}
 	static var _win_replace_exe_icon;
 
@@ -63,9 +63,9 @@ class Tools {
 		}
 
 		return _win_create_process
-				( untyped app.__s
-				, untyped cmds.__s
-				, untyped workingdir.__s
+				( app
+				, cmds
+				, workingdir
 				, if (hide) 1 else 0
 				, if (wait) 1 else 0
 				);

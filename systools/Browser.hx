@@ -38,7 +38,7 @@ class Browser {
 	    if ((sys!="Mac")&&(sys!="Windows"))
 			throw "systools.Browser.launch() only works on Mac or Windows";
 
-		return _browser_launch(untyped targetURL.__s);
+		return _browser_launch(targetURL);
 	}
 
 	static var _browser_launch = systools.Loader.load("systools","browser_launch",1);

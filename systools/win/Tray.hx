@@ -28,19 +28,19 @@ package systools.win;
 import systools.win.Events;
 
 class Tray {
-	
+
 	var t 		: Void;
-	
+
 	static var _systray_create_icon = systools.Loader.load("systools","systray_create_icon",3);
 	static var _systray_menu_callback = systools.Loader.load("systools","systray_menu_callback",0);
 	public function new( w : swhx.Window, iconPath : String, tooltip : String )
 	{
-		t = _systray_create_icon(untyped w.handle,untyped iconPath.__s,untyped tooltip.__s);
+		t = _systray_create_icon(w.handle,iconPath,tooltip);
 	}
-	
+
 	static var _systray_destroy_icon = systools.Loader.load("systools","systray_destroy_icon",1);
 	public function dispose()
 	{
 		return _systray_destroy_icon(t);
-	}	
+	}
 }

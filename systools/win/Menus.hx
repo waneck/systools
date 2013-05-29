@@ -27,7 +27,7 @@ package systools.win;
 
 class Menus {
 	var m : Void;
-	
+
 	public function new( isPopup : Bool )
 	{
 		if ( isPopup )
@@ -35,42 +35,42 @@ class Menus {
 		else
 			m = _win_menu_create();
 	}
-	
+
 	public function dispose()
 	{
 		_win_destroy_menu( m );
 	}
-	
+
 	public function addItem( caption : String, msgid : Int ) : Void
 	{
-		_win_add_menu_item( m, untyped caption.__s, msgid );
+		_win_add_menu_item( m, caption, msgid );
 	}
-	
+
 	public function addDivider( msgid : Int ) : Void
 	{
 		_win_add_menu_divider( m, msgid );
 	}
-	
+
 	public function addSubmenu( menu : Menus, caption : String, msgid : Int ) : Void
 	{
-		_win_add_menu_submenu( m, menu.getHandle(), neko.Lib.haxeToNeko( caption ), msgid );
+		_win_add_menu_submenu( m, menu.getHandle(), caption, msgid );
 	}
-	
+
 	public function show( hwnd : Void )
 	{
 		return _win_show_menu( hwnd, m );
 	}
-	
+
 	public function showPopup( hwnd : Void )
 	{
 		return _win_show_popup_menu( hwnd, m );
 	}
-	
+
 	public function getHandle() : Dynamic
 	{
 		return m;
 	}
-	
+
 	static var _win_menu_create = systools.Loader.load("systools", "win_menu_create", 0);
 	static var _win_popup_menu_create = systools.Loader.load("systools", "win_popup_menu_create", 0);
 	static var _win_destroy_menu = systools.Loader.load("systools","win_destroy_menu",1);

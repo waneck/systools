@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2006, 
+ * Copyright (c) 2006,
  * Asger Ottar Alstrup, Edwin van Rijkom, Nicolas Cannasse
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
@@ -27,10 +27,10 @@
 package systools;
 
 class Registry {
-	
+
 	/**
 	 * HKEY_xxx_xxx values ignored on MacOS
-	 */	
+	 */
 	static public var HKEY_CLASSES_ROOT = 0;
 	static public var HKEY_CURRENT_USER = 1;
 	static public var HKEY_LOCAL_MACHINE = 2;
@@ -38,27 +38,23 @@ class Registry {
 	static public var HKEY_PERFORMANCE_DATA = 4;
 	static public var HKEY_CURRENT_CONFIG = 5;
 	static public var HKEY_DYN_DATA = 6;
-	
+
 	/**
 	 * Set a value in the registry. If it does not exist, it is created first.
 	 */
 	static public function setValue( key : Int, subKey : String, valuename : String, value : String) : Void {
-		_set_value( key, untyped subKey.__s, untyped valuename.__s, untyped value.__s );
+		_set_value( key, subKey, valuename, value);
 	}
-	
+
 	/**
 	 * Get the value of a key in registry.
 	 */
 	static public function getValue( key : Int, subKey : String, valuename : String ) : String {
-		var out:String=_get_value( key, untyped subKey.__s, untyped valuename.__s );
-		if (out==null)
-			return null;
-		// Need to convert neko Strings to haXe, according to Asger [IT]
-		return new String(out);
+		return _get_value( key, subKey, valuename);
 	}
-	
+
 	static public function deleteKey( key : Int, subKey : String) : Void {
-		_delete_key( key, untyped subKey.__s );
+		_delete_key( key, subKey);
 	}
 
 	static var _set_value = systools.Loader.load("systools","registry_set_value", 4);
