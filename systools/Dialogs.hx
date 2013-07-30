@@ -44,8 +44,11 @@ class Dialogs {
 	}
 
 	static var _dialog_save_file = systools.Loader.load("systools","dialogs_save_file",3);
-	public static function saveFile( title : String, msg: String, initialDir : String ) : String {
-		return _dialog_save_file(title, msg, initialDir);
+	public static function saveFile( title : String, msg: String, initialDir : String) : String {
+		var cwd:String = Sys.getCwd();		//grab current working directory before it changes		
+		var str:String = _dialog_save_file(title, msg, initialDir);
+		Sys.setCwd(cwd);					//reset it afterwards
+		return str;
 	}
 
 	static var _dialog_open_file = systools.Loader.load("systools","dialogs_open_file",3);
