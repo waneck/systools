@@ -73,22 +73,54 @@ static value dialogs_dialog_box( value title, value msg, value error ) {
 }
 DEFINE_PRIM(dialogs_dialog_box,3);
 
-static value dialogs_save_file( value title, value msg, value initialdir ) {
+static value dialogs_save_file( value title, value msg, value initialdir, value mask) {
 	char * v;
+	struct ARG_FILEFILTERS filters = {0,0,0};	
+	
 	value result = val_null;
 	val_check(title, string);
 	val_check(msg, string);
 	val_check(initialdir, string);
+	
+	if (val_is_object(mask)) {
+		value count = val_field(mask,val_id("count"));
+		value descriptions = val_field(mask,val_id("descriptions"));
+		value extensions = val_field(mask,val_id("extensions"));
+										
+		val_check(count,int);
+		val_check(descriptions,array);
+		val_check(extensions,array);
+				
+		filters.count = val_int(count);
+		if (filters.count) {
+			long i = filters.count;
+			filters.descriptions = (const char**) malloc(i*sizeof(char*));
+			filters.extensions = (const char**) malloc(i*sizeof(char*));
+			while(i) {
+				i--;
+				filters.descriptions[i] = val_string(val_array_i(descriptions,i));
+				filters.extensions[i] = val_string(val_array_i(extensions,i));
+			}		
+		}			
+	}
+	
 	result = val_null;
-	v = systools_dialogs_save_file(val_string(title),val_string(msg),val_string(initialdir)); 
+	v = systools_dialogs_save_file(val_string(title),val_string(msg),val_string(initialdir),filters.count? &filters : NULL); 
 	if (v) {			
 		result = alloc_string(v);
 		free((void*)v);
 	}
+	
+	// clean up allocated mem. for filters:
+	if (val_is_object(mask)) {
+		free(filters.descriptions);
+		free(filters.extensions);	
+	}
+	
 	return result;
 
 }
-DEFINE_PRIM(dialogs_save_file,3);
+DEFINE_PRIM(dialogs_save_file,4);
 
 static value dialogs_open_file( value title, value msg, value mask ) {
 	value result = val_null;

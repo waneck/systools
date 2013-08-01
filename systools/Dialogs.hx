@@ -43,10 +43,10 @@ class Dialogs {
 		return _dialog_box(title, msg, isError);
 	}
 
-	static var _dialog_save_file = systools.Loader.load("systools","dialogs_save_file",3);
-	public static function saveFile( title : String, msg: String, initialDir : String) : String {
+	static var _dialog_save_file = systools.Loader.load("systools","dialogs_save_file",4);
+	public static function saveFile( title : String, msg: String, initialDir : String,mask:FILEFILTERS=null) : String {
 		var cwd:String = Sys.getCwd();		//grab current working directory before it changes		
-		var str:String = _dialog_save_file(title, msg, initialDir);
+		var str:String = _dialog_save_file(title, msg, initialDir,mask);
 		Sys.setCwd(cwd);					//reset it afterwards
 		return str;
 	}
