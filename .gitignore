@@ -2,3 +2,7 @@ obj
 *.o
 *.n
 bin
+
+# OSX objects
+all_objs
+.DS_Store

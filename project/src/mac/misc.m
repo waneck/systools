@@ -17,13 +17,18 @@
 /* ************************************************************************ */
 
 #include "misc.h"
-#include <Carbon/Carbon.h> 
+#if CARBON
+#include <Carbon/Carbon.h>
+#else
+#include <Cocoa/Cocoa.h>
+#endif
 
 void systools_misc_initialize()
 {
 }
 
 int systools_misc_get_key_state( int code ) {
+	#if CARBON
 	KeyMap theKeys;
 	unsigned char *keybytes;
 	if (code >= 0 && code <= 127) {
@@ -31,5 +36,6 @@ int systools_misc_get_key_state( int code ) {
 		keybytes = (unsigned char *) theKeys;
 		return (keybytes[code>>3] & (1 << (code&7)));
 	}
+	#endif
 	return 0;
 }

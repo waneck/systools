@@ -24,10 +24,15 @@
  */
 
 #include "../browser.h"
+#if CARBON
 #include <Carbon/Carbon.h>
+#else
+#include <Cocoa/Cocoa.h>
+#endif
 
-int systools_browser_launch( const char *url) 
+int systools_browser_launch( const char *url)
 {
+    #if CARBON
     OSStatus err;
     ICInstance inst;
 	long selStart, selEnd;
@@ -40,4 +45,8 @@ int systools_browser_launch( const char *url)
         ICStop(inst);
     }
     return (err==0);
+    #else
+    NSURL *nsurl = [NSURL URLWithString:[NSString stringWithUTF8String:url]];
+    return [[NSWorkspace sharedWorkspace] openURL:nsurl] ? 1 : 0;
+    #endif
 }

@@ -22,9 +22,23 @@
 	<file name="${platform_dir}win.c" if="windows" />
 </files>
 
+<files id="mac" dir="./src">
+	<compilerflag value="-I./src"/>
+	<file name="api.cpp" />
+	<file name="mac/browser.m" />
+	<file name="mac/clipboard.m" />
+	<file name="mac/dialogs.m" />
+	<file name="mac/display.m" />
+	<file name="mac/fileutils.m" />
+	<file name="mac/misc.m" />
+	<file name="mac/registry.m" />
+</files>
+
 <target id="systools" output="${LIBPREFIX}systools${DBG}${LIBEXTRA}" tool="linker" toolid="${STD_MODULE_LINK}">
   <ext value=".ndll" unless="mobile"/>
-  <files id="systools"/>
+  <files id="systools" unless="macos"/>
+  <files id="mac" if="macos"/>
+
   <lib name="kernel32.lib" if="windows"/>
   <lib name="user32.lib" if="windows"/>
   <lib name="comdlg32.lib" if="windows"/>
