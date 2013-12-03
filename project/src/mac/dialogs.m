@@ -180,18 +180,20 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 
 	if ([openPanel runModal] == NSOKButton) {
 		result->count = [openPanel.URLs count];
-		int i = 0;
-		for (NSURL *url in openPanel.URLs) {
-			NSString *path = [url path];
+		int count = result->count;
+		result->strings = malloc(count*sizeof(char*));
+		while (count) {
+			count--;
+			NSString *path = [[openPanel.URLs objectAtIndex:count] path];
 			if (path) {
-				int length = [path length];
-				result->strings[i] = malloc(length);
-				strcpy(result->strings[i], [path UTF8String]);
+				result->strings[count] = malloc([path length]);
+				strcpy(result->strings[count], [path UTF8String]);
 			} else {
-				result->strings[i] = 0;
+				result->strings[count] = 0;
 			}
-			i += 1;
 		}
+	} else {
+		result->count = 0;
 	}
 #endif
 }
