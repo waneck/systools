@@ -17,63 +17,82 @@
 /* ************************************************************************ */
 
 #include "dialogs.h"
+#ifdef CARBON
 #include <Carbon/Carbon.h>
+#else
+#include <Cocoa/Cocoa.h>
+#endif
 
 #define PATH_SIZE 2048
 
 // helpers:
+#if CARBON
 static Boolean filterProc(AEDesc * theItem, void * info, void * callBackUD, NavFilterModes filterMode);
 static OSStatus GetFSRefFromAEDesc( FSRef *fsRef, AEDesc* theItem );
+#endif
 
 // main:
 
 void systools_dialogs_message_box( const char *title, const char *message, int error ) {
+#ifdef CARBON
 	CFOptionFlags result;
 	CFUserNotificationDisplayAlert
 		( 0, error? 0 : kCFUserNotificationCautionAlertLevel
 		, 0, 0, 0
 		, CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8)
 		, CFStringCreateWithCString(NULL,message,kCFStringEncodingUTF8)
-		, 0, 0, 0 
-		, &result );			
+		, 0, 0, 0
+		, &result );
+#else
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setMessageText:[NSString stringWithUTF8String:title]];
+	[alert runModal];
+#endif
 }
 
 int systools_dialogs_dialog_box( const char *title, const char *message, int error ) {
+#ifdef CARBON
 	CFOptionFlags result;
 	CFUserNotificationDisplayAlert
 		( 0,  error? 0 : kCFUserNotificationCautionAlertLevel
 		, 0, 0, 0
 		, CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8)
 		, CFStringCreateWithCString(NULL,message,kCFStringEncodingUTF8)
-		, CFSTR("Yes"), CFSTR("No"), 0 
+		, CFSTR("Yes"), CFSTR("No"), 0
 		, &result );
-		
+
 	return kCFUserNotificationDefaultResponse == result ? 1 : 0;
+#else
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setMessageText:[NSString stringWithUTF8String:title]];
+	return [alert runModal] == NSOKButton ? 1 : 0;
+#endif
 }
 
 char* systools_dialogs_save_file( const char *title, const char* msg, const char *initialdir ) {
+#ifdef CARBON
 	char *result = NULL;
 	NavDialogRef ref;
 	NavDialogCreationOptions opt;
-							
-	NavGetDefaultDialogCreationOptions(&opt);		
+
+	NavGetDefaultDialogCreationOptions(&opt);
 	opt.clientName = CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8);
 	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
 	opt.modality = kWindowModalityAppModal;
-			
+
 	if (NavCreatePutFileDialog(&opt,0,kNavGenericSignature,NULL,NULL,&ref) == noErr) {
-				
+
 		if (NavDialogRun(ref) == noErr) {
 			if (NavDialogGetUserAction(ref) == kNavUserActionSaveAs) {
 				NavReplyRecord reply;
 				if (NavDialogGetReply(ref,&reply)  == kNavNormalState) {
 					FSRef fsref;
-					result = malloc(PATH_SIZE);	
-					memset(result,0,PATH_SIZE);				
-					GetFSRefFromAEDesc(&fsref,&reply.selection);					
+					result = malloc(PATH_SIZE);
+					memset(result,0,PATH_SIZE);
+					GetFSRefFromAEDesc(&fsref,&reply.selection);
 					if (FSRefMakePath (&fsref,(UInt8*)result,PATH_SIZE)==noErr) {
 						strcat(result,"/");
-						CFStringGetCString(reply.saveFileName,result+strlen(result),PATH_SIZE-strlen(result),kCFStringEncodingUTF8);					
+						CFStringGetCString(reply.saveFileName,result+strlen(result),PATH_SIZE-strlen(result),kCFStringEncodingUTF8);
 					} else {
 						free(result);
 						result = NULL;
@@ -83,37 +102,56 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 			}
 		}
 		NavDialogDispose(ref);
-	}	
+	}
 	return result;
+#else
+	NSSavePanel *savePanel = [NSSavePanel savePanel];
+	[savePanel setTitle:[NSString stringWithUTF8String:title]];
+	[savePanel setMessage:[NSString stringWithUTF8String:msg]];
+	[savePanel setDirectoryURL:[NSURL fileURLWithFileSystemRepresentation:initialdir isDirectory:YES relativeToURL:nil]];
+
+	if ([savePanel runModal] == NSOKButton)
+	{
+		NSString *path = [[savePanel URL] path];
+		if (path)
+		{
+			char *result = malloc([path length]);
+			strcpy(result, [path UTF8String]);
+			return result;
+		}
+	}
+	return 0;
+#endif
 }
 
 void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *filters, struct RES_STRINGLIST *result) {
+#ifdef CARBON
 	result->count = 0;
 	result->strings = NULL;
 	NavDialogRef ref;
 	NavDialogCreationOptions opt;
-							
-	NavGetDefaultDialogCreationOptions(&opt);		
+
+	NavGetDefaultDialogCreationOptions(&opt);
 	opt.clientName = CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8);
 	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
 	opt.modality = kWindowModalityAppModal;
-			
+
 	if (NavCreateGetFileDialog(&opt,NULL,NULL,NULL,filterProc,filters,&ref) == noErr) {
-				
+
 		if (NavDialogRun(ref) == noErr) {
 			if (NavDialogGetUserAction(ref)==kNavUserActionOpen) {
 				NavReplyRecord reply;
 				if (NavDialogGetReply(ref,&reply) == kNavNormalState) {
 					long count;
 					AEKeyword keyword;
-					DescType type;					
+					DescType type;
 					Size size;
-					
+
 					AECountItems(&reply.selection, &count);
 					if (count) {
 						result->count = count;
 						result->strings = malloc(count*sizeof(char*));
-						while(count>0) {							
+						while(count>0) {
 							count--;
 							AEGetNthPtr(&reply.selection,count+1,typeFileURL,&keyword,&type,0,0,&size);
 							result->strings[count] = malloc(size);
@@ -124,27 +162,49 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 								result->strings[count][size-16]=0;
 							}
 						}
-					}	
+					}
 					NavDisposeReply(&reply);
 				}
 			}
 		}
 		NavDialogDispose(ref);
-	}	
+	}
+#else
+	NSOpenPanel *openPanel = [[NSOpenPanel alloc] init];
+	[openPanel setTitle:[NSString stringWithUTF8String:title]];
+	[openPanel setMessage:[NSString stringWithUTF8String:msg]];
+
+	if ([openPanel runModal] == NSOKButton) {
+		result->count = [openPanel.URLs count];
+		int i = 0;
+		for (NSURL *url in openPanel.URLs) {
+			NSString *path = [url path];
+			if (path) {
+				int length = [path length];
+				result->strings[i] = malloc(length);
+				strcpy(result->strings[i], [path UTF8String]);
+			} else {
+				result->strings[i] = 0;
+			}
+			i += 1;
+		}
+	}
+#endif
 }
 
 char* systools_dialogs_folder( const char *title, const char *msg ) {
+#ifdef CARBON
 	char *result = NULL;
 	NavDialogRef ref;
 	NavDialogCreationOptions opt;
-							
-	NavGetDefaultDialogCreationOptions(&opt);		
+
+	NavGetDefaultDialogCreationOptions(&opt);
 	opt.clientName = CFStringCreateWithCString(NULL,title,kCFStringEncodingUTF8);
 	opt.message = CFStringCreateWithCString(NULL,msg,kCFStringEncodingUTF8);
 	opt.modality = kWindowModalityAppModal;
-			
+
 	if (NavCreateChooseFolderDialog(&opt,NULL,NULL,NULL,&ref) == noErr) {
-				
+
 		if (NavDialogRun(ref) == noErr) {
 			NavUserAction action = NavDialogGetUserAction(ref);
 			if ( action != kNavUserActionCancel && action != kNavUserActionNone) {
@@ -153,46 +213,63 @@ char* systools_dialogs_folder( const char *title, const char *msg ) {
 					AEKeyword keyword;
 					AEDesc desc;
 					FSRef fsref;
-					
+
 					AEGetNthDesc(&reply.selection, 1, typeFSRef, &keyword, &desc);
-										
-					result = malloc(PATH_SIZE);	
-					memset(result,0,PATH_SIZE);				
-					GetFSRefFromAEDesc(&fsref,&reply.selection);					
+
+					result = malloc(PATH_SIZE);
+					memset(result,0,PATH_SIZE);
+					GetFSRefFromAEDesc(&fsref,&reply.selection);
 					if (FSRefMakePath (&fsref,(UInt8*)result,PATH_SIZE)!=noErr) {
 						free(result);
 						result = NULL;
-					}				
+					}
 					NavDisposeReply(&reply);
 				}
 			}
 		}
 		NavDialogDispose(ref);
-	}	
+	}
 	return result;
+#else
+	NSOpenPanel *openPanel = [[NSOpenPanel alloc] init];
+	[openPanel setTitle:[NSString stringWithUTF8String:title]];
+	[openPanel setMessage:[NSString stringWithUTF8String:msg]];
+	[openPanel setCanChooseFiles:NO];
+	[openPanel setCanChooseDirectories:YES];
+
+	if ([openPanel runModal] == NSOKButton) {
+		NSString *path = [[openPanel.URLs objectAtIndex:0] path];
+		if (path) {
+			char *result = malloc([path length]);
+			strcpy(result, [path UTF8String]);
+			return result;
+		}
+	}
+	return 0;
+#endif
 }
 
 // helpers:
-
+#ifdef CARBON
 static OSStatus GetFSRefFromAEDesc( FSRef *fsRef, AEDesc* theItem ) {
 	OSStatus err = noErr;
-	AEDesc coerceDesc= { 0, NULL };	
+	AEDesc coerceDesc= { 0, NULL };
 	if ( theItem->descriptorType != typeFSRef )	{
 		err = AECoerceDesc( theItem, typeFSRef, &coerceDesc );
 		if ( err == noErr )
 		theItem = &coerceDesc;
-	}	
+	}
 	if ( err == noErr )
 	err = AEGetDescData( theItem, fsRef, sizeof(*fsRef) );
 	AEDisposeDesc( &coerceDesc );
-	
+
 	if ( err != noErr )	{
 		FSSpec fsSpec;
 		AEDesc coerceDesc2 = {0, NULL};
 		if ( theItem->descriptorType != typeFSS ) {
 			err = AECoerceDesc( theItem, typeFSS, &coerceDesc2 );
 			theItem = &coerceDesc2;
-		}	
+		}
 		if ( err == noErr )
 		err = AEGetDescData( theItem, &fsSpec, sizeof(fsSpec) );
 		AEDisposeDesc( &coerceDesc2 );
@@ -204,38 +281,37 @@ static OSStatus GetFSRefFromAEDesc( FSRef *fsRef, AEDesc* theItem ) {
 
 static Boolean filterProc(AEDesc * theItem, void * info, void * callBackUD, NavFilterModes filterMode) {
 	struct ARG_FILEFILTERS *filters = (struct ARG_FILEFILTERS *) callBackUD;
-	if (!filters) 
+	if (!filters)
 		return 1;
-	
+
 	NavFileOrFolderInfo *i = (NavFileOrFolderInfo*) info;
-	if (i->isFolder) 
+	if (i->isFolder)
 		return 1;
-	
+
 	if (theItem->descriptorType==typeFSRef) {
 		FSRef f;
 		UInt8 path[PATH_SIZE];
-		
+
 		GetFSRefFromAEDesc(&f,theItem);
-		if (FSRefMakePath (&f,path,PATH_SIZE)==noErr) {			
+		if (FSRefMakePath (&f,path,PATH_SIZE)==noErr) {
 			char *ext = NULL;
 			char *next = (char*) path;
 			while(next) {
-				next = strstr(next,".");				
-				if (next) 
-					ext = ++next;					
+				next = strstr(next,".");
+				if (next)
+					ext = ++next;
 			}
 			if(ext) {
 				long j = filters->count;
 				while(j) {
-					if (strcasestr(filters->extensions[--j],ext) !=0) 
+					if (strcasestr(filters->extensions[--j],ext) !=0)
 						return 1;
 				}
 			}
 		}
-		return 0;		
+		return 0;
 	}
-	return 1;	
+	return 1;
 }
-
-
+#endif
 

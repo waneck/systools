@@ -18,10 +18,20 @@
 /* ******************************************************************************** */
 
 #include "../display.h"
+#if CARBON
 #include <Carbon/Carbon.h>
-	
+#else
+#include <Cocoa/Cocoa.h>
+#endif
+
 void systools_display_get_screen_size(dimensions *pDim)
 {
+#if CARBON
 	pDim->width=CGDisplayPixelsWide(CGMainDisplayID());
 	pDim->height=CGDisplayPixelsHigh(CGMainDisplayID());
+#else
+	NSRect screenRect = [[NSScreen mainScreen] frame];
+	pDim->width = screenRect.size.width;
+	pDim->height = screenRect.size.height;
+#endif
 }
