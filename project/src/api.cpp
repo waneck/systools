@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern "C" 
+extern "C"
 {
 	#include "api.h"
 	#include "clipboard.h"
@@ -80,8 +80,8 @@ static value dialogs_save_file( value title, value msg, value initialdir ) {
 	val_check(msg, string);
 	val_check(initialdir, string);
 	result = val_null;
-	v = systools_dialogs_save_file(val_string(title),val_string(msg),val_string(initialdir)); 
-	if (v) {			
+	v = systools_dialogs_save_file(val_string(title),val_string(msg),val_string(initialdir));
+	if (v) {
 		result = alloc_string(v);
 		free((void*)v);
 	}
@@ -92,21 +92,21 @@ DEFINE_PRIM(dialogs_save_file,3);
 
 static value dialogs_open_file( value title, value msg, value mask ) {
 	value result = val_null;
-	struct ARG_FILEFILTERS filters = {0,0,0};	
+	struct ARG_FILEFILTERS filters = {0,0,0};
 	struct RES_STRINGLIST files;
-	
+
 	val_check(title,string);
 	val_check(msg,string);
-		
+
 	if (val_is_object(mask)) {
 		value count = val_field(mask,val_id("count"));
 		value descriptions = val_field(mask,val_id("descriptions"));
 		value extensions = val_field(mask,val_id("extensions"));
-										
+
 		val_check(count,int);
 		val_check(descriptions,array);
 		val_check(extensions,array);
-				
+
 		filters.count = val_int(count);
 		if (filters.count) {
 			long i = filters.count;
@@ -116,12 +116,12 @@ static value dialogs_open_file( value title, value msg, value mask ) {
 				i--;
 				filters.descriptions[i] = val_string(val_array_i(descriptions,i));
 				filters.extensions[i] = val_string(val_array_i(extensions,i));
-			}		
-		}			
-	}	
-				
+			}
+		}
+	}
+
 	systools_dialogs_open_file(val_string(title),val_string(msg),filters.count? &filters : NULL,&files);
-	if (files.count) {	
+	if (files.count) {
 		result = alloc_array(files.count);
 		while(files.count) {
 			files.count--;
@@ -134,7 +134,7 @@ static value dialogs_open_file( value title, value msg, value mask ) {
 	// clean up allocated mem. for filters:
 	if (val_is_object(mask)) {
 		free(filters.descriptions);
-		free(filters.extensions);	
+		free(filters.extensions);
 	}
 
 	return result;
@@ -145,10 +145,10 @@ static value dialogs_folder( value title, value msg ) {
 	char * v;
 	value result = val_null;
 	val_check(title, string);
-	val_check(msg, string);	
+	val_check(msg, string);
 	result = val_null;
-	v = systools_dialogs_folder(val_string(title),val_string(msg)); 
-	if (v) {			
+	v = systools_dialogs_folder(val_string(title),val_string(msg));
+	if (v) {
 		result = alloc_string(v);
 		free(v);
 	}
@@ -163,19 +163,19 @@ DEFINE_PRIM(dialogs_folder,2);
 
 static value clipboard_set_text( value text ) {
 	val_check(text, string);
-	return alloc_int(systools_clipboard_set_text(val_string(text)));	
+	return alloc_int(systools_clipboard_set_text(val_string(text)));
 }
 DEFINE_PRIM(clipboard_set_text,1);
 
 
 static value clipboard_get_text() {
 	value result = val_null;
-	char* v = systools_clipboard_get_text(); 
-	if (v) {			
-		result = alloc_string(v);			
+	char* v = systools_clipboard_get_text();
+	if (v) {
+		result = alloc_string(v);
 		free((void*)v);
 	}
-	return result;		
+	return result;
 }
 DEFINE_PRIM(clipboard_get_text,0);
 
@@ -218,12 +218,12 @@ static value fileutils_get_temp_folder()
 {
 	char * v;
 	value result = val_null;
-	v = systools_fileutils_get_temp_folder(); 
-	if (v) {			
+	v = systools_fileutils_get_temp_folder();
+	if (v) {
 		result = alloc_string(v);
 		free((void*)v);
 	}
-	return result;	
+	return result;
 }
 DEFINE_PRIM(fileutils_get_temp_folder,0);
 
@@ -270,19 +270,19 @@ static value registry_get_value( value key, value subkey, value valuename) {
 	val_check(subkey, string);
 	val_check(valuename, string);
 	result = val_null;
-	v = systools_registry_get_value(val_int(key), val_string(subkey), val_string(valuename)); 
-	if (v) {			
+	v = systools_registry_get_value(val_int(key), val_string(subkey), val_string(valuename));
+	if (v) {
 		result = alloc_string(v);
 		free((void*)v);
 	}
-	return result;		
+	return result;
 }
 DEFINE_PRIM(registry_get_value,3);
 
 static value registry_delete_key( value key, value subkey) {
 	val_check(key, int);
 	val_check(subkey, string);
-	systools_registry_delete_key(val_int(key), val_string(subkey)); 
+	systools_registry_delete_key(val_int(key), val_string(subkey));
 	return val_null;
 }
 DEFINE_PRIM(registry_delete_key,2);
@@ -300,7 +300,7 @@ extern "C"
 	#include "win/display.h"
 }
 
-static value win_replace_exe_icon( value exe, value icon, value iconResourceID) {	
+static value win_replace_exe_icon( value exe, value icon, value iconResourceID) {
 	int r = 0;
 	value result = val_null;
 	val_check(exe, string);
@@ -473,3 +473,13 @@ static value display_is_mode_supported( value width, value height, value depth )
 DEFINE_PRIM(display_is_mode_supported,3);
 
 #endif
+
+// Neko specific code
+
+extern "C" void systools_main()
+{
+    val_int(0); // fix neko init
+}
+DEFINE_ENTRY_POINT(systools_main);
+
+extern "C" int systools_register_prims () { return 0; }
