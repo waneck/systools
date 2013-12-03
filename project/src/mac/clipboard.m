@@ -17,13 +17,11 @@
 /* ************************************************************************ */
 
 #include "clipboard.h"
-#ifdef CARBON
-#include <Carbon/Carbon.h>
-#else
-#include <Cocoa/Cocoa.h>
-#endif
 
 #if CARBON
+
+#include <Carbon/Carbon.h>
+
 static PasteboardRef getPasteboard()
 {
     static PasteboardRef sPasteboard = NULL;
@@ -33,26 +31,17 @@ static PasteboardRef getPasteboard()
     }
     return sPasteboard;
 }
-#endif
 
 int systools_clipboard_set_text( const char * text ) {
-#if CARBON
 	CFDataRef data = CFDataCreate(kCFAllocatorDefault,(const UInt8*)text,strlen(text));
 
 	PasteboardClear(getPasteboard());
 	PasteboardSynchronize(getPasteboard());
 
 	return PasteboardPutItemFlavor(getPasteboard(),(PasteboardItemID)1,CFSTR("utf8"),data,kPasteboardFlavorNoFlags);
-#else
-	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-	[pasteboard clearContents];
-	[pasteboard writeObjects:[NSArray arrayWithObject:[NSString stringWithUTF8String:text]]];
-	return 0;
-#endif
 }
 
 char* systools_clipboard_get_text() {
-#if CARBON
 	OSStatus err;
 	CFDataRef data;
 	ItemCount itemCount;
@@ -85,23 +74,39 @@ char* systools_clipboard_get_text() {
 		}
 	}
 	return result;
-#else
-	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-	NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
-	NSArray *strings = [pasteboard readObjectsForClasses:classes options:nil];
-	if (strings != nil) {
-		return (char *)[[strings objectAtIndex:0] UTF8String];
-	}
-	return 0;
-#endif
 }
 
 void systools_clipboard_clear() {
-#if CARBON
 	PasteboardSynchronize(getPasteboard());
 	PasteboardClear(getPasteboard());
+}
+
 #else
+
+#include <Cocoa/Cocoa.h>
+
+
+int systools_clipboard_set_text( const char * text ) {
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
 	[pasteboard clearContents];
-#endif
+	[pasteboard writeObjects:[NSArray arrayWithObject:[NSString stringWithUTF8String:text]]];
+	return 0;
 }
+char* systools_clipboard_get_text() {
+	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+	NSArray *classes = [[NSArray alloc] initWithObjects:[NSString class], nil];
+	NSArray *strings = [pasteboard readObjectsForClasses:classes options:nil];
+	if ([strings count] > 0) {
+		NSString * value = [strings objectAtIndex:0];
+		char *string = malloc([value length]);
+		strcpy(string, [value UTF8String]);
+		return string;
+	}
+	return 0;
+}
+void systools_clipboard_clear() {
+	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+	[pasteboard clearContents];
+}
+
+#endif
