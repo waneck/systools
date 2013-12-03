@@ -44,8 +44,9 @@ void systools_dialogs_message_box( const char *title, const char *message, int e
 		, 0, 0, 0
 		, &result );
 #else
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setMessageText:[NSString stringWithUTF8String:title]];
+	[alert setInformativeText:[NSString stringWithUTF8String:message]];
 	[alert runModal];
 #endif
 }
@@ -63,9 +64,12 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 
 	return kCFUserNotificationDefaultResponse == result ? 1 : 0;
 #else
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setMessageText:[NSString stringWithUTF8String:title]];
-	return [alert runModal] == NSOKButton ? 1 : 0;
+	[alert setInformativeText:[NSString stringWithUTF8String:message]];
+	[alert addButtonWithTitle:@"OK"];
+	[alert addButtonWithTitle:@"Cancel"];
+	return [alert runModal] == NSAlertFirstButtonReturn ? 1 : 0;
 #endif
 }
 
