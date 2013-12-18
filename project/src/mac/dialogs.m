@@ -178,6 +178,17 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 	[openPanel setTitle:[NSString stringWithUTF8String:title]];
 	[openPanel setMessage:[NSString stringWithUTF8String:msg]];
 
+	if (filters)
+	{
+		NSMutableArray *nsFilters = [[NSMutableArray alloc] init];
+		for (int i = 0; i < filters->count; i++)
+		{
+			NSString *extension = [[NSString stringWithUTF8String:filters->extensions[i]] pathExtension];
+			[nsFilters addObject:extension];
+		}
+		[openPanel setAllowedFileTypes:[NSArray arrayWithArray:nsFilters]];
+	}
+
 	if ([openPanel runModal] == NSOKButton) {
 		result->count = [openPanel.URLs count];
 		int count = result->count;
