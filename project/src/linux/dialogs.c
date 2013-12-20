@@ -50,7 +50,7 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	return (response==GTK_RESPONSE_OK)?1:0;
 }
 
-char* systools_dialogs_save_file( const char *title, const char* msg, const char *initialdir ) {
+char* systools_dialogs_save_file( const char *title, const char* msg, const char *initialdir, struct ARG_FILEFILTERS *filters ) {
 	char *result = NULL;
 
 	GtkWidget *dialog;
