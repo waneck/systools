@@ -28,7 +28,7 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 	return MessageBox(NULL,message,title,MB_TASKMODAL | MB_OK | MB_YESNO | (error ? MB_ICONERROR : MB_ICONINFORMATION)) == IDYES;		
 }
 
-char* systools_dialogs_save_file( const char *title, const char *_, const char *initialdir ) {
+char* systools_dialogs_save_file( const char *title, const char *_, const char *initialdir, struct ARG_FILEFILTERS *mask) {
 	char* result = 0;
 	OPENFILENAME ofn;
 
@@ -44,6 +44,27 @@ char* systools_dialogs_save_file( const char *title, const char *_, const char *
 								Using 8k for now. */
 	ofn.lpstrFile = malloc(8192);
 	ofn.lpstrFile[0] = 0;
+
+	if (mask && mask->count) {
+		long i = mask->count;
+		size_t s = 0, el = 0, dl = 0;
+		
+		while (i) {			
+			i--;
+			el = +strlen(mask->extensions[i])+1;
+			dl = strlen(mask->descriptions[i])+1;
+			ofn.lpstrFilter = realloc
+					( ofn.lpstrFilter
+					, s + dl + el + (i==0? 1 : 0)
+					);			
+			strcpy(ofn.lpstrFilter+(s),mask->descriptions[i]);
+			strcpy(ofn.lpstrFilter+(s+=dl),mask->extensions[i]);
+			s+=el;
+			// last pass, add term. zero:
+			if (i==0) 
+				memset(ofn.lpstrFilter+s,0,1);
+		}		
+	}
 
 	if( GetSaveFileName(&ofn ) ){
 		result = strdup( ofn.lpstrFile );

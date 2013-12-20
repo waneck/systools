@@ -73,7 +73,7 @@ int systools_dialogs_dialog_box( const char *title, const char *message, int err
 #endif
 }
 
-char* systools_dialogs_save_file( const char *title, const char* msg, const char *initialdir ) {
+char* systools_dialogs_save_file( const char *title, const char* msg, const char *initialdir, struct ARG_FILEFILTERS *filters ) {
 #ifdef CARBON
 	char *result = NULL;
 	NavDialogRef ref;
@@ -113,6 +113,17 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 	[savePanel setTitle:[NSString stringWithUTF8String:title]];
 	[savePanel setMessage:[NSString stringWithUTF8String:msg]];
 	[savePanel setDirectoryURL:[NSURL fileURLWithFileSystemRepresentation:initialdir isDirectory:YES relativeToURL:nil]];
+
+	if (filters)
+	{
+		NSMutableArray *nsFilters = [[NSMutableArray alloc] init];
+		for (int i = 0; i < filters->count; i++)
+		{
+			NSString *extension = [[NSString stringWithUTF8String:filters->extensions[i]] pathExtension];
+			[nsFilters addObject:extension];
+		}
+		[savePanel setAllowedFileTypes:[NSArray arrayWithArray:nsFilters]];
+	}
 
 	if ([savePanel runModal] == NSOKButton)
 	{
