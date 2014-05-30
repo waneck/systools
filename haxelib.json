@@ -4,9 +4,9 @@
   "license": "LGPL",
   "tags": ["neko","cpp","system"],
   "description": "A cross-platform extension to the Neko VM for accessing system APIs",
-  "version": "1.0.0-beta",
-  "releasenote": "Haxe 3.0 support; Samples working on hxcpp/neko",
-  "contributors": ["waneck"],
+  "version": "1.1.0",
+  "releasenote": "Many fixes, new Mac version using Cocoa",
+  "contributors": ["waneck", "heardtheword"],
   "dependencies": {
 
   }
