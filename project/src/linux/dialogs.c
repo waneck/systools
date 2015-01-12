@@ -72,7 +72,7 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 	return result;
 }
 
-void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *filters, struct RES_STRINGLIST *result) {
+void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_FILEFILTERS *filters, int multi, struct RES_STRINGLIST *result) {
 	result->count = 0;
 	result->strings = NULL;
 

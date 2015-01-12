@@ -51,10 +51,10 @@ class Dialogs {
 		return str;
 	}
 
-	static var _dialog_open_file = systools.Loader.load("systools","dialogs_open_file",3);
-	public static function openFile( title : String, msg : String, mask : FILEFILTERS ) : Array<String> {
+	static var _dialog_open_file = systools.Loader.load("systools","dialogs_open_file",4);
+	public static function openFile( title : String, msg : String, mask : FILEFILTERS, multi:Bool ) : Array<String> {
 		var cwd:String = Sys.getCwd();		//grab current working directory before it changes
-		var arr:Array<String> = _dialog_open_file(title, msg, mask);
+		var arr:Array<String> = _dialog_open_file(title, msg, mask, multi);
 		Sys.setCwd(cwd);					//reset it afterwards
 		return arr;
 	}
