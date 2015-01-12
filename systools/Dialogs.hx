@@ -43,16 +43,40 @@ class Dialogs {
 		return _dialog_box(title, msg, isError);
 	}
 
-	static var _dialog_save_file = systools.Loader.load("systools","dialogs_save_file",4);
+	static var _dialog_save_file = null;
 	public static function saveFile( title : String, msg: String, initialDir : String,mask:FILEFILTERS=null) : String {
-		var cwd:String = Sys.getCwd();		//grab current working directory before it changes		
+		if (_dialog_save_file == null)
+		{
+			try
+			{
+				_dialog_save_file = systools.Loader.load("systools","dialogs_save_file",4);
+			}
+			catch(e:Dynamic)
+			{
+				var savef = systools.Loader.load("systools","dialogs_save_file",3);
+				_dialog_save_file = function(title,msg,initialDir,mask) return savef(title,msg,initialDir);
+			}
+		}
+		var cwd:String = Sys.getCwd();		//grab current working directory before it changes
 		var str:String = _dialog_save_file(title, msg, initialDir,mask);
 		Sys.setCwd(cwd);					//reset it afterwards
 		return str;
 	}
 
-	static var _dialog_open_file = systools.Loader.load("systools","dialogs_open_file",4);
-	public static function openFile( title : String, msg : String, mask : FILEFILTERS, multi:Bool ) : Array<String> {
+	static var _dialog_open_file = null;
+	public static function openFile( title : String, msg : String, mask : FILEFILTERS, multi:Bool=true ) : Array<String> {
+		if (_dialog_open_file == null)
+		{
+			try {
+				_dialog_open_file = systools.Loader.load("systools","dialogs_open_file",4);
+			}
+			catch(e:Dynamic)
+			{
+				var openf = systools.Loader.load("systools","dialogs_open_file",3);
+				_dialog_open_file = function(title,msg,mask,multi) return openf(title,msg,mask);
+			}
+		}
+
 		var cwd:String = Sys.getCwd();		//grab current working directory before it changes
 		var arr:Array<String> = _dialog_open_file(title, msg, mask, multi);
 		Sys.setCwd(cwd);					//reset it afterwards
