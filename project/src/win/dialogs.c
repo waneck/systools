@@ -96,6 +96,7 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 								fetch my glass ball...
 								Using 8k for now. */
 	ofn.lpstrFile = malloc(8192);
+	memset(ofn.lpstrFile, 0, 8192);//zero memory is always good
 	ofn.lpstrFile[0] = 0;	
 
 	if (mask && mask->count) {
