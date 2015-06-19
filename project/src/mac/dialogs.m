@@ -125,6 +125,8 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 		[savePanel setAllowedFileTypes:[NSArray arrayWithArray:nsFilters]];
 	}
 
+	NSWindow *keyWindow = [NSApp keyWindow];
+
 	if ([savePanel runModal] == NSOKButton)
 	{
 		NSString *path = [[savePanel URL] path];
@@ -132,9 +134,13 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 		{
 			char *result = malloc([path length]);
 			strcpy(result, [path UTF8String]);
+			[keyWindow makeKeyWindow];
 			return result;
 		}
 	}
+
+	[keyWindow makeKeyWindow];
+
 	return 0;
 #endif
 }
@@ -200,6 +206,8 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 		[openPanel setAllowedFileTypes:[NSArray arrayWithArray:nsFilters]];
 	}
 
+	NSWindow *keyWindow = [NSApp keyWindow];
+
 	if ([openPanel runModal] == NSOKButton) {
 		result->count = [openPanel.URLs count];
 		int count = result->count;
@@ -217,6 +225,8 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 	} else {
 		result->count = 0;
 	}
+
+	[keyWindow makeKeyWindow];
 #endif
 }
 
@@ -265,14 +275,20 @@ char* systools_dialogs_folder( const char *title, const char *msg ) {
 	[openPanel setCanChooseFiles:NO];
 	[openPanel setCanChooseDirectories:YES];
 
+	NSWindow *keyWindow = [NSApp keyWindow];
+
 	if ([openPanel runModal] == NSOKButton) {
 		NSString *path = [[openPanel.URLs objectAtIndex:0] path];
 		if (path) {
 			char *result = malloc([path length]);
 			strcpy(result, [path UTF8String]);
+			[keyWindow makeKeyWindow];
 			return result;
 		}
 	}
+
+	[keyWindow makeKeyWindow];
+
 	return 0;
 #endif
 }
