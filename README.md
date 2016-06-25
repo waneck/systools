@@ -10,7 +10,7 @@ The files are updated and are _mostly working_ for all platforms - which means t
 You are welcome to ask for new features; A broader version of systools is planned to be made from scratch, and with a more permissive license.
 
 ### Neko usage with OpenFL ###
-OpenFL will not include **systools.ndll** by default when building for the Neko platform. To solve this you must include an additional line in your `project.xml` file, just after the `<haxelib name="systools" />` tag:
+OpenFL will not include **systools.ndll** by default when building for the Neko or cpp platforms. To solve this you must include an additional line in your `project.xml` file, just after the `<haxelib name="systools" />` tag:
 ```xml
 <ndll name="systools" haxelib="systools" />
 ```
