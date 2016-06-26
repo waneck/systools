@@ -109,6 +109,8 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 	}
 	return result;
 #else
+	NSOpenGLContext *context = [NSOpenGLContext currentContext];
+
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
 	[savePanel setTitle:[NSString stringWithUTF8String:title]];
 	[savePanel setMessage:[NSString stringWithUTF8String:msg]];
@@ -140,6 +142,7 @@ char* systools_dialogs_save_file( const char *title, const char* msg, const char
 	}
 
 	[keyWindow makeKeyWindow];
+	[context makeCurrentContext];
 
 	return 0;
 #endif
@@ -191,6 +194,8 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 		NavDialogDispose(ref);
 	}
 #else
+	NSOpenGLContext *context = [NSOpenGLContext currentContext];
+
 	NSOpenPanel *openPanel = [[NSOpenPanel alloc] init];
 	[openPanel setTitle:[NSString stringWithUTF8String:title]];
 	[openPanel setMessage:[NSString stringWithUTF8String:msg]];
@@ -227,6 +232,7 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 	}
 
 	[keyWindow makeKeyWindow];
+	[context makeCurrentContext];
 #endif
 }
 
@@ -269,6 +275,8 @@ char* systools_dialogs_folder( const char *title, const char *msg ) {
 	}
 	return result;
 #else
+	NSOpenGLContext *context = [NSOpenGLContext currentContext];
+
 	NSOpenPanel *openPanel = [[NSOpenPanel alloc] init];
 	[openPanel setTitle:[NSString stringWithUTF8String:title]];
 	[openPanel setMessage:[NSString stringWithUTF8String:msg]];
@@ -288,6 +296,7 @@ char* systools_dialogs_folder( const char *title, const char *msg ) {
 	}
 
 	[keyWindow makeKeyWindow];
+	[context makeCurrentContext];
 
 	return 0;
 #endif
