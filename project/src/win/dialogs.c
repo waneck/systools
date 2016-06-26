@@ -85,9 +85,9 @@ void systools_dialogs_open_file( const char *title, const char *msg, struct ARG_
 	ofn.lpstrTitle = (char*) title;
 	
 	if(multi){
-		ofn.Flags = OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER; 
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_HIDEREADONLY; 
 	}else{
-		ofn.Flags = OFN_PATHMUSTEXIST | OFN_EXPLORER; 
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_HIDEREADONLY; 
 	}
 	
 	ofn.nMaxFile = 8192;	/*	This is madnes: Windows wants us to 
