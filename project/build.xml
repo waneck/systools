@@ -44,6 +44,7 @@
   <lib name="comdlg32.lib" if="windows"/>
   <lib name="advapi32.lib" if="windows"/>
   <lib name="shell32.lib" if="windows"/>
+  <lib name="legacy_stdio_definitions.lib" if="windows"/>
   <lib name="-lgtk+2" if="linux"/>
   <lib name="-lgconf-2.0" if="linux"/>
   <vflag name="-framework" value="IOKit" if="macos"/>
